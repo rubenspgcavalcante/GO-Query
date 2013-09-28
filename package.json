@@ -1,6 +1,6 @@
 {
     "name": "go-query",
-    "author": "Rubens Pinheiro Gonçalves Cavalcante"
+    "author": "Rubens Pinheiro Gonçalves Cavalcante",
     "version": "0.0.8",
     "license": "GPLv3",
     "scripts": {

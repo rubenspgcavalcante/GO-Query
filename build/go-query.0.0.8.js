@@ -63,6 +63,8 @@ GO.order = {
 };
 /**
  * Creates a filter to apply into the query
+ * @author Rubens Pinheior Gonçalves Cavalcante
+ * @since 2013-09-28
  * @param {String} attribute
  * @param {Number} operator (Use the {@link{GO.Query.op}} enum
  * @param {*} value
@@ -188,6 +190,8 @@ GO.Query.Filter = function(attribute, operator, value){
 
 /**
  * Creates a query object
+ * @author Rubens Pinheior Gonçalves Cavalcante
+ * @since 2013-09-28
  * @param {Object[]} collection
  * @constructor
  */
@@ -261,6 +265,8 @@ GO.Query = function(collection){
 };
 /**
  * Do a 'from' into the query collection
+ * @author Rubens Pinheior Gonçalves Cavalcante
+ * @since 2013-09-28
  * @param {GO.Query} query
  * @constructor
  */
@@ -284,8 +290,10 @@ GO.Core.From = function(query){
 /**
  * Do the dirty work. Process the query based
  * on his record of operations and filters.
- *
+ * @author Rubens Pinheior Gonçalves Cavalcante
+ * @since 2013-09-28
  * @param {GO.Query} query
+ * @constructor
  */
 GO.Core.Processor = function(query){
     var _query = query;
@@ -594,6 +602,8 @@ GO.Core.Processor = function(query){
 /**
  * Controls the where closure into the query
  * Builds itself based on the parent operation (SELECT, UPDATE, DELETE)
+ * @author Rubens Pinheior Gonçalves Cavalcante
+ * @since 2013-09-28
  * @param {GO.Query} query
  * @constructor
  */
