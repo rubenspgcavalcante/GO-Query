@@ -28,11 +28,14 @@ query = query.select("*")
 var result = query.run();
 ````
 
+#More details?
+See the [API](https://github.com/rubenspgcavalcante/GO-Query/wiki/GO-Query!-API)
+
 ##Author
 Rubens Pinheiro Gonçalves Cavalcante  
 email: [rubenspgcavalcante@gmail.com](mailto:rubenspgcavalcante@gmail.com)
 
 ##License & Rights
 
-Using GNU LESSER GENERAL PUBLIC LICENSE *Version 3, 29 June 2007*  
+Using GNU GENERAL PUBLIC LICENSE *Version 3, 29 June 2007*
 [gnu.org](http://www.gnu.org/copyleft/gpl.html)  
