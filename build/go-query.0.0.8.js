@@ -70,15 +70,15 @@ GO.order = {
  * @param {*} value
  * @constructor
  */
-GO.Query.Filter = function(attribute, operator, value){
+GO.Filter = function(attribute, operator, value){
     this.attribute = attribute;
     this.operator = operator;
     this.value = value;
 
-    /** @type {GO.Query.Filter}*/
+    /** @type {GO.Filter}*/
     var parent = null;
 
-    /** @type {Object<GO.Query.Filter>}*/
+    /** @type {Object<GO.Filter>}*/
     var _chainFilters = {
         and: null,
         or: null,
@@ -91,13 +91,13 @@ GO.Query.Filter = function(attribute, operator, value){
      * @param {String} attribute
      * @param {Number} operator
      * @param {*} value
-     * @returns {GO.Query.Filter}
+     * @returns {GO.Filter}
      * @private
      */
     var _createChainFilter = function(logicOp, attribute, operator, value){
         for(var key in _chainFilters){
             if(key == logicOp){
-                _chainFilters[i] = new GO.Query.Filter(attribute, operator, value);
+                _chainFilters[i] = new GO.Filter(attribute, operator, value);
                 _chainFilters[i]._setParent(this);
             }
             else{
@@ -109,7 +109,7 @@ GO.Query.Filter = function(attribute, operator, value){
 
     /**
      * Sets a parent filter to this filter
-     * @param {GO.Query.Filter} filter
+     * @param {GO.Filter} filter
      * @private
      */
     this._setParent = function(filter){
@@ -118,7 +118,7 @@ GO.Query.Filter = function(attribute, operator, value){
 
     /**
      * Gets this filter parent
-     * @returns {?GO.Query.Filter}
+     * @returns {?GO.Filter}
      */
     this.parent = function(){
         return parent;
@@ -126,7 +126,7 @@ GO.Query.Filter = function(attribute, operator, value){
 
     /**
      * Gets this filter child
-     * @returns {?GO.Query.Filter}
+     * @returns {?GO.Filter}
      */
     this.child = function(){
         return _chainFilters.and || _chainFilters.or || _chainFilters.xor;
@@ -134,7 +134,7 @@ GO.Query.Filter = function(attribute, operator, value){
 
     /**
      * Gets to the root filter
-     * @returns {?GO.Query.Filter}
+     * @returns {?GO.Filter}
      */
     this.root = function(){
         var root = null;
@@ -159,7 +159,7 @@ GO.Query.Filter = function(attribute, operator, value){
      * @param {String} attribute
      * @param {Number} operator (Use the {@link{GO.Query.op}} enum
      * @param {*} value
-     * @returns {GO.Query.Filter}
+     * @returns {GO.Filter}
      */
     this.and = function(attribute, operator, value){
         return _createChainFilter("and", attribute, operator, value);
@@ -170,7 +170,7 @@ GO.Query.Filter = function(attribute, operator, value){
      * @param {String} attribute
      * @param {Number} operator (Use the {@link{GO.Query.op}} enum
      * @param {*} value
-     * @returns {GO.Query.Filter}
+     * @returns {GO.Filter}
      */
     this.or = function(attribute, operator, value){
         return _createChainFilter("or", attribute, operator, value);
@@ -181,7 +181,7 @@ GO.Query.Filter = function(attribute, operator, value){
      * @param {String} attribute
      * @param {Number} operator (Use the {@link{GO.Query.op}} enum
      * @param {*} value
-     * @returns {GO.Query.Filter}
+     * @returns {GO.Filter}
      */
     this.xor = function(attribute, operator, value){
         return _createChainFilter("xor", attribute, operator, value);
@@ -352,7 +352,7 @@ GO.Core.Processor = function(query){
      * Applies the given filter, and verify if the value
      * has passed on the filter
      * @param {Object} obj
-     * @param {GO.Query.Filter} filter
+     * @param {GO.Filter} filter
      * @returns {Boolean}
      * @throws {Error}
      * @private
@@ -611,11 +611,11 @@ GO.Core.Where = function(query){
     var _query = query;
     query._setRecord("where", this);
 
-    /** @type {GO.Query.Filter} */
+    /** @type {GO.Filter} */
     this.filter = null;
     /**
      * Where function, apply a filter to the query
-     * @param {GO.Query.Filter} filter
+     * @param {GO.Filter} filter
      * @return {GO.Core.Processor}
      */
     this.where = function(filter){

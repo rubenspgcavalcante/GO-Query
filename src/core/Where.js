@@ -10,11 +10,12 @@ GO.Core.Where = function(query){
     var _query = query;
     query._setRecord("where", this);
 
-    /** @type {GO.Query.Filter} */
+    /** @type {GO.Filter} */
     this.filter = null;
+
     /**
      * Where function, apply a filter to the query
-     * @param {GO.Query.Filter} filter
+     * @param {GO.Filter} filter
      * @return {GO.Core.Processor}
      */
     this.where = function(filter){

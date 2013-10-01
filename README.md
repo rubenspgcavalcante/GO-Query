@@ -1,5 +1,6 @@
 GO Query!
 ===========
+[![Build Status](https://travis-ci.org/rubenspgcavalcante/GO-Query.png?branch=master)](https://travis-ci.org/rubenspgcavalcante/GO-Query)
 ##About
 *GO Query!* is a javascript library to execute queries into array of objects. You can perorm a **SELECT**, **UPDATE** or
 **REMOVE** into your array based on the objects and filters.

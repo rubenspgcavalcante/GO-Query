@@ -63,7 +63,7 @@ GO.Core.Processor = function(query){
      * Applies the given filter, and verify if the value
      * has passed on the filter
      * @param {Object} obj
-     * @param {GO.Query.Filter} filter
+     * @param {GO.Filter} filter
      * @returns {Boolean}
      * @throws {Error}
      * @private
@@ -72,71 +72,11 @@ GO.Core.Processor = function(query){
         var approved = false;
         var value = _deepAttribute(obj, filter.attribute);
 
-        switch (filter.operator){
-            case GO.op.EQ:
-                if(value == filter.value){
-                    approved = true;
-                }
-                break;
-            case GO.op.NEQ:
-                if(value != filter.value){
-                    approved = true;
-                }
-                break;
-
-            case GO.op.GTE:
-                if(value >= filter.value){
-                    approved = true;
-                }
-                break;
-
-            case GO.op.MTE:
-                if(value <= filter.value){
-                    approved = true;
-                }
-                break;
-
-            case GO.op.GT:
-                if(value > filter.value){
-                    approved = true;
-                }
-                break;
-
-            case GO.op.MT:
-                if(value < filter.value){
-                    approved = true;
-                }
-                break;
-
-            case GO.op.LIKE:
-                if(filter.value instanceof RegExp){
-                    if(filter.value.test(value)){
-                        approved = true;
-                    }
-                }
-                break;
-
-            case GO.op.HAS:
-                if(value instanceof Array){
-                    for(var i in value){
-                        if(filter.value == value[i]){
-                            approved = true;
-                            break;
-                        }
-                    }
-                }
-                break;
-
-            case GO.op.TAUTOLOGICAL:
-                approved = true;
-                break;
-
-            case GO.op.CONTRADICTORY:
-                approved = false;
-                break;
-
-            default:
-                throw Error("Operator " + filter.operator + " doesn't exists");
+        if(filter.hasOwnProperty("associate")){
+            approved = _applyFilter(obj, filter.associate);
+        }
+        else{
+            approved = new GO.Core.Validator(filter, value).test();
         }
 
         if(approved){

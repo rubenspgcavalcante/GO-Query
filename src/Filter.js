@@ -1,21 +1,28 @@
 /**
  * Creates a filter to apply into the query
- * @author Rubens Pinheior Gonçalves Cavalcante
+ * @author Rubens Pinheiro Gonçalves Cavalcante
  * @since 2013-09-28
- * @param {String} attribute
- * @param {Number} operator (Use the {@link{GO.Query.op}} enum
- * @param {*} value
+ * @param {String|GO.Filter} attrOrFilter
+ * @param {?Number} operator (Use the {@link{GO.Query.op}} enum
+ * @param {?*} value
  * @constructor
  */
-GO.Query.Filter = function(attribute, operator, value){
-    this.attribute = attribute;
-    this.operator = operator;
-    this.value = value;
+GO.Filter = function(attrOrFilter, operator, value){
 
-    /** @type {GO.Query.Filter}*/
+    if(attrOrFilter instanceof GO.Filter){
+        /** @type GO.Filter */
+        this.associate = attrOrFilter || null;
+    }
+    else{
+        this.attribute = attrOrFilter || null;
+        this.operator = operator || null;
+        this.value = value || null;
+    }
+
+    /** @type {GO.Filter}*/
     var parent = null;
 
-    /** @type {Object<GO.Query.Filter>}*/
+    /** @type {Object<GO.Filter>}*/
     var _chainFilters = {
         and: null,
         or: null,
@@ -25,16 +32,17 @@ GO.Query.Filter = function(attribute, operator, value){
     /**
      * Creates a chain filter, based on the giving operation, returning it
      * @param {String} logicOp
-     * @param {String} attribute
-     * @param {Number} operator
-     * @param {*} value
-     * @returns {GO.Query.Filter}
+     * @param {String|GO.Filter} attrOrFilter
+     * @param {?Number} operator
+     * @param {?*} value
+     * @returns {GO.Filter}
      * @private
      */
-    var _createChainFilter = function(logicOp, attribute, operator, value){
+    var _createChainFilter = function(logicOp, attrOrFilter, operator, value){
+        //Add the filter to the right operator and cleans the others
         for(var key in _chainFilters){
             if(key == logicOp){
-                _chainFilters[i] = new GO.Query.Filter(attribute, operator, value);
+                _chainFilters[i] = new GO.Filter(attrOrFilter, operator, value);
                 _chainFilters[i]._setParent(this);
             }
             else{
@@ -46,7 +54,7 @@ GO.Query.Filter = function(attribute, operator, value){
 
     /**
      * Sets a parent filter to this filter
-     * @param {GO.Query.Filter} filter
+     * @param {GO.Filter} filter
      * @private
      */
     this._setParent = function(filter){
@@ -55,7 +63,7 @@ GO.Query.Filter = function(attribute, operator, value){
 
     /**
      * Gets this filter parent
-     * @returns {?GO.Query.Filter}
+     * @returns {?GO.Filter}
      */
     this.parent = function(){
         return parent;
@@ -63,7 +71,7 @@ GO.Query.Filter = function(attribute, operator, value){
 
     /**
      * Gets this filter child
-     * @returns {?GO.Query.Filter}
+     * @returns {?GO.Filter}
      */
     this.child = function(){
         return _chainFilters.and || _chainFilters.or || _chainFilters.xor;
@@ -71,7 +79,7 @@ GO.Query.Filter = function(attribute, operator, value){
 
     /**
      * Gets to the root filter
-     * @returns {?GO.Query.Filter}
+     * @returns {?GO.Filter}
      */
     this.root = function(){
         var root = null;
@@ -86,41 +94,46 @@ GO.Query.Filter = function(attribute, operator, value){
      * @return {Boolean}
      */
     this.isEmpty = function(){
-        return typeof this.attribute == null &&
-               typeof this.operator == null &&
-               typeof this.value == null;
+        if(this.hasOwnProperty("associate")){
+            return this.associate == null;
+        }
+        else{
+            return typeof this.attribute == null &&
+                   typeof this.operator == null &&
+                   typeof this.value == null;
+        }
     };
 
     /**
      * Chains a or filter
-     * @param {String} attribute
-     * @param {Number} operator (Use the {@link{GO.Query.op}} enum
-     * @param {*} value
-     * @returns {GO.Query.Filter}
+     * @param {String|GO.Filter} attrOrFilter
+     * @param {?Number} operator (Use the {@link{GO.Query.op}} enum
+     * @param {?*} value
+     * @returns {GO.Filter}
      */
-    this.and = function(attribute, operator, value){
+    this.and = function(attrOrFilter, operator, value){
         return _createChainFilter("and", attribute, operator, value);
     };
 
     /**
      * Chains a or filter
-     * @param {String} attribute
-     * @param {Number} operator (Use the {@link{GO.Query.op}} enum
-     * @param {*} value
-     * @returns {GO.Query.Filter}
+     * @param {String|GO.Filter} attrOrFilter
+     * @param {?Number} operator (Use the {@link{GO.Query.op}} enum
+     * @param {?*} value
+     * @returns {GO.Filter}
      */
-    this.or = function(attribute, operator, value){
+    this.or = function(attrOrFilter, operator, value){
         return _createChainFilter("or", attribute, operator, value);
     };
 
     /**
      * Chains a or filter
-     * @param {String} attribute
-     * @param {Number} operator (Use the {@link{GO.Query.op}} enum
-     * @param {*} value
-     * @returns {GO.Query.Filter}
+     * @param {String|GO.Filter} attrOrFilter
+     * @param {?Number} operator (Use the {@link{GO.Query.op}} enum
+     * @param {?*} value
+     * @returns {GO.Filter}
      */
-    this.xor = function(attribute, operator, value){
+    this.xor = function(attrOrFilter, operator, value){
         return _createChainFilter("xor", attribute, operator, value);
     };
 };

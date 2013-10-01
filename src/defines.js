@@ -12,6 +12,12 @@ GO = {};
 GO.Core = {};
 
 /**
+ * Custom error objects namespace
+ * @namespace
+ */
+GO.Error = {};
+
+/**
  * Query env namespace
  * @namespace
  */
