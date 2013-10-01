@@ -12,6 +12,12 @@ GO = {};
 GO.Core = {};
 
 /**
+ * Custom error objects namespace
+ * @namespace
+ */
+GO.Error = {};
+
+/**
  * Query env namespace
  * @namespace
  */
@@ -63,17 +69,24 @@ GO.order = {
 };
 /**
  * Creates a filter to apply into the query
- * @author Rubens Pinheior Gonçalves Cavalcante
+ * @author Rubens Pinheiro Gonçalves Cavalcante
  * @since 2013-09-28
- * @param {String} attribute
- * @param {Number} operator (Use the {@link{GO.Query.op}} enum
- * @param {*} value
+ * @param {String|GO.Filter} attrOrFilter
+ * @param {?Number} operator (Use the {@link{GO.Query.op}} enum
+ * @param {?*} value
  * @constructor
  */
-GO.Filter = function(attribute, operator, value){
-    this.attribute = attribute;
-    this.operator = operator;
-    this.value = value;
+GO.Filter = function(attrOrFilter, operator, value){
+
+    if(attrOrFilter instanceof GO.Filter){
+        /** @type GO.Filter */
+        this.associate = attrOrFilter || null;
+    }
+    else{
+        this.attribute = attrOrFilter || null;
+        this.operator = operator || null;
+        this.value = value || null;
+    }
 
     /** @type {GO.Filter}*/
     var parent = null;
@@ -88,16 +101,17 @@ GO.Filter = function(attribute, operator, value){
     /**
      * Creates a chain filter, based on the giving operation, returning it
      * @param {String} logicOp
-     * @param {String} attribute
-     * @param {Number} operator
-     * @param {*} value
+     * @param {String|GO.Filter} attrOrFilter
+     * @param {?Number} operator
+     * @param {?*} value
      * @returns {GO.Filter}
      * @private
      */
-    var _createChainFilter = function(logicOp, attribute, operator, value){
+    var _createChainFilter = function(logicOp, attrOrFilter, operator, value){
+        //Add the filter to the right operator and cleans the others
         for(var key in _chainFilters){
             if(key == logicOp){
-                _chainFilters[i] = new GO.Filter(attribute, operator, value);
+                _chainFilters[i] = new GO.Filter(attrOrFilter, operator, value);
                 _chainFilters[i]._setParent(this);
             }
             else{
@@ -149,41 +163,46 @@ GO.Filter = function(attribute, operator, value){
      * @return {Boolean}
      */
     this.isEmpty = function(){
-        return typeof this.attribute == null &&
-               typeof this.operator == null &&
-               typeof this.value == null;
+        if(this.hasOwnProperty("associate")){
+            return this.associate == null;
+        }
+        else{
+            return typeof this.attribute == null &&
+                   typeof this.operator == null &&
+                   typeof this.value == null;
+        }
     };
 
     /**
      * Chains a or filter
-     * @param {String} attribute
-     * @param {Number} operator (Use the {@link{GO.Query.op}} enum
-     * @param {*} value
+     * @param {String|GO.Filter} attrOrFilter
+     * @param {?Number} operator (Use the {@link{GO.Query.op}} enum
+     * @param {?*} value
      * @returns {GO.Filter}
      */
-    this.and = function(attribute, operator, value){
+    this.and = function(attrOrFilter, operator, value){
         return _createChainFilter("and", attribute, operator, value);
     };
 
     /**
      * Chains a or filter
-     * @param {String} attribute
-     * @param {Number} operator (Use the {@link{GO.Query.op}} enum
-     * @param {*} value
+     * @param {String|GO.Filter} attrOrFilter
+     * @param {?Number} operator (Use the {@link{GO.Query.op}} enum
+     * @param {?*} value
      * @returns {GO.Filter}
      */
-    this.or = function(attribute, operator, value){
+    this.or = function(attrOrFilter, operator, value){
         return _createChainFilter("or", attribute, operator, value);
     };
 
     /**
      * Chains a or filter
-     * @param {String} attribute
-     * @param {Number} operator (Use the {@link{GO.Query.op}} enum
-     * @param {*} value
+     * @param {String|GO.Filter} attrOrFilter
+     * @param {?Number} operator (Use the {@link{GO.Query.op}} enum
+     * @param {?*} value
      * @returns {GO.Filter}
      */
-    this.xor = function(attribute, operator, value){
+    this.xor = function(attrOrFilter, operator, value){
         return _createChainFilter("xor", attribute, operator, value);
     };
 };
@@ -361,71 +380,11 @@ GO.Core.Processor = function(query){
         var approved = false;
         var value = _deepAttribute(obj, filter.attribute);
 
-        switch (filter.operator){
-            case GO.op.EQ:
-                if(value == filter.value){
-                    approved = true;
-                }
-                break;
-            case GO.op.NEQ:
-                if(value != filter.value){
-                    approved = true;
-                }
-                break;
-
-            case GO.op.GTE:
-                if(value >= filter.value){
-                    approved = true;
-                }
-                break;
-
-            case GO.op.MTE:
-                if(value <= filter.value){
-                    approved = true;
-                }
-                break;
-
-            case GO.op.GT:
-                if(value > filter.value){
-                    approved = true;
-                }
-                break;
-
-            case GO.op.MT:
-                if(value < filter.value){
-                    approved = true;
-                }
-                break;
-
-            case GO.op.LIKE:
-                if(filter.value instanceof RegExp){
-                    if(filter.value.test(value)){
-                        approved = true;
-                    }
-                }
-                break;
-
-            case GO.op.HAS:
-                if(value instanceof Array){
-                    for(var i in value){
-                        if(filter.value == value[i]){
-                            approved = true;
-                            break;
-                        }
-                    }
-                }
-                break;
-
-            case GO.op.TAUTOLOGICAL:
-                approved = true;
-                break;
-
-            case GO.op.CONTRADICTORY:
-                approved = false;
-                break;
-
-            default:
-                throw Error("Operator " + filter.operator + " doesn't exists");
+        if(filter.hasOwnProperty("associate")){
+            approved = _applyFilter(obj, filter.associate);
+        }
+        else{
+            approved = new GO.Core.Validator(filter, value).test();
         }
 
         if(approved){
@@ -600,6 +559,78 @@ GO.Core.Processor = function(query){
 };
 
 /**
+ * Validates the value based on the given filter
+ * @author Rubens Pinheiro Gonçalves Cavalcante
+ * @since 2013-09-30
+ * @param {GO.Filter} filter
+ * @param {*} value
+ * @constructor
+ */
+GO.Core.Validator = function(filter, value){
+    var that = this;
+    this.filter = filter;
+    this.value = value;
+
+    /**
+     * Digests the HAS operator
+     * @returns {boolean}
+     * @private
+     */
+    var _hasDigest = function(){
+        if(that.value instanceof Array){
+            for(var i in that.value){
+                if(that.filter.value == that.value[i]){
+                    return true;
+                }
+            }
+        }
+        return false;
+    };
+
+    /**
+     * Test the filter/value and verify the validity
+     * @throws {GO.Error.OperatorError}
+     * @returns {Boolean}
+     */
+    this.test = function(){
+        switch (this.filter.operator){
+            case GO.op.EQ:
+                return this.value == this.filter.value;
+
+            case GO.op.NEQ:
+                return this.value != this.filter.value;
+
+            case GO.op.GTE:
+                return this.value >= this.filter.value;
+
+            case GO.op.MTE:
+                return this.value <= this.filter.value;
+
+            case GO.op.GT:
+                return this.value > this.filter.value;
+
+            case GO.op.MT:
+                return this.value < this.filter.value;
+
+            case GO.op.LIKE:
+                return this.filter.value instanceof RegExp && this.filter.value.test(this.value);
+
+            case GO.op.HAS:
+                return _hasDigest();
+
+            case GO.op.TAUTOLOGICAL:
+                return true;
+
+            case GO.op.CONTRADICTORY:
+                return false;
+
+            default:
+                throw GO.Error.OperatorError("Operator doesn't exist", this.filter);
+        }
+    };
+};
+
+/**
  * Controls the where closure into the query
  * Builds itself based on the parent operation (SELECT, UPDATE, DELETE)
  * @author Rubens Pinheior Gonçalves Cavalcante
@@ -613,6 +644,7 @@ GO.Core.Where = function(query){
 
     /** @type {GO.Filter} */
     this.filter = null;
+
     /**
      * Where function, apply a filter to the query
      * @param {GO.Filter} filter
@@ -648,3 +680,20 @@ GO.Core.Where = function(query){
         return new GO.Core.Processor(_query);
     };
 };
+
+/**
+ * Operator error
+ * @author Rubens Pinheiro Gonçalves Cavalcante
+ * @since 2013-09-30
+ * @param {String} msg
+ * @param {*} data
+ * @constructor
+ */
+GO.Error.OperatorError = function(msg, data){
+    this.name =  "OperatorError";
+    this.message = msg;
+    this.data = data || null;
+};
+
+GO.Error.OperatorError.prototype = new Error();
+GO.Error.OperatorError.constructor = GO.Error.OperatorError;
