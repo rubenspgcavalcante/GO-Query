@@ -29,8 +29,21 @@ query = query.select("*")
 var result = query.run();
 ````
 
-#More details?
+###More details?
 See the [API](https://github.com/rubenspgcavalcante/GO-Query/wiki/GO-Query!-API)
+
+#Building
+If you want to build the sources, you will need first install all dependences and after intall the grunt client
+globally:
+```shellscript
+npm install
+sudo install -g grunt-cli
+```
+
+To run the tasks:
+```shellscript
+grunt
+```
 
 ##Author
 Rubens Pinheiro Gonçalves Cavalcante  

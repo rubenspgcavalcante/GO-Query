@@ -9,7 +9,7 @@ module.exports = function(grunt) {
             },
             dist:{
                 src: ['src/defines.js', 'src/**/*.js'],
-                dest: "build/<%=pkg.name %>.<%= pkg.version %>.js"
+                dest: "dist/<%=pkg.name %>.<%= pkg.version %>.js"
             }
         },
         uglify: {
@@ -28,14 +28,18 @@ module.exports = function(grunt) {
                 src: "build/<%= pkg.name %>.<%= pkg.version %>.js",
                 dest: "build/<%= pkg.name %>.<%= pkg.version %>.min.js"
             }
+        },
+        nodeunit: {
+            all: ["tests/nodeunit/*.test.js"]
         }
     });
 
     // Load the plugins
     grunt.loadNpmTasks('grunt-contrib-concat');
     grunt.loadNpmTasks('grunt-contrib-uglify');
+    grunt.loadNpmTasks('grunt-contrib-nodeunit');
 
     // Default task(s).
-    grunt.registerTask('default', ['concat', 'uglify']);
+    grunt.registerTask('default', ['concat', 'uglify', 'nodeunit']);
 
 };
