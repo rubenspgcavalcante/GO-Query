@@ -51,7 +51,7 @@ GO.Query = function(collection){
     this.select = function(){
         record.type = GO.query.type.SELECT;
         record.selection = arguments;
-        return new GO.Query._From(this);
+        return new GO.Core.From(this);
     };
 
     /**
@@ -60,7 +60,7 @@ GO.Query = function(collection){
      */
     this.update = function(){
         record.type = GO.query.type.UPDATE;
-        return new GO.Query._From(this);
+        return new GO.Core.From(this);
     };
 
     /**
@@ -70,6 +70,6 @@ GO.Query = function(collection){
     this.remove = function(){
         record.type = GO.query.type.DELETE;
         record.selection = arguments;
-        return new GO.Query._From(this);
+        return new GO.Core.From(this);
     };
 };

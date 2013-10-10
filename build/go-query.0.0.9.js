@@ -260,7 +260,7 @@ GO.Query = function(collection){
     this.select = function(){
         record.type = GO.query.type.SELECT;
         record.selection = arguments;
-        return new GO.Query._From(this);
+        return new GO.Core.From(this);
     };
 
     /**
@@ -269,7 +269,7 @@ GO.Query = function(collection){
      */
     this.update = function(){
         record.type = GO.query.type.UPDATE;
-        return new GO.Query._From(this);
+        return new GO.Core.From(this);
     };
 
     /**
@@ -279,7 +279,7 @@ GO.Query = function(collection){
     this.remove = function(){
         record.type = GO.query.type.DELETE;
         record.selection = arguments;
-        return new GO.Query._From(this);
+        return new GO.Core.From(this);
     };
 };
 /**
@@ -573,7 +573,7 @@ GO.Core.Validator = function(filter, value){
 
     /**
      * Digests the HAS operator
-     * @returns {boolean}
+     * @returns {Boolean}
      * @private
      */
     var _hasDigest = function(){
@@ -625,7 +625,7 @@ GO.Core.Validator = function(filter, value){
                 return false;
 
             default:
-                throw new GO.Error.OperatorError("Operator doesn't exist", this.filter);
+                throw GO.Error.OperatorError("Operator doesn't exist", this.filter);
         }
     };
 };
