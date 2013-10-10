@@ -625,7 +625,7 @@ GO.Core.Validator = function(filter, value){
                 return false;
 
             default:
-                throw GO.Error.OperatorError("Operator doesn't exist", this.filter);
+                throw new GO.Error.OperatorError("Operator doesn't exist", this.filter);
         }
     };
 };

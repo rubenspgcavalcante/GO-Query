@@ -13,7 +13,7 @@ GO.Core.Validator = function(filter, value){
 
     /**
      * Digests the HAS operator
-     * @returns {boolean}
+     * @returns {Boolean}
      * @private
      */
     var _hasDigest = function(){

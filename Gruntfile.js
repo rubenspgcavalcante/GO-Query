@@ -9,7 +9,7 @@ module.exports = function(grunt) {
             },
             dist:{
                 src: ['src/defines.js', 'src/**/*.js'],
-                dest: "dist/<%=pkg.name %>.<%= pkg.version %>.js"
+                dest: "build/<%=pkg.name %>.<%= pkg.version %>.js"
             }
         },
         uglify: {
