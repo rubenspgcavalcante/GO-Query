@@ -8,5 +8,30 @@ module.exports = testCase({
         var filter = new GO.Filter();
         test.ok(filter instanceof GO.Filter, "Instance creation");
         test.done();
+    },
+
+    Operators: function(test){
+        var filter = new GO.Filter("id", GO.op.EQ, 0);
+
+        test.ok(filter.and instanceof Function);
+        test.ok(filter.or instanceof Function);
+        test.ok(filter.xor instanceof Function);
+        test.done();
+    },
+
+    FilterChain: function(test){
+        var filter = new GO.Filter("id", GO.op.EQ, 0);
+        test.ok(filter.and("name", GO.op.GT, "John") instanceof GO.Filter);
+        test.ok(filter.or("name", GO.op.GT, "John") instanceof GO.Filter);
+        test.ok(filter.xor("name", GO.op.GT, "John") instanceof GO.Filter);
+        test.done();
+    },
+
+    BackToTheRoot: function(test){
+        var filter = new GO.Filter("id", GO.op.EQ, 0);
+        var deepFilter = filter.and("name", GO.op.EQ, "John");
+
+        test.strictEqual(filter, deepFilter.root());
+        test.done();
     }
 });

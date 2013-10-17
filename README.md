@@ -5,6 +5,10 @@ GO Query!
 *GO Query!* is a javascript library to execute queries into array of objects. You can perorm a **SELECT**, **UPDATE** or
 **REMOVE** into your array based on the objects and filters.
 
+##Download
+[source file](https://github.com/rubenspgcavalcante/GO-Query/raw/master/build/go-query.0.0.9.js)
+[minified](https://github.com/rubenspgcavalcante/GO-Query/raw/master/build/go-query.0.0.9.min.js)
+
 ###Why use it?
 Sometimes, you just want to search into a array of objects in a simple way, but with more complex filters,
 avoiding to do a request to the server and wait for server response time and network transfer time.

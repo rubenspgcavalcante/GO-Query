@@ -8,7 +8,7 @@
  * @constructor
  */
 GO.Filter = function(attrOrFilter, operator, value){
-
+    var that = this;
     if(attrOrFilter instanceof GO.Filter){
         /** @type GO.Filter */
         this.associate = attrOrFilter || null;
@@ -20,7 +20,7 @@ GO.Filter = function(attrOrFilter, operator, value){
     }
 
     /** @type {GO.Filter}*/
-    var parent = null;
+    var parentFilter = null;
 
     /** @type {Object<GO.Filter>}*/
     var _chainFilters = {
@@ -41,12 +41,14 @@ GO.Filter = function(attrOrFilter, operator, value){
     var _createChainFilter = function(logicOp, attrOrFilter, operator, value){
         //Add the filter to the right operator and cleans the others
         for(var key in _chainFilters){
-            if(key == logicOp){
-                _chainFilters[i] = new GO.Filter(attrOrFilter, operator, value);
-                _chainFilters[i]._setParent(this);
-            }
-            else{
-                _chainFilters[i] = null;
+            if(_chainFilters.hasOwnProperty(key)){
+                if(key == logicOp){
+                    _chainFilters[key] = new GO.Filter(attrOrFilter, operator, value);
+                    _chainFilters[key]._setParent(that);
+                }
+                else{
+                    _chainFilters[key] = null;
+                }
             }
         }
         return _chainFilters[logicOp];
@@ -58,7 +60,7 @@ GO.Filter = function(attrOrFilter, operator, value){
      * @private
      */
     this._setParent = function(filter){
-        parent = filter;
+        parentFilter = filter;
     };
 
     /**
@@ -66,7 +68,7 @@ GO.Filter = function(attrOrFilter, operator, value){
      * @returns {?GO.Filter}
      */
     this.parent = function(){
-        return parent;
+        return parentFilter;
     };
 
     /**
@@ -82,9 +84,9 @@ GO.Filter = function(attrOrFilter, operator, value){
      * @returns {?GO.Filter}
      */
     this.root = function(){
-        var root = null;
-        while(this.parent() != null){
-            root = this.parent();
+        var root = this;
+        while(root.parent() != null){
+            root = root.parent();
         }
         return root;
     };
@@ -112,7 +114,7 @@ GO.Filter = function(attrOrFilter, operator, value){
      * @returns {GO.Filter}
      */
     this.and = function(attrOrFilter, operator, value){
-        return _createChainFilter("and", attribute, operator, value);
+        return _createChainFilter("and", attrOrFilter, operator, value);
     };
 
     /**
@@ -123,7 +125,7 @@ GO.Filter = function(attrOrFilter, operator, value){
      * @returns {GO.Filter}
      */
     this.or = function(attrOrFilter, operator, value){
-        return _createChainFilter("or", attribute, operator, value);
+        return _createChainFilter("or", attrOrFilter, operator, value);
     };
 
     /**
@@ -134,6 +136,6 @@ GO.Filter = function(attrOrFilter, operator, value){
      * @returns {GO.Filter}
      */
     this.xor = function(attrOrFilter, operator, value){
-        return _createChainFilter("xor", attribute, operator, value);
+        return _createChainFilter("xor", attrOrFilter, operator, value);
     };
 };
