@@ -231,6 +231,7 @@ GO.Core.Processor = function(query){
     /**
      * Executes the query
      * returning the processed array
+     * @throws {GO.Error.QueryMethodError}
      * @return {*}
      */
     this.run = function(){
@@ -245,7 +246,7 @@ GO.Core.Processor = function(query){
                 return _execDelete();
 
             default:
-                return null;
+                throw new GO.Error.QueryMethodError("Query method not found", _query._getRecord());
         }
     };
 };
