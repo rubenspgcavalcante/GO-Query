@@ -33,5 +33,24 @@ module.exports = testCase({
 
         test.strictEqual(filter, deepFilter.root());
         test.done();
+    },
+
+    Child: function(test){
+        var filter = new GO.Filter("id", GO.op.EQ, 0);
+        var deepFilter = filter.and("name", GO.op.EQ, "John");
+
+        test.strictEqual(filter.child(), deepFilter);
+        test.done();
+    },
+
+    Empty: function(test){
+        var filter1 = new GO.Filter("id", GO.op.EQ, 0);
+        var filter2 = new GO.Filter(new GO.Filter("id", GO.op.EQ, 0));
+        var filter3 = new GO.Filter();
+
+        test.ok(!filter1.isEmpty());
+        test.ok(!filter2.isEmpty());
+        test.ok(filter3.isEmpty());
+        test.done();
     }
 });

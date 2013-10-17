@@ -169,9 +169,9 @@ GO.Filter = function(attrOrFilter, operator, value){
             return this.associate == null;
         }
         else{
-            return typeof this.attribute == null &&
-                   typeof this.operator == null &&
-                   typeof this.value == null;
+            return this.attribute == null &&
+                   this.operator == null &&
+                   this.value == null;
         }
     };
 
