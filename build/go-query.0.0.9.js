@@ -225,24 +225,8 @@ GO.Filter = function(attrOrFilter, operator, value){
 GO.Query = function(collection){
     this.collection  = collection;
 
-    /**
-     * Internal data to control the query
-     * @namespace
-     * @property {GO.Query.type} type The query type
-     * @property {String[]} selection
-     * @property {GO.Core.From} from
-     * @property {GO.Core.Where} where
-     * @property {String[]} updateTo
-     * @property {GO.Core.OrderBy} orderBy
-     */
-    var record = {
-        type: null,
-        selection: null,
-        from: null,
-        where: null,
-        updateTo: [],
-        orderby: null
-    };
+    /** @type {GO.Core.Record} */
+    var record = new GO.Core.Record();
 
     /**
      * Returns the internal record data
@@ -639,6 +623,31 @@ GO.Core.Processor = function(query){
     };
 };
 
+/**
+ * Saves the clause records of the query
+ * @author Rubens Pinheiro Gonçalves Cavalcante
+ * @since 2013-10-15
+ * @constructor
+ */
+GO.Core.Record = function(){
+    /** @type {GO.query.type} */
+    this.type = null;
+
+    /** @type {String[]} */
+    this.selection = null;
+
+    /** @type {GO.Clause.From} */
+    this.from = null;
+
+    /** @type {GO.Clause.Where} */
+    this.where = null;
+
+    /** @type {String[]} */
+    this.updateTo = [];
+
+    /** @type {GO.Clause.OrderBy} */
+    this.orderby = null;
+};
 /**
  * Validates the value based on the given filter
  * @author Rubens Pinheiro Gonçalves Cavalcante

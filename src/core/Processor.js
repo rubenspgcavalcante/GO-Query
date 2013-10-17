@@ -18,7 +18,7 @@ GO.Core.Processor = function(query){
      * and return/set the value
      * @param {Object} obj
      * @param {String} attribute
-     * @param {*} [operation={GO.query.type.SELECT}]
+     * @param {GO.query.type} [operation={GO.query.type.SELECT}]
      * @param {*} [updateVal] Used if the operation is update
      * @return {?*}
      * @private

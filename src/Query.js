@@ -8,28 +8,12 @@
 GO.Query = function(collection){
     this.collection  = collection;
 
-    /**
-     * Internal data to control the query
-     * @namespace
-     * @property {GO.Query.type} type The query type
-     * @property {String[]} selection
-     * @property {GO.Core.From} from
-     * @property {GO.Core.Where} where
-     * @property {String[]} updateTo
-     * @property {GO.Core.OrderBy} orderBy
-     */
-    var record = {
-        type: null,
-        selection: null,
-        from: null,
-        where: null,
-        updateTo: [],
-        orderby: null
-    };
+    /** @type {GO.Core.Record} */
+    var record = new GO.Core.Record();
 
     /**
      * Returns the internal record data
-     * @returns {{type: null, selection: null, from: null, where: null, updateTo: Array, orderby: null}}
+     * @returns {GO.Core.Record}
      */
     this._getRecord = function(){
         return record;
