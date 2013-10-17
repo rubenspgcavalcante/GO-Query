@@ -33,7 +33,7 @@ GO.Filter = function(attrOrFilter, operator, value){
      * Creates a chain filter, based on the giving operation, returning it
      * @param {String} logicOp
      * @param {String|GO.Filter} attrOrFilter
-     * @param {?Number} operator
+     * @param {GO.op} operator
      * @param {?*} value
      * @returns {GO.Filter}
      * @private
@@ -109,7 +109,7 @@ GO.Filter = function(attrOrFilter, operator, value){
     /**
      * Chains a or filter
      * @param {String|GO.Filter} attrOrFilter
-     * @param {?Number} operator (Use the {@link{GO.Query.op}} enum
+     * @param {GO.op} operator (Use the {@link{GO.Query.op}} enum
      * @param {?*} value
      * @returns {GO.Filter}
      */
@@ -120,7 +120,7 @@ GO.Filter = function(attrOrFilter, operator, value){
     /**
      * Chains a or filter
      * @param {String|GO.Filter} attrOrFilter
-     * @param {?Number} operator (Use the {@link{GO.Query.op}} enum
+     * @param {GO.op} operator (Use the {@link{GO.Query.op}} enum
      * @param {?*} value
      * @returns {GO.Filter}
      */
@@ -131,7 +131,7 @@ GO.Filter = function(attrOrFilter, operator, value){
     /**
      * Chains a or filter
      * @param {String|GO.Filter} attrOrFilter
-     * @param {?Number} operator (Use the {@link{GO.Query.op}} enum
+     * @param {GO.op} operator (Use the {@link{GO.Query.op}} enum
      * @param {?*} value
      * @returns {GO.Filter}
      */

@@ -1,12 +1,12 @@
 /**
  * Controls the where closure into the query
  * Builds itself based on the parent operation (SELECT, UPDATE, DELETE)
- * @author Rubens Pinheior Gonçalves Cavalcante
+ * @author Rubens Pinheiro Gonçalves Cavalcante
  * @since 2013-09-28
  * @param {GO.Query} query
  * @constructor
  */
-GO.Core.Where = function(query){
+GO.Clause.Where = function(query){
     var _query = query;
     query._setRecord("where", this);
 
@@ -29,7 +29,7 @@ GO.Core.Where = function(query){
                  * @param {Number} order (Use {@link{GO.query.order}})
                  */
                 this.orderBy = function(attr, order){
-                    _query._setRecord("orderby", {attribute: attr, order: order});
+                    _query._setRecord("orderby", new GO.OrderBy(attr, order));
                 };
                 break;
 

@@ -6,6 +6,12 @@
 GO = {};
 
 /**
+ * Clause objects namespace
+ * @namespace
+ */
+GO.Clause = {};
+
+/**
  * Core objects namespace
  * @namespace
  */

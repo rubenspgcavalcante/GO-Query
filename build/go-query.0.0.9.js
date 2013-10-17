@@ -6,6 +6,12 @@
 GO = {};
 
 /**
+ * Clause objects namespace
+ * @namespace
+ */
+GO.Clause = {};
+
+/**
  * Core objects namespace
  * @namespace
  */
@@ -102,7 +108,7 @@ GO.Filter = function(attrOrFilter, operator, value){
      * Creates a chain filter, based on the giving operation, returning it
      * @param {String} logicOp
      * @param {String|GO.Filter} attrOrFilter
-     * @param {?Number} operator
+     * @param {GO.op} operator
      * @param {?*} value
      * @returns {GO.Filter}
      * @private
@@ -178,7 +184,7 @@ GO.Filter = function(attrOrFilter, operator, value){
     /**
      * Chains a or filter
      * @param {String|GO.Filter} attrOrFilter
-     * @param {?Number} operator (Use the {@link{GO.Query.op}} enum
+     * @param {GO.op} operator (Use the {@link{GO.Query.op}} enum
      * @param {?*} value
      * @returns {GO.Filter}
      */
@@ -189,7 +195,7 @@ GO.Filter = function(attrOrFilter, operator, value){
     /**
      * Chains a or filter
      * @param {String|GO.Filter} attrOrFilter
-     * @param {?Number} operator (Use the {@link{GO.Query.op}} enum
+     * @param {GO.op} operator (Use the {@link{GO.Query.op}} enum
      * @param {?*} value
      * @returns {GO.Filter}
      */
@@ -200,7 +206,7 @@ GO.Filter = function(attrOrFilter, operator, value){
     /**
      * Chains a or filter
      * @param {String|GO.Filter} attrOrFilter
-     * @param {?Number} operator (Use the {@link{GO.Query.op}} enum
+     * @param {GO.op} operator (Use the {@link{GO.Query.op}} enum
      * @param {?*} value
      * @returns {GO.Filter}
      */
@@ -222,10 +228,12 @@ GO.Query = function(collection){
     /**
      * Internal data to control the query
      * @namespace
-     * @property {Number} type The query type (User {@link{GO.Query.type}} enum)
+     * @property {GO.Query.type} type The query type
      * @property {String[]} selection
-     * @property {GO.Core.From} from Object to register 'from' call into the query
+     * @property {GO.Core.From} from
      * @property {GO.Core.Where} where
+     * @property {String[]} updateTo
+     * @property {GO.Core.OrderBy} orderBy
      */
     var record = {
         type: null,
@@ -257,47 +265,47 @@ GO.Query = function(collection){
     /**
      * Do a select operation into the collection
      * @param {...String}
-     * @return {GO.Core.From} from object
+     * @return {GO.Clause.From} from object
      */
     this.select = function(){
         record.type = GO.query.type.SELECT;
         record.selection = arguments;
-        return new GO.Core.From(this);
+        return new GO.Clause.From(this);
     };
 
     /**
      * Do a update operation into the collection
-     * @return {GO.Core.From} from object
+     * @return {GO.Clause.From} from object
      */
     this.update = function(){
         record.type = GO.query.type.UPDATE;
-        return new GO.Core.From(this);
+        return new GO.Clause.From(this);
     };
 
     /**
      * Do a delete operation into the collection
-     * @returns {GO.Core.From}
+     * @returns {GO.Clause.From}
      */
     this.remove = function(){
         record.type = GO.query.type.DELETE;
         record.selection = arguments;
-        return new GO.Core.From(this);
+        return new GO.Clause.From(this);
     };
 };
 /**
  * Do a 'from' into the query collection
- * @author Rubens Pinheior Gonçalves Cavalcante
+ * @author Rubens Pinheiro Gonçalves Cavalcante
  * @since 2013-09-28
  * @param {GO.Query} query
  * @constructor
  */
-GO.Core.From = function(query){
+GO.Clause.From = function(query){
     var _query = query;
 
     /**
      * Method from to use in query record
-     * @param {?*} instanceType
-     * @return {GO.Core.Where}
+     * @param {?Function} instanceType
+     * @return {GO.Clause.Where}
      */
     this.from = function(instanceType){
         if(typeof instanceType == "undefined"){
@@ -305,9 +313,80 @@ GO.Core.From = function(query){
             instanceType = Object;
         }
         _query._setRecord("from", instanceType);
-        return new GO.Core.Where(_query);
+        return new GO.Clause.Where(_query);
     };
 };
+/**
+ * Object to register the order action
+ * @author Rubens Pinheiro Gonçalves Cavalcante
+ * @since 2013-10-17
+ * @param {String} attribute
+ * @param {GO.order} order
+ * @constructor
+ */
+GO.Clause.OrderBy = function(attribute, order){
+    var _attribute = attribute;
+    var _order = order
+
+    /**
+     * Gets the orderby value
+     * @returns {{attribute: String, order: GO.order}}
+     */
+    this.val = function(){
+        return {attribute: _attribute, order: _order};
+    };
+};
+/**
+ * Controls the where closure into the query
+ * Builds itself based on the parent operation (SELECT, UPDATE, DELETE)
+ * @author Rubens Pinheiro Gonçalves Cavalcante
+ * @since 2013-09-28
+ * @param {GO.Query} query
+ * @constructor
+ */
+GO.Clause.Where = function(query){
+    var _query = query;
+    query._setRecord("where", this);
+
+    /** @type {GO.Filter} */
+    this.filter = null;
+
+    /**
+     * Where function, apply a filter to the query
+     * @param {GO.Filter} filter
+     * @return {GO.Core.Processor}
+     */
+    this.where = function(filter){
+        this.filter = filter;
+
+        switch(_query._getRecord().type){
+            case GO.query.type.SELECT:
+                /**
+                 * Orders the result array
+                 * @param {String} attr
+                 * @param {Number} order (Use {@link{GO.query.order}})
+                 */
+                this.orderBy = function(attr, order){
+                    _query._setRecord("orderby", new GO.OrderBy(attr, order));
+                };
+                break;
+
+            case GO.query.type.UPDATE:
+                //noinspection JSCommentMatchesSignature
+                /**
+                 * Registers the set method
+                 * @param {...*}
+                 */
+                this.set = function(){
+                    _query._setRecord('updateTo', arguments);
+                };
+                break;
+        }
+
+        return new GO.Core.Processor(_query);
+    };
+};
+
 /**
  * Do the dirty work. Process the query based
  * on his record of operations and filters.
@@ -629,57 +708,6 @@ GO.Core.Validator = function(filter, value){
             default:
                 throw GO.Error.OperatorError("Operator doesn't exist", this.filter);
         }
-    };
-};
-
-/**
- * Controls the where closure into the query
- * Builds itself based on the parent operation (SELECT, UPDATE, DELETE)
- * @author Rubens Pinheior Gonçalves Cavalcante
- * @since 2013-09-28
- * @param {GO.Query} query
- * @constructor
- */
-GO.Core.Where = function(query){
-    var _query = query;
-    query._setRecord("where", this);
-
-    /** @type {GO.Filter} */
-    this.filter = null;
-
-    /**
-     * Where function, apply a filter to the query
-     * @param {GO.Filter} filter
-     * @return {GO.Core.Processor}
-     */
-    this.where = function(filter){
-        this.filter = filter;
-
-        switch(_query._getRecord().type){
-            case GO.query.type.SELECT:
-                /**
-                 * Orders the result array
-                 * @param {String} attr
-                 * @param {Number} order (Use {@link{GO.query.order}})
-                 */
-                this.orderBy = function(attr, order){
-                    _query._setRecord("orderby", {attribute: attr, order: order});
-                };
-                break;
-
-            case GO.query.type.UPDATE:
-                //noinspection JSCommentMatchesSignature
-                /**
-                 * Registers the set method
-                 * @param {...*}
-                 */
-                this.set = function(){
-                    _query._setRecord('updateTo', arguments);
-                };
-                break;
-        }
-
-        return new GO.Core.Processor(_query);
     };
 };
 

@@ -21,9 +21,9 @@ module.exports = testCase({
 
     GetFrom: function(test){
         var query = new GO.Query(data);
-        test.ok(query.select() instanceof GO.Core.From);
-        test.ok(query.update() instanceof GO.Core.From);
-        test.ok(query.remove() instanceof GO.Core.From);
+        test.ok(query.select() instanceof GO.Clause.From);
+        test.ok(query.update() instanceof GO.Clause.From);
+        test.ok(query.remove() instanceof GO.Clause.From);
         test.done();
     },
 

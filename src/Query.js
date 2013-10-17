@@ -11,10 +11,12 @@ GO.Query = function(collection){
     /**
      * Internal data to control the query
      * @namespace
-     * @property {Number} type The query type (User {@link{GO.Query.type}} enum)
+     * @property {GO.Query.type} type The query type
      * @property {String[]} selection
-     * @property {GO.Core.From} from Object to register 'from' call into the query
+     * @property {GO.Core.From} from
      * @property {GO.Core.Where} where
+     * @property {String[]} updateTo
+     * @property {GO.Core.OrderBy} orderBy
      */
     var record = {
         type: null,
@@ -46,30 +48,30 @@ GO.Query = function(collection){
     /**
      * Do a select operation into the collection
      * @param {...String}
-     * @return {GO.Core.From} from object
+     * @return {GO.Clause.From} from object
      */
     this.select = function(){
         record.type = GO.query.type.SELECT;
         record.selection = arguments;
-        return new GO.Core.From(this);
+        return new GO.Clause.From(this);
     };
 
     /**
      * Do a update operation into the collection
-     * @return {GO.Core.From} from object
+     * @return {GO.Clause.From} from object
      */
     this.update = function(){
         record.type = GO.query.type.UPDATE;
-        return new GO.Core.From(this);
+        return new GO.Clause.From(this);
     };
 
     /**
      * Do a delete operation into the collection
-     * @returns {GO.Core.From}
+     * @returns {GO.Clause.From}
      */
     this.remove = function(){
         record.type = GO.query.type.DELETE;
         record.selection = arguments;
-        return new GO.Core.From(this);
+        return new GO.Clause.From(this);
     };
 };
