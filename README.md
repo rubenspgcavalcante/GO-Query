@@ -7,7 +7,7 @@ GO Query!
 
 ##Download
 [source file](https://github.com/rubenspgcavalcante/GO-Query/raw/master/build/go-query.0.1.0.js)
-  
+
 [minified](https://github.com/rubenspgcavalcante/GO-Query/raw/master/build/go-query.0.1.0.min.js)
 
 ###Why use it?
