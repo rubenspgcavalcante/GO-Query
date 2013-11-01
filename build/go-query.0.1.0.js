@@ -230,7 +230,7 @@ GO.Query = function(collection){
 
     /**
      * Returns the internal record data
-     * @returns {{type: null, selection: null, from: null, where: null, updateTo: Array, orderby: null}}
+     * @returns {GO.Core.Record}
      */
     this._getRecord = function(){
         return record;
@@ -391,7 +391,7 @@ GO.Core.Processor = function(query){
      * and return/set the value
      * @param {Object} obj
      * @param {String} attribute
-     * @param {*} [operation={GO.query.type.SELECT}]
+     * @param {GO.query.type} [operation={GO.query.type.SELECT}]
      * @param {*} [updateVal] Used if the operation is update
      * @return {?*}
      * @private
@@ -604,6 +604,7 @@ GO.Core.Processor = function(query){
     /**
      * Executes the query
      * returning the processed array
+     * @throws {GO.Error.QueryMethodError}
      * @return {*}
      */
     this.run = function(){
@@ -618,7 +619,7 @@ GO.Core.Processor = function(query){
                 return _execDelete();
 
             default:
-                return null;
+                throw new GO.Error.QueryMethodError("Query method not found", _query._getRecord());
         }
     };
 };
@@ -642,11 +643,11 @@ GO.Core.Record = function(){
     /** @type {GO.Clause.Where} */
     this.where = null;
 
-    /** @type {String[]} */
-    this.updateTo = [];
-
     /** @type {GO.Clause.OrderBy} */
     this.orderby = null;
+
+    /** @type {String[]} */
+    this.updateTo = [];
 };
 /**
  * Validates the value based on the given filter
@@ -736,3 +737,19 @@ GO.Error.OperatorError = function(msg, data){
 
 GO.Error.OperatorError.prototype = new Error();
 GO.Error.OperatorError.constructor = GO.Error.OperatorError;
+/**
+ * Query method error
+ * @author Rubens Pinheiro Gonçalves Cavalcante
+ * @since 2013-10-17
+ * @param {String} msg
+ * @param {*} data
+ * @constructor
+ */
+GO.Error.QueryMethodError = function(msg, data){
+    this.name =  "QueryMethodError";
+    this.message = msg;
+    this.data = data || null;
+};
+
+GO.Error.QueryMethodError.prototype = new Error();
+GO.Error.QueryMethodError.constructor = GO.Error.QueryMethodError;
