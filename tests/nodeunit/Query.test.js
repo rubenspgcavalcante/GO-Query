@@ -1,8 +1,11 @@
 var packJson = require("../../package.json");
 require("../../build/go-query." + packJson.version +".js");
+require("../models/User.js");
 
+/** @type {User[]} */
 var data = require("../sampledata/data.json");
 var testCase = require('nodeunit').testCase;
+
 
 module.exports = testCase({
     CreateQuery: function(test){
@@ -38,6 +41,25 @@ module.exports = testCase({
 
         query.remove();
         test.ok(query._getRecord().type == GO.query.type.DELETE);
+
+        test.done();
+    },
+
+    TestQuerySelect: function(test){
+        /** @type {GO.Query} */
+        var query = new GO.Query(data);
+        var result = null;
+
+        //SELECT
+        result = query .select("id", "name", "email")
+                       .from(Object)
+                       .where(new GO.Filter("id", GO.op.EQ, 10))
+                       .run();
+
+        test.equals(result.length, 1);
+        test.strictEqual(result[0].name, "Stokes Knapp");
+        test.strictEqual(result[0].email, "stokesknapp@xanide.com");
+        test.ok(!result[0].hasOwnProperty("age"));
 
         test.done();
     }

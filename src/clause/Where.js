@@ -26,7 +26,7 @@ GO.Clause.Where = function(query){
                 /**
                  * Orders the result array
                  * @param {String} attr
-                 * @param {Number} order (Use {@link{GO.query.order}})
+                 * @param {GO.order} order
                  */
                 this.orderBy = function(attr, order){
                     _query._setRecord("orderby", new GO.OrderBy(attr, order));

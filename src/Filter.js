@@ -3,7 +3,7 @@
  * @author Rubens Pinheiro Gonçalves Cavalcante
  * @since 2013-09-28
  * @param {String|GO.Filter} attrOrFilter
- * @param {?Number} operator (Use the {@link{GO.Query.op}} enum
+ * @param {GO.op} operator
  * @param {?*} value
  * @constructor
  */

@@ -8,7 +8,7 @@
  */
 GO.Clause.OrderBy = function(attribute, order){
     var _attribute = attribute;
-    var _order = order
+    var _order = order;
 
     /**
      * Gets the orderby value

@@ -1,12 +1,13 @@
 /**
  * Do the dirty work. Process the query based
  * on his record of operations and filters.
- * @author Rubens Pinheior Gonçalves Cavalcante
+ * @author Rubens Pinheiro Gonçalves Cavalcante
  * @since 2013-09-28
  * @param {GO.Query} query
  * @constructor
  */
 GO.Core.Processor = function(query){
+
     var _query = query;
 
     //==================================================//

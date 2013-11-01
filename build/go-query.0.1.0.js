@@ -78,7 +78,7 @@ GO.order = {
  * @author Rubens Pinheiro Gonçalves Cavalcante
  * @since 2013-09-28
  * @param {String|GO.Filter} attrOrFilter
- * @param {?Number} operator (Use the {@link{GO.Query.op}} enum
+ * @param {GO.op} operator
  * @param {?*} value
  * @constructor
  */
@@ -310,7 +310,7 @@ GO.Clause.From = function(query){
  */
 GO.Clause.OrderBy = function(attribute, order){
     var _attribute = attribute;
-    var _order = order
+    var _order = order;
 
     /**
      * Gets the orderby value
@@ -348,7 +348,7 @@ GO.Clause.Where = function(query){
                 /**
                  * Orders the result array
                  * @param {String} attr
-                 * @param {Number} order (Use {@link{GO.query.order}})
+                 * @param {GO.order} order
                  */
                 this.orderBy = function(attr, order){
                     _query._setRecord("orderby", new GO.OrderBy(attr, order));
@@ -374,12 +374,13 @@ GO.Clause.Where = function(query){
 /**
  * Do the dirty work. Process the query based
  * on his record of operations and filters.
- * @author Rubens Pinheior Gonçalves Cavalcante
+ * @author Rubens Pinheiro Gonçalves Cavalcante
  * @since 2013-09-28
  * @param {GO.Query} query
  * @constructor
  */
 GO.Core.Processor = function(query){
+
     var _query = query;
 
     //==================================================//
