@@ -1,3 +1,5 @@
+require("../models/Company.js");
+
 /**
  * User entity
  * @param {Object} object

@@ -46,13 +46,19 @@ module.exports = testCase({
     },
 
     TestQuerySelect: function(test){
+        /** @type {User[]} */
+        var users = [];
+        for(var i in data){
+            users.push(new User(data[i]));
+        }
+
         /** @type {GO.Query} */
-        var query = new GO.Query(data);
+        var query = new GO.Query(users);
         var result = null;
 
         //SELECT
         result = query .select("id", "name", "email")
-                       .from(Object)
+                       .from(User)
                        .where(new GO.Filter("id", GO.op.EQ, 10))
                        .run();
 

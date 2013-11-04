@@ -2,8 +2,8 @@
  * Creates a filter to apply into the query
  * @author Rubens Pinheiro Gonçalves Cavalcante
  * @since 2013-09-28
- * @param {String|GO.Filter} attrOrFilter
- * @param {GO.op} operator
+ * @param {?String|?GO.Filter} attrOrFilter
+ * @param {?GO.op} operator
  * @param {?*} value
  * @constructor
  */
@@ -103,6 +103,23 @@ GO.Filter = function(attrOrFilter, operator, value){
             return this.attribute == null &&
                    this.operator == null &&
                    this.value == null;
+        }
+    };
+
+    /**
+     * Post constrictor init
+     * @param {String|GO.Filter} attrOrFilter
+     * @param {GO.op} operator
+     * @param {*} value
+     */
+    this.init = function(attrOrFilter, operator, value){
+        if(attrOrFilter instanceof GO.Filter){
+            this.associate = attrOrFilter;
+        }
+        else{
+            this.attribute = attrOrFilter;
+            this.operator = operator;
+            this.value = value;
         }
     };
 
