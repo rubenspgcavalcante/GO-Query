@@ -13,6 +13,7 @@ GO.Clause = {};
 
 /**
  * Core objects namespace
+ * [Warning] Only used internally by the lib
  * @namespace
  */
 GO.Core = {};
@@ -38,6 +39,17 @@ GO.query.type = {
     SELECT: 0,
     DELETE: 1,
     UPDATE: 2
+};
+
+/**
+ * Describes the logic operator available
+ * @readonly
+ * @enum {Number}
+ */
+GO.query.logic_op = {
+    AND: 0,
+    OR: 1,
+    XOR: 2
 };
 
 /**
@@ -77,9 +89,11 @@ GO.order = {
  * Creates a filter to apply into the query
  * @author Rubens Pinheiro Gonçalves Cavalcante
  * @since 2013-09-28
- * @param {?String|?GO.Filter} attrOrFilter
- * @param {?GO.op} operator
- * @param {?*} value
+ * @param {String|GO.Filter} [attrOrFilter] The object attribute name or a associative filter
+ * @param {GO.op} [operator] The logic operator to use
+ * @param {*} [value] The value to compare
+ * @example
+ * // new GO.Filter("locale.lang", Go.op.EQ, "pt-br")
  * @constructor
  */
 GO.Filter = function(attrOrFilter, operator, value){
@@ -95,73 +109,52 @@ GO.Filter = function(attrOrFilter, operator, value){
     }
 
     /** @type {GO.Filter}*/
-    var parentFilter = null;
+    var predecessor = null;
 
-    /** @type {Object<GO.Filter>}*/
-    var _chainFilters = {
-        and: null,
-        or: null,
-        xor: null
-    };
+    /** @type {GO.Core.FilterChain}*/
+    var filterChain = null;
 
     /**
-     * Creates a chain filter, based on the giving operation, returning it
-     * @param {String} logicOp
-     * @param {String|GO.Filter} attrOrFilter
-     * @param {GO.op} operator
-     * @param {?*} value
-     * @returns {GO.Filter}
-     * @private
-     */
-    var _createChainFilter = function(logicOp, attrOrFilter, operator, value){
-        //Add the filter to the right operator and cleans the others
-        for(var key in _chainFilters){
-            if(_chainFilters.hasOwnProperty(key)){
-                if(key == logicOp){
-                    _chainFilters[key] = new GO.Filter(attrOrFilter, operator, value);
-                    _chainFilters[key]._setParent(that);
-                }
-                else{
-                    _chainFilters[key] = null;
-                }
-            }
-        }
-        return _chainFilters[logicOp];
-    };
-
-    /**
-     * Sets a parent filter to this filter
+     * Sets a predecessor filter to this filter
      * @param {GO.Filter} filter
      * @private
      */
-    this._setParent = function(filter){
-        parentFilter = filter;
+    this._setPredecessor = function(filter){
+        predecessor = filter;
     };
 
     /**
-     * Gets this filter parent
+     * Gets the filter chain of this filter
+     * @return {GO.Core.FilterChain}
+     */
+    this._getFilterChain = function(){
+        return filterChain;
+    };
+
+    /**
+     * Gets this predecessor filter
      * @returns {?GO.Filter}
      */
-    this.parent = function(){
-        return parentFilter;
+    this.back = function(){
+        return predecessor;
     };
 
     /**
-     * Gets this filter child
+     * Gets the next filter linked
      * @returns {?GO.Filter}
      */
-    this.child = function(){
-        return _chainFilters.and || _chainFilters.or || _chainFilters.xor;
+    this.next = function(){
+        return filterChain.link;
     };
 
     /**
-     * Gets to the root filter
+     * Gets to the root filter in the linked list
      * @returns {?GO.Filter}
      */
     this.root = function(){
         var root = this;
-        while(root.parent() != null){
-            root = root.parent();
+        while(root.back() != null){
+            root = root.back();
         }
         return root;
     };
@@ -182,7 +175,7 @@ GO.Filter = function(attrOrFilter, operator, value){
     };
 
     /**
-     * Post constrictor init
+     * Post constructor init
      * @param {String|GO.Filter} attrOrFilter
      * @param {GO.op} operator
      * @param {*} value
@@ -199,14 +192,17 @@ GO.Filter = function(attrOrFilter, operator, value){
     };
 
     /**
-     * Chains a or filter
+     * Chains a "and" filter
      * @param {String|GO.Filter} attrOrFilter
-     * @param {GO.op} operator (Use the {@link{GO.Query.op}} enum
-     * @param {?*} value
+     * @param {GO.op} operator
+     * @param {*} value
      * @returns {GO.Filter}
      */
     this.and = function(attrOrFilter, operator, value){
-        return _createChainFilter("and", attrOrFilter, operator, value);
+        var filter = new GO.Filter(attrOrFilter, operator, value);
+        filter._setPredecessor(this);
+        filterChain = new GO.Core.FilterChain(GO.query.logic_op.AND, filter);
+        return filter
     };
 
     /**
@@ -217,7 +213,10 @@ GO.Filter = function(attrOrFilter, operator, value){
      * @returns {GO.Filter}
      */
     this.or = function(attrOrFilter, operator, value){
-        return _createChainFilter("or", attrOrFilter, operator, value);
+        var filter = new GO.Filter(attrOrFilter, operator, value);
+        filter._setPredecessor(this);
+        filterChain = new GO.Core.FilterChain(GO.query.logic_op.OR, filter);
+        return filter
     };
 
     /**
@@ -228,7 +227,10 @@ GO.Filter = function(attrOrFilter, operator, value){
      * @returns {GO.Filter}
      */
     this.xor = function(attrOrFilter, operator, value){
-        return _createChainFilter("xor", attrOrFilter, operator, value);
+        var filter = new GO.Filter(attrOrFilter, operator, value);
+        filter._setPredecessor(this);
+        filterChain = new GO.Core.FilterChain(GO.query.logic_op.XOR, filter);
+        return filter
     };
 };
 
@@ -236,7 +238,7 @@ GO.Filter = function(attrOrFilter, operator, value){
  * Creates a query object
  * @author Rubens Pinheior Gonçalves Cavalcante
  * @since 2013-09-28
- * @param {Object[]} collection
+ * @param {Object[]} collection A array of objects of any type
  * @constructor
  */
 GO.Query = function(collection){
@@ -389,6 +391,20 @@ GO.Clause.Where = function(query){
 };
 
 /**
+ * Creates a filter chain linked by logic operators
+ * @author Rubens Pinheiro Gonçalves Cavalcante
+ * @since 2013-11-16
+ * @param {GO.query.logic_op} logicOperator
+ * @param {GO.Filter} filter
+ * @constructor
+ */
+GO.Core.FilterChain = function(logicOperator, filter){
+
+    this.link = filter;
+    this.type = logicOperator;
+};
+
+/**
  * Do the dirty work. Process the query based
  * on his record of operations and filters.
  * @author Rubens Pinheiro Gonçalves Cavalcante
@@ -456,27 +472,36 @@ GO.Core.Processor = function(query){
      * @param {Object} obj
      * @param {GO.Filter} filter
      * @returns {Boolean}
-     * @throws {Error}
      * @private
      */
     var _applyFilter = function(obj, filter){
         var approved = false;
-        var value = _deepAttribute(obj, filter.attribute);
 
         if(filter.hasOwnProperty("associate")){
             approved = _applyFilter(obj, filter.associate);
         }
         else{
+            var value = _deepAttribute(obj, filter.attribute);
             approved = new GO.Core.Validator(filter, value).test();
         }
 
-        if(approved){
-            if(filter.child() != null){
-                return _applyFilter(obj, filter.child());
+        var chain = filter._getFilterChain();
+        if(chain != null){
+            var l = GO.query.logic_op;
+            switch (chain.type){
+                case l.AND:
+                    return approved && _applyFilter(obj, filter.next());
+
+                case l.OR:
+                    return approved || _applyFilter(obj, filter.next());
+
+                case l.XOR:
+                    return (approved && !_applyFilter(obj, filter.next())) ||
+                           (!approved && _applyFilter(obj, filter.next()))
             }
-            return true;
         }
-        return false;
+
+        return approved;
     };
 
     /**

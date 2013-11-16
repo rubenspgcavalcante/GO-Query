@@ -13,6 +13,7 @@ GO.Clause = {};
 
 /**
  * Core objects namespace
+ * [Warning] Only used internally by the lib
  * @namespace
  */
 GO.Core = {};
@@ -38,6 +39,17 @@ GO.query.type = {
     SELECT: 0,
     DELETE: 1,
     UPDATE: 2
+};
+
+/**
+ * Describes the logic operator available
+ * @readonly
+ * @enum {Number}
+ */
+GO.query.logic_op = {
+    AND: 0,
+    OR: 1,
+    XOR: 2
 };
 
 /**

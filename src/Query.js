@@ -2,7 +2,7 @@
  * Creates a query object
  * @author Rubens Pinheior Gonçalves Cavalcante
  * @since 2013-09-28
- * @param {Object[]} collection
+ * @param {Object[]} collection A array of objects of any type
  * @constructor
  */
 GO.Query = function(collection){

@@ -39,7 +39,7 @@ module.exports = testCase({
         var filter = new GO.Filter("id", GO.op.EQ, 0);
         var deepFilter = filter.and("name", GO.op.EQ, "John");
 
-        test.strictEqual(filter.child(), deepFilter);
+        test.strictEqual(filter.next(), deepFilter);
         test.done();
     },
 
