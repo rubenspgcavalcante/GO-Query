@@ -15,9 +15,9 @@ module.exports = function(grunt) {
                     'src/Filter.js',
                     'src/error/*.js',
                     'src/clause/*.js',
-                    'src/clause/modifier/PostProcess.js',
-                    'src/clause/modifier/OrderBy.js',
-                    'src/clause/modifier/Set.js',
+                    'src/core/modifier/PostProcess.js',
+                    'src/core/modifier/OrderBy.js',
+                    'src/core/modifier/Set.js',
                     'src/core/*.js'
 
                 ],
