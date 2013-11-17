@@ -35,7 +35,7 @@ module.exports = testCase({
         test.done();
     },
 
-    Child: function(test){
+    NextFilter: function(test){
         var filter = new GO.Filter("id", GO.op.EQ, 0);
         var deepFilter = filter.and("name", GO.op.EQ, "John");
 

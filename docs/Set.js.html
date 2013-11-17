@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Namespace: Clause</title>
+    <title>JSDoc: Source: clause/modifier/Set.js</title>
     
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,101 +17,51 @@
 
 <div id="main">
     
-    <h1 class="page-title">Namespace: Clause</h1>
+    <h1 class="page-title">Source: clause/modifier/Set.js</h1>
     
     
 
 
+    
+    <section>
+        <article>
+            <pre class="prettyprint source"><code>/**
+ * Set Clause
+ * @constructor
+ * @augments GO.Core.Modifier.PostProcess
+ * @param {GO.Core.Record} record
+ */
+GO.Core.Modifier.Set = function(record){
+    record.modifiers.push(this);
 
-<section>
-    
-<header>
-    <h2>
-        <span class="ancestors"><a href="GO.html">GO</a>.</span>
-    
-    Clause
-    </h2>
-    
-</header>  
+    /** @type {Object} */
+    var targets = null;
 
-<article>
-    <div class="container-overview">
-    
-    
-    
-        
-            <div class="description">Clause objects namespace</div>
-        
-        
-        
-<dl class="details">
-    
-        
-    
-    
-    
+    /**
+     * Sets the internal data
+     * @param {Object} attrAndVals
+     * @return {GO.Clause.Where}
+     */
+    this.init = function(attrAndVals){
+        targets = attrAndVals;
+        return this._whereRef;
+    };
 
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="defines.js.html">defines.js</a>, <a href="defines.js.html#line12">line 12</a>
-    </li></ul></dd>
-    
-    
-    
-    
-    
-    
-    
-</dl>
+    /**
+     * Modify the result of a query,
+     * sorting it into the given order
+     */
+    this.modify = function(){
+        //TODO implement set
+    };
+};
 
-        
-        
-    
-    </div>
-    
-    
-    
-    
-    
-    
-    
-    
-        <h3 class="subsection-title">Classes</h3>
-        
-        <dl>
-            <dt><a href="GO.Clause.From.html">From</a></dt>
-            <dd></dd>
-        
-            <dt><a href="GO.Clause.Where.html">Where</a></dt>
-            <dd></dd>
-        </dl>
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-</article>
+GO.Core.Modifier.Set.prototype = new GO.Core.Modifier.PostProcess("Set");
+GO.Core.Modifier.Set.constructor = GO.Core.Modifier.Set;
 
-</section>  
+</code></pre>
+        </article>
+    </section>
 
 
 

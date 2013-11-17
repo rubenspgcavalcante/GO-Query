@@ -7,7 +7,6 @@
  * @constructor
  */
 GO.Core.FilterChain = function(logicOperator, filter){
-
     this.link = filter;
     this.type = logicOperator;
 };

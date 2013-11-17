@@ -54,10 +54,9 @@ module.exports = testCase({
 
         /** @type {GO.Query} */
         var query = new GO.Query(users);
-        var result = null;
 
         //SELECT
-        result = query .select("id", "name", "email")
+        var result = query .select("id", "name", "email")
                        .from(User)
                        .where(new GO.Filter("id", GO.op.EQ, 10))
                        .run();
@@ -67,6 +66,30 @@ module.exports = testCase({
         test.strictEqual(result[0].email, "stokesknapp@xanide.com");
         test.ok(!result[0].hasOwnProperty("age"));
 
+        test.done();
+    },
+
+    TestQueryAnd: function(test){
+        /** @type {User[]} */
+        var users = [];
+        for(var i in data){
+            users.push(new User(data[i]));
+        }
+
+        /** @type {GO.Query} */
+        var query = new GO.Query(users);
+
+        var record = query.select("id", "name", "email")
+            .from(User)
+            .where(
+                new GO.Filter("name", GO.op.EQ, "Janell Kane")
+                .and("gender", GO.op.EQ, "female")
+            );
+
+        var result = record.run();
+
+        test.equals(result.length, 1);
+        test.equals(result[0].email, "janellkane@uxmox.com");
         test.done();
     }
 

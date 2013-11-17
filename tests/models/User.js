@@ -35,4 +35,7 @@ User = function(object){
 
     /** @type {Object[]} */
     this.friends = object.friends;
+
+    /** @type {String} */
+    this.gender = object.gender;
 };

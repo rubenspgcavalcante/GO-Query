@@ -6,7 +6,7 @@
  * @param {GO.op} [operator] The logic operator to use
  * @param {*} [value] The value to compare
  * @example
- * // new GO.Filter("locale.lang", Go.op.EQ, "pt-br")
+ * new GO.Filter("locale.lang", Go.op.EQ, "pt-br")
  * @constructor
  */
 GO.Filter = function(attrOrFilter, operator, value){

@@ -227,7 +227,7 @@ Builds itself based on the parent operation (SELECT, UPDATE, DELETE)
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Where.js.html">clause/Where.js</a>, <a href="Where.js.html#line14">line 14</a>
+        <a href="Where.js.html">clause/Where.js</a>, <a href="Where.js.html#line15">line 15</a>
     </li></ul></dd>
     
     
@@ -249,271 +249,6 @@ Builds itself based on the parent operation (SELECT, UPDATE, DELETE)
         <h3 class="subsection-title">Methods</h3>
         
         <dl>
-            
-<dt>
-    <h4 class="name" id="orderBy"><span class="type-signature"></span>orderBy<span class="signature">(attr, order)</span><span class="type-signature"></span></h4>
-    
-    
-</dt>
-<dd>
-    
-    
-    <div class="description">
-        Orders the result array
-    </div>
-    
-
-    
-    
-    
-    
-    
-        <h5>Parameters:</h5>
-        
-
-<table class="params">
-    <thead>
-	<tr>
-		
-		<th>Name</th>
-		
-		
-		<th>Type</th>
-		
-		
-		
-		
-		
-		<th class="last">Description</th>
-	</tr>
-	</thead>
-	
-	<tbody>
-	
-	
-        <tr>
-            
-                <td class="name"><code>attr</code></td>
-            
-            
-            <td class="type">
-            
-                
-<span class="param-type">String</span>
-
-
-            
-            </td>
-            
-            
-            
-            
-            
-            <td class="description last"></td>
-        </tr>
-	
-	
-	
-        <tr>
-            
-                <td class="name"><code>order</code></td>
-            
-            
-            <td class="type">
-            
-                
-<span class="param-type"><a href="GO.html#order">GO.order</a></span>
-
-
-            
-            </td>
-            
-            
-            
-            
-            
-            <td class="description last"></td>
-        </tr>
-	
-	
-	</tbody>
-</table>
-    
-    
-    
-<dl class="details">
-    
-        
-    
-    
-    
-
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Where.js.html">clause/Where.js</a>, <a href="Where.js.html#line31">line 31</a>
-    </li></ul></dd>
-    
-    
-    
-    
-    
-    
-    
-</dl>
-
-    
-    
-
-    
-
-    
-    
-    
-    
-    
-    
-    
-</dd>
-
-        
-            
-<dt>
-    <h4 class="name" id="set"><span class="type-signature"></span>set<span class="signature">()</span><span class="type-signature"></span></h4>
-    
-    
-</dt>
-<dd>
-    
-    
-    <div class="description">
-        Registers the set method
-    </div>
-    
-
-    
-    
-    
-    
-    
-        <h5>Parameters:</h5>
-        
-
-<table class="params">
-    <thead>
-	<tr>
-		
-		
-		<th>Type</th>
-		
-		
-		<th>Argument</th>
-		
-		
-		
-		
-		<th class="last">Description</th>
-	</tr>
-	</thead>
-	
-	<tbody>
-	
-	
-        <tr>
-            
-            
-            <td class="type">
-            
-                
-<span class="param-type">*</span>
-
-
-            
-            </td>
-            
-            
-                <td class="attributes">
-                
-                    
-                
-                    
-                
-                    &lt;repeatable><br>
-                
-                </td>
-            
-            
-            
-            
-            <td class="description last"></td>
-        </tr>
-	
-	
-	</tbody>
-</table>
-    
-    
-    
-<dl class="details">
-    
-        
-    
-    
-    
-
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Where.js.html">clause/Where.js</a>, <a href="Where.js.html#line42">line 42</a>
-    </li></ul></dd>
-    
-    
-    
-    
-    
-    
-    
-</dl>
-
-    
-    
-
-    
-
-    
-    
-    
-    
-    
-    
-    
-</dd>
-
-        
             
 <dt>
     <h4 class="name" id="where"><span class="type-signature"></span>where<span class="signature">(filter)</span><span class="type-signature"> &rarr; {<a href="GO.Core.Processor.html">GO.Core.Processor</a>}</span></h4>
@@ -605,7 +340,7 @@ Builds itself based on the parent operation (SELECT, UPDATE, DELETE)
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Where.js.html">clause/Where.js</a>, <a href="Where.js.html#line21">line 21</a>
+        <a href="Where.js.html">clause/Where.js</a>, <a href="Where.js.html#line43">line 43</a>
     </li></ul></dd>
     
     
@@ -648,6 +383,77 @@ Builds itself based on the parent operation (SELECT, UPDATE, DELETE)
     
 </dd>
 
+        
+            
+<dt>
+    <h4 class="name" id="_setAvailableModifiers"><span class="type-signature">&lt;private, inner> </span>_setAvailableModifiers<span class="signature">()</span><span class="type-signature"></span></h4>
+    
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        Register to the prototype of the this object
+all the modifiers. Note that 'init' method of
+all modifiers return the back reference to this object instance.
+    </div>
+    
+
+    
+    
+    
+    
+    
+    
+    
+<dl class="details">
+    
+        
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="Where.js.html">clause/Where.js</a>, <a href="Where.js.html#line23">line 23</a>
+    </li></ul></dd>
+    
+    
+    
+    
+    
+    
+    
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    
+    
+</dd>
+
         </dl>
     
     
@@ -664,13 +470,13 @@ Builds itself based on the parent operation (SELECT, UPDATE, DELETE)
 </div>
 
 <nav>
-    <h2><a href="index.html">Index</a></h2><h3>Classes</h3><ul><li><a href="GO.Clause.From.html">From</a></li><li><a href="GO.Clause.OrderBy.html">OrderBy</a></li><li><a href="GO.Clause.Where.html">Where</a></li><li><a href="GO.Core.FilterChain.html">FilterChain</a></li><li><a href="GO.Core.Processor.html">Processor</a></li><li><a href="GO.Core.Record.html">Record</a></li><li><a href="GO.Core.Validator.html">Validator</a></li><li><a href="GO.Error.OperatorError.html">OperatorError</a></li><li><a href="GO.Error.QueryMethodError.html">QueryMethodError</a></li><li><a href="GO.Filter.html">Filter</a></li><li><a href="GO.Query.html">Query</a></li></ul><h3>Namespaces</h3><ul><li><a href="GO.html">GO</a></li><li><a href="GO.Clause.html">Clause</a></li><li><a href="GO.Core.html">Core</a></li><li><a href="GO.Error.html">Error</a></li><li><a href="GO.query_.html">query</a></li></ul><h3>Global</h3><ul><li>{String}</li></ul>
+    <h2><a href="index.html">Index</a></h2><h3>Classes</h3><ul><li><a href="GO.Clause.From.html">From</a></li><li><a href="GO.Clause.Where.html">Where</a></li><li><a href="GO.Core.FilterChain.html">FilterChain</a></li><li><a href="GO.Core.Modifier.OrderBy.html">OrderBy</a></li><li><a href="GO.Core.Modifier.PostProcess.html">PostProcess</a></li><li><a href="GO.Core.Modifier.Set.html">Set</a></li><li><a href="GO.Core.Processor.html">Processor</a></li><li><a href="GO.Core.Record.html">Record</a></li><li><a href="GO.Core.Validator.html">Validator</a></li><li><a href="GO.Error.NotImplementedError.html">NotImplementedError</a></li><li><a href="GO.Error.OperatorError.html">OperatorError</a></li><li><a href="GO.Error.QueryMethodError.html">QueryMethodError</a></li><li><a href="GO.Filter.html">Filter</a></li><li><a href="GO.Query.html">Query</a></li></ul><h3>Namespaces</h3><ul><li><a href="GO.html">GO</a></li><li><a href="GO.Clause.html">Clause</a></li><li><a href="GO.Core.html">Core</a></li><li><a href="GO.Core.Modifier.html">Modifier</a></li><li><a href="GO.Error.html">Error</a></li><li><a href="GO.query_.html">query</a></li></ul><h3>Global</h3><ul><li>{String}</li></ul>
 </nav>
 
 <br clear="both">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.2.0</a> on Sat Nov 16 2013 16:05:39 GMT-0300 (BRT)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.2.0</a> on Sun Nov 17 2013 01:14:35 GMT-0300 (BRT)
 </footer>
 
 <script> prettyPrint(); </script>

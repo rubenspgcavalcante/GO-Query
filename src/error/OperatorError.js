@@ -3,7 +3,7 @@
  * @author Rubens Pinheiro Gonçalves Cavalcante
  * @since 2013-09-30
  * @param {String} msg
- * @param {*} data
+ * @param {*} [data]
  * @constructor
  */
 GO.Error.OperatorError = function(msg, data){

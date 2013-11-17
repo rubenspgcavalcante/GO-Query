@@ -19,6 +19,12 @@ GO.Clause = {};
 GO.Core = {};
 
 /**
+ * Query result modifiers namespace
+ * @namespace
+ */
+GO.Core.Modifier = {};
+
+/**
  * Custom error objects namespace
  * @namespace
  */

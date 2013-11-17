@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Class: Query</title>
+    <title>JSDoc: Class: PostProcess</title>
     
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
     
-    <h1 class="page-title">Class: Query</h1>
+    <h1 class="page-title">Class: PostProcess</h1>
     
     
 
@@ -27,9 +27,9 @@
     
 <header>
     <h2>
-        <span class="ancestors"><a href="GO.html">GO</a>.</span>
+        <span class="ancestors"><a href="GO.html">GO</a><a href="GO.Core.html">.Core</a><a href="GO.Core.Modifier.html">.Modifier</a>.</span>
     
-    Query
+    PostProcess
     </h2>
     
 </header>  
@@ -41,7 +41,7 @@
     
         
 <dt>
-    <h4 class="name" id="Query"><span class="type-signature"></span>new Query<span class="signature">(collection)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="PostProcess"><span class="type-signature"></span>new PostProcess<span class="signature">(modifierName)</span><span class="type-signature"></span></h4>
     
     
 </dt>
@@ -49,7 +49,517 @@
     
     
     <div class="description">
-        Creates a query object
+        A base post process modifier
+    </div>
+    
+
+    
+    
+    
+    
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+		
+		<th>Type</th>
+		
+		
+		
+		
+		
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+	
+	<tbody>
+	
+	
+        <tr>
+            
+                <td class="name"><code>modifierName</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+            
+            
+            
+            
+            
+            <td class="description last"></td>
+        </tr>
+	
+	
+	</tbody>
+</table>
+    
+    
+    
+<dl class="details">
+    
+        
+    
+    
+    
+    <dt class="tag-since">Since:</dt>
+    <dd class="tag-since"><ul class="dummy"><li>2013-11-16</dd>
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="PostProcess.js.html">clause/modifier/PostProcess.js</a>, <a href="PostProcess.js.html#line7">line 7</a>
+    </li></ul></dd>
+    
+    
+    
+    
+    
+    
+    
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    
+    
+</dd>
+
+    
+    </div>
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+        <h3 class="subsection-title">Members</h3>
+        
+        <dl>
+            
+<dt>
+    <h4 class="name" id="_collection"><span class="type-signature">&lt;protected> </span>_collection<span class="type-signature"> :Object[]</span></h4>
+    
+    
+</dt>
+<dd>
+    
+    
+    
+        <h5>Type:</h5>
+        <ul>
+            <li>
+                
+<span class="param-type">Object[]</span>
+
+
+            </li>
+        </ul>
+    
+
+    
+<dl class="details">
+    
+        
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="PostProcess.js.html">clause/modifier/PostProcess.js</a>, <a href="PostProcess.js.html#line13">line 13</a>
+    </li></ul></dd>
+    
+    
+    
+    
+    
+    
+    
+</dl>
+
+    
+    
+</dd>
+
+        
+            
+<dt>
+    <h4 class="name" id="_whereRef"><span class="type-signature">&lt;protected> </span>_whereRef<span class="type-signature"> :<a href="GO.Clause.Where.html">GO.Clause.Where</a></span></h4>
+    
+    
+</dt>
+<dd>
+    
+    
+    
+        <h5>Type:</h5>
+        <ul>
+            <li>
+                
+<span class="param-type"><a href="GO.Clause.Where.html">GO.Clause.Where</a></span>
+
+
+            </li>
+        </ul>
+    
+
+    
+<dl class="details">
+    
+        
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="PostProcess.js.html">clause/modifier/PostProcess.js</a>, <a href="PostProcess.js.html#line19">line 19</a>
+    </li></ul></dd>
+    
+    
+    
+    
+    
+    
+    
+</dl>
+
+    
+    
+</dd>
+
+        
+            
+<dt>
+    <h4 class="name" id="modifierName"><span class="type-signature"></span>modifierName<span class="type-signature"> :String</span></h4>
+    
+    
+</dt>
+<dd>
+    
+    
+    
+        <h5>Type:</h5>
+        <ul>
+            <li>
+                
+<span class="param-type">String</span>
+
+
+            </li>
+        </ul>
+    
+
+    
+<dl class="details">
+    
+        
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="PostProcess.js.html">clause/modifier/PostProcess.js</a>, <a href="PostProcess.js.html#line22">line 22</a>
+    </li></ul></dd>
+    
+    
+    
+    
+    
+    
+    
+</dl>
+
+    
+    
+</dd>
+
+        </dl>
+    
+    
+    
+        <h3 class="subsection-title">Methods</h3>
+        
+        <dl>
+            
+<dt>
+    <h4 class="name" id="init"><span class="type-signature">&lt;virtual> </span>init<span class="signature">()</span><span class="type-signature"> &rarr; {<a href="GO.Clause.Where.html">GO.Clause.Where</a>}</span></h4>
+    
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        Used to init the object in the GO.Clause.Where object
+[Warning] Always return the where reference
+    </div>
+    
+
+    
+    
+    
+    
+    
+    
+    
+<dl class="details">
+    
+        
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="PostProcess.js.html">clause/modifier/PostProcess.js</a>, <a href="PostProcess.js.html#line47">line 47</a>
+    </li></ul></dd>
+    
+    
+    
+    
+    
+    
+    
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    <h5>Throws:</h5>
+    
+            
+
+    <div class="param-desc">
+    
+        
+<span class="param-type"><a href="GO.Error.NotImplementedError.html">GO.Error.NotImplementedError</a></span>
+
+
+    
+    </div>
+
+
+        
+    
+    
+    <h5>Returns:</h5>
+    
+            
+
+
+<dl>
+	<dt>
+		Type
+	</dt>
+	<dd>
+		
+<span class="param-type"><a href="GO.Clause.Where.html">GO.Clause.Where</a></span>
+
+
+	</dd>
+</dl>
+
+        
+    
+    
+</dd>
+
+        
+            
+<dt>
+    <h4 class="name" id="modify"><span class="type-signature">&lt;virtual> </span>modify<span class="signature">()</span><span class="type-signature"></span></h4>
+    
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        The query result modifier method
+After implement, create a alias to turn available to use
+    </div>
+    
+
+    
+    
+    
+    
+    
+    
+    
+<dl class="details">
+    
+        
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="PostProcess.js.html">clause/modifier/PostProcess.js</a>, <a href="PostProcess.js.html#line57">line 57</a>
+    </li></ul></dd>
+    
+    
+    
+    
+    
+    
+    
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    <h5>Throws:</h5>
+    
+            
+
+    <div class="param-desc">
+    
+        
+<span class="param-type"><a href="GO.Error.NotImplementedError.html">GO.Error.NotImplementedError</a></span>
+
+
+    
+    </div>
+
+
+        
+    
+    
+    
+    
+</dd>
+
+        
+            
+<dt>
+    <h4 class="name" id="setCollection"><span class="type-signature"></span>setCollection<span class="signature">(collection)</span><span class="type-signature"></span></h4>
+    
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        Sets the internal collection
     </div>
     
 
@@ -99,7 +609,7 @@
             
             
             
-            <td class="description last">A array of objects of any type</td>
+            <td class="description last"></td>
         </tr>
 	
 	
@@ -114,21 +624,11 @@
     
     
     
-    <dt class="tag-since">Since:</dt>
-    <dd class="tag-since"><ul class="dummy"><li>2013-09-28</dd>
-    
 
     
     
     
     
-    
-    <dt class="tag-author">Author:</dt>
-    <dd class="tag-author">
-        <ul>
-            <li>Rubens Pinheior Gonçalves Cavalcante</li>
-        </ul>
-    </dd>
     
     
     
@@ -140,7 +640,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Query.js.html">Query.js</a>, <a href="Query.js.html#line8">line 8</a>
+        <a href="PostProcess.js.html">clause/modifier/PostProcess.js</a>, <a href="PostProcess.js.html#line28">line 28</a>
     </li></ul></dd>
     
     
@@ -165,92 +665,10 @@
     
 </dd>
 
-    
-    </div>
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-        <h3 class="subsection-title">Members</h3>
         
-        <dl>
             
 <dt>
-    <h4 class="name" id="record"><span class="type-signature">&lt;inner> </span>record<span class="type-signature"> :<a href="GO.Core.Record.html">GO.Core.Record</a></span></h4>
-    
-    
-</dt>
-<dd>
-    
-    
-    
-        <h5>Type:</h5>
-        <ul>
-            <li>
-                
-<span class="param-type"><a href="GO.Core.Record.html">GO.Core.Record</a></span>
-
-
-            </li>
-        </ul>
-    
-
-    
-<dl class="details">
-    
-        
-    
-    
-    
-
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Query.js.html">Query.js</a>, <a href="Query.js.html#line12">line 12</a>
-    </li></ul></dd>
-    
-    
-    
-    
-    
-    
-    
-</dl>
-
-    
-    
-</dd>
-
-        </dl>
-    
-    
-    
-        <h3 class="subsection-title">Methods</h3>
-        
-        <dl>
-            
-<dt>
-    <h4 class="name" id="_getRecord"><span class="type-signature"></span>_getRecord<span class="signature">()</span><span class="type-signature"> &rarr; {<a href="GO.Core.Record.html">GO.Core.Record</a>}</span></h4>
+    <h4 class="name" id="setWhereReference"><span class="type-signature"></span>setWhereReference<span class="signature">(ref)</span><span class="type-signature"></span></h4>
     
     
 </dt>
@@ -258,94 +676,7 @@
     
     
     <div class="description">
-        Returns the internal record data
-    </div>
-    
-
-    
-    
-    
-    
-    
-    
-    
-<dl class="details">
-    
-        
-    
-    
-    
-
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Query.js.html">Query.js</a>, <a href="Query.js.html#line18">line 18</a>
-    </li></ul></dd>
-    
-    
-    
-    
-    
-    
-    
-</dl>
-
-    
-    
-
-    
-
-    
-    
-    
-    
-    
-    <h5>Returns:</h5>
-    
-            
-
-
-<dl>
-	<dt>
-		Type
-	</dt>
-	<dd>
-		
-<span class="param-type"><a href="GO.Core.Record.html">GO.Core.Record</a></span>
-
-
-	</dd>
-</dl>
-
-        
-    
-    
-</dd>
-
-        
-            
-<dt>
-    <h4 class="name" id="_setRecord"><span class="type-signature"></span>_setRecord<span class="signature">(key, value)</span><span class="type-signature"></span></h4>
-    
-    
-</dt>
-<dd>
-    
-    
-    <div class="description">
-        Sets a value into the selected record key
+        Sets the back reference to the where object
     </div>
     
 
@@ -379,36 +710,13 @@
 	
         <tr>
             
-                <td class="name"><code>key</code></td>
+                <td class="name"><code>ref</code></td>
             
             
             <td class="type">
             
                 
-<span class="param-type">String</span>
-
-
-            
-            </td>
-            
-            
-            
-            
-            
-            <td class="description last"></td>
-        </tr>
-	
-	
-	
-        <tr>
-            
-                <td class="name"><code>value</code></td>
-            
-            
-            <td class="type">
-            
-                
-<span class="param-type">*</span>
+<span class="param-type"><a href="GO.Clause.Where.html">GO.Clause.Where</a></span>
 
 
             
@@ -449,7 +757,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Query.js.html">Query.js</a>, <a href="Query.js.html#line27">line 27</a>
+        <a href="PostProcess.js.html">clause/modifier/PostProcess.js</a>, <a href="PostProcess.js.html#line36">line 36</a>
     </li></ul></dd>
     
     
@@ -470,331 +778,6 @@
     
     
     
-    
-    
-</dd>
-
-        
-            
-<dt>
-    <h4 class="name" id="remove"><span class="type-signature"></span>remove<span class="signature">()</span><span class="type-signature"> &rarr; {<a href="GO.Clause.From.html">GO.Clause.From</a>}</span></h4>
-    
-    
-</dt>
-<dd>
-    
-    
-    <div class="description">
-        Do a delete operation into the collection
-    </div>
-    
-
-    
-    
-    
-    
-    
-    
-    
-<dl class="details">
-    
-        
-    
-    
-    
-
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Query.js.html">Query.js</a>, <a href="Query.js.html#line61">line 61</a>
-    </li></ul></dd>
-    
-    
-    
-    
-    
-    
-    
-</dl>
-
-    
-    
-
-    
-
-    
-    
-    
-    
-    
-    <h5>Returns:</h5>
-    
-            
-
-
-<dl>
-	<dt>
-		Type
-	</dt>
-	<dd>
-		
-<span class="param-type"><a href="GO.Clause.From.html">GO.Clause.From</a></span>
-
-
-	</dd>
-</dl>
-
-        
-    
-    
-</dd>
-
-        
-            
-<dt>
-    <h4 class="name" id="select"><span class="type-signature"></span>select<span class="signature">()</span><span class="type-signature"> &rarr; {<a href="GO.Clause.From.html">GO.Clause.From</a>}</span></h4>
-    
-    
-</dt>
-<dd>
-    
-    
-    <div class="description">
-        Do a select operation into the collection
-    </div>
-    
-
-    
-    
-    
-    
-    
-        <h5>Parameters:</h5>
-        
-
-<table class="params">
-    <thead>
-	<tr>
-		
-		
-		<th>Type</th>
-		
-		
-		<th>Argument</th>
-		
-		
-		
-		
-		<th class="last">Description</th>
-	</tr>
-	</thead>
-	
-	<tbody>
-	
-	
-        <tr>
-            
-            
-            <td class="type">
-            
-                
-<span class="param-type">String</span>
-
-
-            
-            </td>
-            
-            
-                <td class="attributes">
-                
-                    
-                
-                    
-                
-                    &lt;repeatable><br>
-                
-                </td>
-            
-            
-            
-            
-            <td class="description last"></td>
-        </tr>
-	
-	
-	</tbody>
-</table>
-    
-    
-    
-<dl class="details">
-    
-        
-    
-    
-    
-
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Query.js.html">Query.js</a>, <a href="Query.js.html#line42">line 42</a>
-    </li></ul></dd>
-    
-    
-    
-    
-    
-    
-    
-</dl>
-
-    
-    
-
-    
-
-    
-    
-    
-    
-    
-    <h5>Returns:</h5>
-    
-            
-<div class="param-desc">
-    from object
-</div>
-
-
-
-<dl>
-	<dt>
-		Type
-	</dt>
-	<dd>
-		
-<span class="param-type"><a href="GO.Clause.From.html">GO.Clause.From</a></span>
-
-
-	</dd>
-</dl>
-
-        
-    
-    
-</dd>
-
-        
-            
-<dt>
-    <h4 class="name" id="update"><span class="type-signature"></span>update<span class="signature">()</span><span class="type-signature"> &rarr; {<a href="GO.Clause.From.html">GO.Clause.From</a>}</span></h4>
-    
-    
-</dt>
-<dd>
-    
-    
-    <div class="description">
-        Do a update operation into the collection
-    </div>
-    
-
-    
-    
-    
-    
-    
-    
-    
-<dl class="details">
-    
-        
-    
-    
-    
-
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Query.js.html">Query.js</a>, <a href="Query.js.html#line52">line 52</a>
-    </li></ul></dd>
-    
-    
-    
-    
-    
-    
-    
-</dl>
-
-    
-    
-
-    
-
-    
-    
-    
-    
-    
-    <h5>Returns:</h5>
-    
-            
-<div class="param-desc">
-    from object
-</div>
-
-
-
-<dl>
-	<dt>
-		Type
-	</dt>
-	<dd>
-		
-<span class="param-type"><a href="GO.Clause.From.html">GO.Clause.From</a></span>
-
-
-	</dd>
-</dl>
-
-        
     
     
 </dd>
@@ -821,7 +804,7 @@
 <br clear="both">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.2.0</a> on Sun Nov 17 2013 01:14:36 GMT-0300 (BRT)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.2.0</a> on Sun Nov 17 2013 01:14:35 GMT-0300 (BRT)
 </footer>
 
 <script> prettyPrint(); </script>

@@ -17,9 +17,6 @@ GO.Core.Record = function(){
     /** @type {GO.Clause.Where} */
     this.where = null;
 
-    /** @type {GO.Clause.OrderBy} */
-    this.orderby = null;
-
-    /** @type {String[]} */
-    this.updateTo = [];
+    /** @type {GO.Core.Modifier.PostProcess[]} */
+    this.modifiers = [];
 };

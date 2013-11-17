@@ -19,6 +19,12 @@ GO.Clause = {};
 GO.Core = {};
 
 /**
+ * Query result modifiers namespace
+ * @namespace
+ */
+GO.Core.Modifier = {};
+
+/**
  * Custom error objects namespace
  * @namespace
  */
@@ -86,6 +92,72 @@ GO.order = {
     DESC: 1
 };
 /**
+ * Creates a query object
+ * @author Rubens Pinheior Gonçalves Cavalcante
+ * @since 2013-09-28
+ * @param {Object[]} collection A array of objects of any type
+ * @constructor
+ */
+GO.Query = function(collection){
+    this.collection  = collection;
+
+    /** @type {GO.Core.Record} */
+    var record = new GO.Core.Record();
+
+    /**
+     * Returns the internal record data
+     * @returns {GO.Core.Record}
+     */
+    this._getRecord = function(){
+        return record;
+    };
+
+    /**
+     * Sets a value into the selected record key
+     * @param {String} key
+     * @param {*} value
+     */
+    this._setRecord = function(key, value){
+        if(record[key] instanceof Array){
+            record[key].push(value);
+        }
+        else{
+            record[key] = value;
+        }
+    };
+
+    //noinspection JSCommentMatchesSignature
+    /**
+     * Do a select operation into the collection
+     * @param {...String}
+     * @return {GO.Clause.From} from object
+     */
+    this.select = function(){
+        record.type = GO.query.type.SELECT;
+        record.selection = arguments;
+        return new GO.Clause.From(this);
+    };
+
+    /**
+     * Do a update operation into the collection
+     * @return {GO.Clause.From} from object
+     */
+    this.update = function(){
+        record.type = GO.query.type.UPDATE;
+        return new GO.Clause.From(this);
+    };
+
+    /**
+     * Do a delete operation into the collection
+     * @returns {GO.Clause.From}
+     */
+    this.remove = function(){
+        record.type = GO.query.type.DELETE;
+        record.selection = arguments;
+        return new GO.Clause.From(this);
+    };
+};
+/**
  * Creates a filter to apply into the query
  * @author Rubens Pinheiro Gonçalves Cavalcante
  * @since 2013-09-28
@@ -93,7 +165,7 @@ GO.order = {
  * @param {GO.op} [operator] The logic operator to use
  * @param {*} [value] The value to compare
  * @example
- * // new GO.Filter("locale.lang", Go.op.EQ, "pt-br")
+ * new GO.Filter("locale.lang", Go.op.EQ, "pt-br")
  * @constructor
  */
 GO.Filter = function(attrOrFilter, operator, value){
@@ -235,66 +307,55 @@ GO.Filter = function(attrOrFilter, operator, value){
 };
 
 /**
- * Creates a query object
- * @author Rubens Pinheior Gonçalves Cavalcante
- * @since 2013-09-28
- * @param {Object[]} collection A array of objects of any type
+ * Not implemented error
+ * @author Rubens Pinheiro Gonçalves Cavalcante
+ * @since 2013-11-16
+ * @param {String} methodName
+ * @param {Function} [constructor]
  * @constructor
  */
-GO.Query = function(collection){
-    this.collection  = collection;
-
-    /** @type {GO.Core.Record} */
-    var record = new GO.Core.Record();
-
-    /**
-     * Returns the internal record data
-     * @returns {GO.Core.Record}
-     */
-    this._getRecord = function(){
-        return record;
-    };
-
-    /**
-     * Sets a value into the selected record key
-     * @param {String} key
-     * @param {*} value
-     */
-    this._setRecord = function(key, value){
-        record[key] = value;
-    };
-
-    //noinspection JSCommentMatchesSignature
-    /**
-     * Do a select operation into the collection
-     * @param {...String}
-     * @return {GO.Clause.From} from object
-     */
-    this.select = function(){
-        record.type = GO.query.type.SELECT;
-        record.selection = arguments;
-        return new GO.Clause.From(this);
-    };
-
-    /**
-     * Do a update operation into the collection
-     * @return {GO.Clause.From} from object
-     */
-    this.update = function(){
-        record.type = GO.query.type.UPDATE;
-        return new GO.Clause.From(this);
-    };
-
-    /**
-     * Do a delete operation into the collection
-     * @returns {GO.Clause.From}
-     */
-    this.remove = function(){
-        record.type = GO.query.type.DELETE;
-        record.selection = arguments;
-        return new GO.Clause.From(this);
-    };
+GO.Error.NotImplementedError = function(methodName, constructor){
+    this.name =  "NotImplementedError";
+    this.message = "Constructor must implement " + methodName;
+    this.data = constructor || null;
 };
+
+GO.Error.NotImplementedError.prototype = new Error();
+GO.Error.NotImplementedError.constructor = GO.Error.NotImplementedError;
+
+/**
+ * Operator error
+ * @author Rubens Pinheiro Gonçalves Cavalcante
+ * @since 2013-09-30
+ * @param {String} msg
+ * @param {*} [data]
+ * @constructor
+ */
+GO.Error.OperatorError = function(msg, data){
+    this.name =  "OperatorError";
+    this.message = msg;
+    this.data = data || null;
+};
+
+GO.Error.OperatorError.prototype = new Error();
+GO.Error.OperatorError.constructor = GO.Error.OperatorError;
+/**
+ * Query method error
+ * @author Rubens Pinheiro Gonçalves Cavalcante
+ * @since 2013-10-17
+ * @param {String} msg
+ * @param {*} [data]
+ * @constructor
+ */
+GO.Error.QueryMethodError = function(msg, data){
+    this.name =  "QueryMethodError";
+    this.message = msg;
+    this.data = data || null;
+};
+
+GO.Error.QueryMethodError.prototype = new Error();
+GO.Error.QueryMethodError.constructor = GO.Error.QueryMethodError;
+
 /**
  * Do a 'from' into the query collection
  * @author Rubens Pinheiro Gonçalves Cavalcante
@@ -320,26 +381,6 @@ GO.Clause.From = function(query){
     };
 };
 /**
- * Object to register the order action
- * @author Rubens Pinheiro Gonçalves Cavalcante
- * @since 2013-10-17
- * @param {String} attribute
- * @param {GO.order} order
- * @constructor
- */
-GO.Clause.OrderBy = function(attribute, order){
-    var _attribute = attribute;
-    var _order = order;
-
-    /**
-     * Gets the orderby value
-     * @returns {{attribute: String, order: GO.order}}
-     */
-    this.val = function(){
-        return {attribute: _attribute, order: _order};
-    };
-};
-/**
  * Controls the where closure into the query
  * Builds itself based on the parent operation (SELECT, UPDATE, DELETE)
  * @author Rubens Pinheiro Gonçalves Cavalcante
@@ -348,6 +389,7 @@ GO.Clause.OrderBy = function(attribute, order){
  * @constructor
  */
 GO.Clause.Where = function(query){
+    var that = this;
     var _query = query;
     query._setRecord("where", this);
 
@@ -355,40 +397,173 @@ GO.Clause.Where = function(query){
     this.filter = null;
 
     /**
+     * Register to the prototype of the this object
+     * all the modifiers. Note that 'init' method of
+     * all modifiers return the back reference to this object instance.
+     * @private
+     */
+    var _setAvailableModifiers = function(){
+        var record = _query._getRecord();
+        switch(record.type){
+            case GO.query.type.SELECT:
+                var orderBy = new GO.Core.Modifier.OrderBy(record);
+                that.orderBy = orderBy.init;
+                break;
+
+            case GO.query.type.UPDATE:
+                var set = new GO.Core.Modifier.Set(record);
+                that.set = set.init;
+                break;
+        }
+    };
+
+    /**
      * Where function, apply a filter to the query
      * @param {GO.Filter} filter
      * @return {GO.Core.Processor}
      */
     this.where = function(filter){
-        this.filter = filter;
-
-        switch(_query._getRecord().type){
-            case GO.query.type.SELECT:
-                /**
-                 * Orders the result array
-                 * @param {String} attr
-                 * @param {GO.order} order
-                 */
-                this.orderBy = function(attr, order){
-                    _query._setRecord("orderby", new GO.OrderBy(attr, order));
-                };
-                break;
-
-            case GO.query.type.UPDATE:
-                //noinspection JSCommentMatchesSignature
-                /**
-                 * Registers the set method
-                 * @param {...*}
-                 */
-                this.set = function(){
-                    _query._setRecord('updateTo', arguments);
-                };
-                break;
-        }
+        this.filter = filter.root();
+        _setAvailableModifiers();
 
         return new GO.Core.Processor(_query);
     };
 };
+
+/**
+ * A base post process modifier
+ * @since 2013-11-16
+ * @param {String} modifierName
+ * @constructor
+ */
+GO.Core.Modifier.PostProcess = function(modifierName){
+
+    /**
+     * @type {Object[]}
+     * @protected
+     */
+    this._collection = [];
+
+    /**
+     * @type {GO.Clause.Where}
+     * @protected
+     */
+    this._whereRef = null;
+
+    /** @type {String} */
+    this.modifierName = modifierName;
+
+    /**
+     * Sets the internal collection
+     * @param {Object[]} collection
+     */
+    this.setCollection = function(collection){
+        this._collection = collection;
+    };
+
+    /**
+     * Sets the back reference to the where object
+     * @param {GO.Clause.Where} ref
+     */
+    this.setWhereReference = function(ref){
+        this._whereRef = ref;
+    };
+
+    /**
+     * Used to init the object in the GO.Clause.Where object
+     * [Warning] Always return the where reference
+     * @abstract
+     * @throws {GO.Error.NotImplementedError}
+     * @return {GO.Clause.Where}
+     */
+    this.init = function(){
+        throw new GO.Error.NotImplementedError("init", this.constructor);
+    };
+
+    /**
+     * The query result modifier method
+     * After implement, create a alias to turn available to use
+     * @abstract
+     * @throws {GO.Error.NotImplementedError}
+     */
+    this.modify = function(){
+        throw new GO.Error.NotImplementedError("modify", this.constructor);
+    };
+};
+
+/**
+ * OrderBy Clause
+ * @constructor
+ * @augments GO.Core.Modifier.PostProcess
+ * @param {GO.Core.Record} record
+ */
+GO.Core.Modifier.OrderBy = function(record){
+    record.modifiers.push(this);
+
+    /** @type {String} */
+    var targetAttr = null;
+
+    /** @type {GO.order} */
+    var orderType = null;
+
+    /**
+     * Sets the internal data
+     * @param {String} attr
+     * @param {GO.order} order
+     * @return {GO.Clause.Where}
+     */
+    this.init = function(attr, order){
+        targetAttr = attr;
+        orderType = order;
+        return this._whereRef;
+    };
+
+    /**
+     * Modify the result of a query,
+     * sorting it into the given order
+     */
+    this.modify = function(){
+        //TODO implement sort
+    };
+};
+
+GO.Core.Modifier.OrderBy.prototype = new GO.Core.Modifier.PostProcess("OrderBy");
+GO.Core.Modifier.OrderBy.constructor = GO.Core.Modifier.OrderBy;
+
+/**
+ * Set Clause
+ * @constructor
+ * @augments GO.Core.Modifier.PostProcess
+ * @param {GO.Core.Record} record
+ */
+GO.Core.Modifier.Set = function(record){
+    record.modifiers.push(this);
+
+    /** @type {Object} */
+    var targets = null;
+
+    /**
+     * Sets the internal data
+     * @param {Object} attrAndVals
+     * @return {GO.Clause.Where}
+     */
+    this.init = function(attrAndVals){
+        targets = attrAndVals;
+        return this._whereRef;
+    };
+
+    /**
+     * Modify the result of a query,
+     * sorting it into the given order
+     */
+    this.modify = function(){
+        //TODO implement set
+    };
+};
+
+GO.Core.Modifier.Set.prototype = new GO.Core.Modifier.PostProcess("Set");
+GO.Core.Modifier.Set.constructor = GO.Core.Modifier.Set;
+
 
 /**
  * Creates a filter chain linked by logic operators
@@ -399,7 +574,6 @@ GO.Clause.Where = function(query){
  * @constructor
  */
 GO.Core.FilterChain = function(logicOperator, filter){
-
     this.link = filter;
     this.type = logicOperator;
 };
@@ -641,6 +815,22 @@ GO.Core.Processor = function(query){
         });
     };
 
+    /**
+     * Applies all the post modifiers registered into the record
+     * @param result
+     * @return {Object[]}
+     * @private
+     */
+    var _applyModifiers = function(result){
+        var mods = _query._getRecord().modifiers;
+        for(var i = 0; i < mods.length; i++){
+            mods[i].setCollection(result);
+            mods[i].modify();
+        }
+
+        return result;
+    };
+
     //==================================================//
     //                    Public methods                //
     //==================================================//
@@ -651,19 +841,27 @@ GO.Core.Processor = function(query){
      * @return {*}
      */
     this.run = function(){
-        switch(_query._getRecord().type){
+        var result = null;
+        var record = _query._getRecord();
+
+        switch(record.type){
             case GO.query.type.SELECT:
-                return _execSelect();
+                result = _execSelect();
+                break;
 
             case GO.query.type.UPDATE:
-                return _execUpdate();
+                result = _execUpdate();
+                break;
 
             case  GO.query.type.DELETE:
-                return _execDelete();
+                result = _execDelete();
+                break;
 
             default:
                 throw new GO.Error.QueryMethodError("Query method not found", _query._getRecord());
         }
+
+        return _applyModifiers(result);
     };
 };
 
@@ -686,11 +884,8 @@ GO.Core.Record = function(){
     /** @type {GO.Clause.Where} */
     this.where = null;
 
-    /** @type {GO.Clause.OrderBy} */
-    this.orderby = null;
-
-    /** @type {String[]} */
-    this.updateTo = [];
+    /** @type {GO.Core.Modifier.PostProcess[]} */
+    this.modifiers = [];
 };
 /**
  * Validates the value based on the given filter
@@ -763,36 +958,3 @@ GO.Core.Validator = function(filter, value){
         }
     };
 };
-
-/**
- * Operator error
- * @author Rubens Pinheiro Gonçalves Cavalcante
- * @since 2013-09-30
- * @param {String} msg
- * @param {*} data
- * @constructor
- */
-GO.Error.OperatorError = function(msg, data){
-    this.name =  "OperatorError";
-    this.message = msg;
-    this.data = data || null;
-};
-
-GO.Error.OperatorError.prototype = new Error();
-GO.Error.OperatorError.constructor = GO.Error.OperatorError;
-/**
- * Query method error
- * @author Rubens Pinheiro Gonçalves Cavalcante
- * @since 2013-10-17
- * @param {String} msg
- * @param {*} data
- * @constructor
- */
-GO.Error.QueryMethodError = function(msg, data){
-    this.name =  "QueryMethodError";
-    this.message = msg;
-    this.data = data || null;
-};
-
-GO.Error.QueryMethodError.prototype = new Error();
-GO.Error.QueryMethodError.constructor = GO.Error.QueryMethodError;

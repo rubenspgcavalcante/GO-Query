@@ -3,7 +3,7 @@
  * @author Rubens Pinheiro Gonçalves Cavalcante
  * @since 2013-10-17
  * @param {String} msg
- * @param {*} data
+ * @param {*} [data]
  * @constructor
  */
 GO.Error.QueryMethodError = function(msg, data){

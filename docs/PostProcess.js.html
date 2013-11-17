@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Namespace: Clause</title>
+    <title>JSDoc: Source: clause/modifier/PostProcess.js</title>
     
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,101 +17,77 @@
 
 <div id="main">
     
-    <h1 class="page-title">Namespace: Clause</h1>
+    <h1 class="page-title">Source: clause/modifier/PostProcess.js</h1>
     
     
 
 
+    
+    <section>
+        <article>
+            <pre class="prettyprint source"><code>/**
+ * A base post process modifier
+ * @since 2013-11-16
+ * @param {String} modifierName
+ * @constructor
+ */
+GO.Core.Modifier.PostProcess = function(modifierName){
 
-<section>
-    
-<header>
-    <h2>
-        <span class="ancestors"><a href="GO.html">GO</a>.</span>
-    
-    Clause
-    </h2>
-    
-</header>  
+    /**
+     * @type {Object[]}
+     * @protected
+     */
+    this._collection = [];
 
-<article>
-    <div class="container-overview">
-    
-    
-    
-        
-            <div class="description">Clause objects namespace</div>
-        
-        
-        
-<dl class="details">
-    
-        
-    
-    
-    
+    /**
+     * @type {GO.Clause.Where}
+     * @protected
+     */
+    this._whereRef = null;
 
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="defines.js.html">defines.js</a>, <a href="defines.js.html#line12">line 12</a>
-    </li></ul></dd>
-    
-    
-    
-    
-    
-    
-    
-</dl>
+    /** @type {String} */
+    this.modifierName = modifierName;
 
-        
-        
-    
-    </div>
-    
-    
-    
-    
-    
-    
-    
-    
-        <h3 class="subsection-title">Classes</h3>
-        
-        <dl>
-            <dt><a href="GO.Clause.From.html">From</a></dt>
-            <dd></dd>
-        
-            <dt><a href="GO.Clause.Where.html">Where</a></dt>
-            <dd></dd>
-        </dl>
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-</article>
+    /**
+     * Sets the internal collection
+     * @param {Object[]} collection
+     */
+    this.setCollection = function(collection){
+        this._collection = collection;
+    };
 
-</section>  
+    /**
+     * Sets the back reference to the where object
+     * @param {GO.Clause.Where} ref
+     */
+    this.setWhereReference = function(ref){
+        this._whereRef = ref;
+    };
+
+    /**
+     * Used to init the object in the GO.Clause.Where object
+     * [Warning] Always return the where reference
+     * @abstract
+     * @throws {GO.Error.NotImplementedError}
+     * @return {GO.Clause.Where}
+     */
+    this.init = function(){
+        throw new GO.Error.NotImplementedError("init", this.constructor);
+    };
+
+    /**
+     * The query result modifier method
+     * After implement, create a alias to turn available to use
+     * @abstract
+     * @throws {GO.Error.NotImplementedError}
+     */
+    this.modify = function(){
+        throw new GO.Error.NotImplementedError("modify", this.constructor);
+    };
+};
+</code></pre>
+        </article>
+    </section>
 
 
 

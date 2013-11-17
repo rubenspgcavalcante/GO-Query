@@ -235,6 +235,22 @@ GO.Core.Processor = function(query){
         });
     };
 
+    /**
+     * Applies all the post modifiers registered into the record
+     * @param result
+     * @return {Object[]}
+     * @private
+     */
+    var _applyModifiers = function(result){
+        var mods = _query._getRecord().modifiers;
+        for(var i = 0; i < mods.length; i++){
+            mods[i].setCollection(result);
+            mods[i].modify();
+        }
+
+        return result;
+    };
+
     //==================================================//
     //                    Public methods                //
     //==================================================//
@@ -245,18 +261,26 @@ GO.Core.Processor = function(query){
      * @return {*}
      */
     this.run = function(){
-        switch(_query._getRecord().type){
+        var result = null;
+        var record = _query._getRecord();
+
+        switch(record.type){
             case GO.query.type.SELECT:
-                return _execSelect();
+                result = _execSelect();
+                break;
 
             case GO.query.type.UPDATE:
-                return _execUpdate();
+                result = _execUpdate();
+                break;
 
             case  GO.query.type.DELETE:
-                return _execDelete();
+                result = _execDelete();
+                break;
 
             default:
                 throw new GO.Error.QueryMethodError("Query method not found", _query._getRecord());
         }
+
+        return _applyModifiers(result);
     };
 };

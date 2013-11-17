@@ -25,7 +25,12 @@ GO.Query = function(collection){
      * @param {*} value
      */
     this._setRecord = function(key, value){
-        record[key] = value;
+        if(record[key] instanceof Array){
+            record[key].push(value);
+        }
+        else{
+            record[key] = value;
+        }
     };
 
     //noinspection JSCommentMatchesSignature

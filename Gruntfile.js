@@ -9,7 +9,18 @@ module.exports = function(grunt) {
                 separator: '\n'
             },
             dist:{
-                src: ['src/defines.js', 'src/**/*.js'],
+                src: [
+                    'src/defines.js',
+                    'src/Query.js',
+                    'src/Filter.js',
+                    'src/error/*.js',
+                    'src/clause/*.js',
+                    'src/clause/modifier/PostProcess.js',
+                    'src/clause/modifier/OrderBy.js',
+                    'src/clause/modifier/Set.js',
+                    'src/core/*.js'
+
+                ],
                 dest: "build/<%=pkg.name %>.<%= pkg.version %>.js"
             }
         },
