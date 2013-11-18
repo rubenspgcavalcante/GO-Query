@@ -6,6 +6,19 @@ require("../models/User.js");
 var data = require("../sampledata/data.json");
 var testCase = require('nodeunit').testCase;
 
+/**
+ * Gets a collection of users
+ * @returns {User[]}
+ */
+function getUsersCollection(){
+    /** @type {User[]} */
+    var users = [];
+    for(var i in data){
+        users.push(new User(data[i]));
+    }
+
+    return users;
+}
 
 module.exports = testCase({
     CreateQuery: function(test){
@@ -46,11 +59,7 @@ module.exports = testCase({
     },
 
     TestQuerySelect: function(test){
-        /** @type {User[]} */
-        var users = [];
-        for(var i in data){
-            users.push(new User(data[i]));
-        }
+        var users = getUsersCollection();
 
         /** @type {GO.Query} */
         var query = new GO.Query(users);
@@ -69,12 +78,22 @@ module.exports = testCase({
         test.done();
     },
 
+    /*TestQueryUpdate: function(){
+        var users = getUsersCollection();
+        *//** @type {GO.Query} *//*
+        var query = new GO.Query(users);
+        var record = query.update()
+                            .from(User)
+                            .where(
+                                new GO.Filter("name", GO.op.EQ, "Janell Kane")
+                            ).set({name: "test"});
+
+        test.equals(users[0].name, 'test');
+        test.done();
+    },*/
+
     TestQueryAnd: function(test){
-        /** @type {User[]} */
-        var users = [];
-        for(var i in data){
-            users.push(new User(data[i]));
-        }
+        var users = getUsersCollection();
 
         /** @type {GO.Query} */
         var query = new GO.Query(users);

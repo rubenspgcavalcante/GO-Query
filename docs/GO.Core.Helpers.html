@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Class: Query</title>
+    <title>JSDoc: Namespace: Helpers</title>
     
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
     
-    <h1 class="page-title">Class: Query</h1>
+    <h1 class="page-title">Namespace: Helpers</h1>
     
     
 
@@ -27,9 +27,9 @@
     
 <header>
     <h2>
-        <span class="ancestors"><a href="GO.html">GO</a>.</span>
+        <span class="ancestors"><a href="GO.html">GO</a><a href="GO.Core.html">.Core</a>.</span>
     
-    Query
+    Helpers
     </h2>
     
 </header>  
@@ -40,170 +40,10 @@
     
     
         
-<dt>
-    <h4 class="name" id="Query"><span class="type-signature"></span>new Query<span class="signature">(collection)</span><span class="type-signature"></span></h4>
-    
-    
-</dt>
-<dd>
-    
-    
-    <div class="description">
-        Creates a query object
-    </div>
-    
-
-    
-    
-    
-    
-    
-        <h5>Parameters:</h5>
+            <div class="description">Helper functions</div>
         
-
-<table class="params">
-    <thead>
-	<tr>
-		
-		<th>Name</th>
-		
-		
-		<th>Type</th>
-		
-		
-		
-		
-		
-		<th class="last">Description</th>
-	</tr>
-	</thead>
-	
-	<tbody>
-	
-	
-        <tr>
-            
-                <td class="name"><code>collection</code></td>
-            
-            
-            <td class="type">
-            
-                
-<span class="param-type">Object[]</span>
-
-
-            
-            </td>
-            
-            
-            
-            
-            
-            <td class="description last">A array of objects of any type</td>
-        </tr>
-	
-	
-	</tbody>
-</table>
-    
-    
-    
-<dl class="details">
-    
         
-    
-    
-    
-    <dt class="tag-since">Since:</dt>
-    <dd class="tag-since"><ul class="dummy"><li>2013-09-28</dd>
-    
-
-    
-    
-    
-    
-    
-    <dt class="tag-author">Author:</dt>
-    <dd class="tag-author">
-        <ul>
-            <li>Rubens Pinheior Gonçalves Cavalcante</li>
-        </ul>
-    </dd>
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Query.js.html">Query.js</a>, <a href="Query.js.html#line8">line 8</a>
-    </li></ul></dd>
-    
-    
-    
-    
-    
-    
-    
-</dl>
-
-    
-    
-
-    
-
-    
-    
-    
-    
-    
-    
-    
-</dd>
-
-    
-    </div>
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-        <h3 class="subsection-title">Members</h3>
         
-        <dl>
-            
-<dt>
-    <h4 class="name" id="record"><span class="type-signature">&lt;inner> </span>record<span class="type-signature"> :<a href="GO.Core.Record.html">GO.Core.Record</a></span></h4>
-    
-    
-</dt>
-<dd>
-    
-    
-    
-        <h5>Type:</h5>
-        <ul>
-            <li>
-                
-<span class="param-type"><a href="GO.Core.Record.html">GO.Core.Record</a></span>
-
-
-            </li>
-        </ul>
-    
-
-    
 <dl class="details">
     
         
@@ -226,7 +66,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Query.js.html">Query.js</a>, <a href="Query.js.html#line12">line 12</a>
+        <a href="defines.js.html">defines.js</a>, <a href="defines.js.html#line31">line 31</a>
     </li></ul></dd>
     
     
@@ -237,11 +77,21 @@
     
 </dl>
 
+        
+        
+    
+    </div>
     
     
-</dd>
-
-        </dl>
+    
+    
+    
+    
+    
+    
+    
+    
+    
     
     
     
@@ -250,7 +100,7 @@
         <dl>
             
 <dt>
-    <h4 class="name" id="_getRecord"><span class="type-signature"></span>_getRecord<span class="signature">()</span><span class="type-signature"> &rarr; {<a href="GO.Core.Record.html">GO.Core.Record</a>}</span></h4>
+    <h4 class="name" id="clone"><span class="type-signature">&lt;static> </span>clone<span class="signature">(obj)</span><span class="type-signature"> &rarr; {*}</span></h4>
     
     
 </dt>
@@ -258,94 +108,7 @@
     
     
     <div class="description">
-        Returns the internal record data
-    </div>
-    
-
-    
-    
-    
-    
-    
-    
-    
-<dl class="details">
-    
-        
-    
-    
-    
-
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Query.js.html">Query.js</a>, <a href="Query.js.html#line18">line 18</a>
-    </li></ul></dd>
-    
-    
-    
-    
-    
-    
-    
-</dl>
-
-    
-    
-
-    
-
-    
-    
-    
-    
-    
-    <h5>Returns:</h5>
-    
-            
-
-
-<dl>
-	<dt>
-		Type
-	</dt>
-	<dd>
-		
-<span class="param-type"><a href="GO.Core.Record.html">GO.Core.Record</a></span>
-
-
-	</dd>
-</dl>
-
-        
-    
-    
-</dd>
-
-        
-            
-<dt>
-    <h4 class="name" id="_setRecord"><span class="type-signature"></span>_setRecord<span class="signature">(key, value)</span><span class="type-signature"></span></h4>
-    
-    
-</dt>
-<dd>
-    
-    
-    <div class="description">
-        Sets a value into the selected record key
+        Returns a copy of the given object
     </div>
     
 
@@ -379,13 +142,13 @@
 	
         <tr>
             
-                <td class="name"><code>key</code></td>
+                <td class="name"><code>obj</code></td>
             
             
             <td class="type">
             
                 
-<span class="param-type">String</span>
+<span class="param-type">Object</span>
 
 
             
@@ -395,30 +158,7 @@
             
             
             
-            <td class="description last"></td>
-        </tr>
-	
-	
-	
-        <tr>
-            
-                <td class="name"><code>value</code></td>
-            
-            
-            <td class="type">
-            
-                
-<span class="param-type">*</span>
-
-
-            
-            </td>
-            
-            
-            
-            
-            
-            <td class="description last"></td>
+            <td class="description last">object to be cloned</td>
         </tr>
 	
 	
@@ -449,7 +189,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Query.js.html">Query.js</a>, <a href="Query.js.html#line27">line 27</a>
+        <a href="helpers.js.html">core/helpers.js</a>, <a href="helpers.js.html#line73">line 73</a>
     </li></ul></dd>
     
     
@@ -468,75 +208,18 @@
     
     
     
+    <h5>Throws:</h5>
     
-    
-    
-    
-</dd>
-
-        
             
-<dt>
-    <h4 class="name" id="remove"><span class="type-signature"></span>remove<span class="signature">()</span><span class="type-signature"> &rarr; {<a href="GO.Clause.From.html">GO.Clause.From</a>}</span></h4>
+
+    <div class="param-desc">
     
+        GO.Error.CloneError
     
-</dt>
-<dd>
-    
-    
-    <div class="description">
-        Do a delete operation into the collection
     </div>
-    
 
-    
-    
-    
-    
-    
-    
-    
-<dl class="details">
-    
+
         
-    
-    
-    
-
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Query.js.html">Query.js</a>, <a href="Query.js.html#line61">line 61</a>
-    </li></ul></dd>
-    
-    
-    
-    
-    
-    
-    
-</dl>
-
-    
-    
-
-    
-
-    
-    
-    
     
     
     <h5>Returns:</h5>
@@ -550,7 +233,7 @@
 	</dt>
 	<dd>
 		
-<span class="param-type"><a href="GO.Clause.From.html">GO.Clause.From</a></span>
+<span class="param-type">*</span>
 
 
 	</dd>
@@ -564,7 +247,7 @@
         
             
 <dt>
-    <h4 class="name" id="select"><span class="type-signature"></span>select<span class="signature">()</span><span class="type-signature"> &rarr; {<a href="GO.Clause.From.html">GO.Clause.From</a>}</span></h4>
+    <h4 class="name" id="deepSearch"><span class="type-signature">&lt;static> </span>deepSearch<span class="signature">(object, attribute, <span class="optional">setVal</span>)</span><span class="type-signature"> &rarr; {*}</span></h4>
     
     
 </dt>
@@ -572,7 +255,8 @@
     
     
     <div class="description">
-        Do a select operation into the collection
+        Searches deeply into the given object and return the value
+or update it
     </div>
     
 
@@ -587,6 +271,8 @@
 <table class="params">
     <thead>
 	<tr>
+		
+		<th>Name</th>
 		
 		
 		<th>Type</th>
@@ -606,6 +292,39 @@
 	
         <tr>
             
+                <td class="name"><code>object</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+            
+            
+                <td class="attributes">
+                
+                    
+                
+                    
+                
+                </td>
+            
+            
+            
+            
+            <td class="description last"></td>
+        </tr>
+	
+	
+	
+        <tr>
+            
+                <td class="name"><code>attribute</code></td>
+            
             
             <td class="type">
             
@@ -623,14 +342,45 @@
                 
                     
                 
-                    &lt;repeatable><br>
-                
                 </td>
             
             
             
             
             <td class="description last"></td>
+        </tr>
+	
+	
+	
+        <tr>
+            
+                <td class="name"><code>setVal</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">*</span>
+
+
+            
+            </td>
+            
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+                    
+                
+                    
+                
+                </td>
+            
+            
+            
+            
+            <td class="description last">Only used to set a new value to the searched attribute</td>
         </tr>
 	
 	
@@ -661,7 +411,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Query.js.html">Query.js</a>, <a href="Query.js.html#line42">line 42</a>
+        <a href="helpers.js.html">core/helpers.js</a>, <a href="helpers.js.html#line11">line 11</a>
     </li></ul></dd>
     
     
@@ -685,10 +435,6 @@
     <h5>Returns:</h5>
     
             
-<div class="param-desc">
-    from object
-</div>
-
 
 
 <dl>
@@ -697,7 +443,7 @@
 	</dt>
 	<dd>
 		
-<span class="param-type"><a href="GO.Clause.From.html">GO.Clause.From</a></span>
+<span class="param-type">*</span>
 
 
 	</dd>
@@ -711,7 +457,7 @@
         
             
 <dt>
-    <h4 class="name" id="update"><span class="type-signature"></span>update<span class="signature">()</span><span class="type-signature"> &rarr; {<a href="GO.Clause.From.html">GO.Clause.From</a>}</span></h4>
+    <h4 class="name" id="deepSelection"><span class="type-signature">&lt;static> </span>deepSelection<span class="signature">(object, attribute)</span><span class="type-signature"></span></h4>
     
     
 </dt>
@@ -719,7 +465,7 @@
     
     
     <div class="description">
-        Do a update operation into the collection
+        Copy deeply the given object respecting the given path
     </div>
     
 
@@ -727,6 +473,77 @@
     
     
     
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+		
+		<th>Type</th>
+		
+		
+		
+		
+		
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+	
+	<tbody>
+	
+	
+        <tr>
+            
+                <td class="name"><code>object</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+            
+            
+            
+            
+            
+            <td class="description last">The object to search into</td>
+        </tr>
+	
+	
+	
+        <tr>
+            
+                <td class="name"><code>attribute</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+            
+            
+            
+            
+            
+            <td class="description last">The attribute path, joined by dots</td>
+        </tr>
+	
+	
+	</tbody>
+</table>
     
     
     
@@ -752,7 +569,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Query.js.html">Query.js</a>, <a href="Query.js.html#line52">line 52</a>
+        <a href="helpers.js.html">core/helpers.js</a>, <a href="helpers.js.html#line40">line 40</a>
     </li></ul></dd>
     
     
@@ -777,24 +594,158 @@
     
             
 <div class="param-desc">
-    from object
+    Object
 </div>
 
 
 
-<dl>
-	<dt>
-		Type
-	</dt>
-	<dd>
-		
-<span class="param-type"><a href="GO.Clause.From.html">GO.Clause.From</a></span>
+        
+    
+    
+        <h5>Example</h5>
+        
+    <pre class="prettyprint"><code>//Will return a {{company: {name: String }}} object
+var compName = GO.Core.Helpers.deepSearch(user, "company.name");</code></pre>
 
-
-	</dd>
-</dl>
+    
+</dd>
 
         
+            
+<dt>
+    <h4 class="name" id="objectMerge"><span class="type-signature">&lt;static> </span>objectMerge<span class="signature">(obj1, obj2)</span><span class="type-signature"></span></h4>
+    
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        Merges two objects
+    </div>
+    
+
+    
+    
+    
+    
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+		
+		<th>Type</th>
+		
+		
+		
+		
+		
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+	
+	<tbody>
+	
+	
+        <tr>
+            
+                <td class="name"><code>obj1</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+            
+            
+            
+            
+            
+            <td class="description last">Object which will receive the other</td>
+        </tr>
+	
+	
+	
+        <tr>
+            
+                <td class="name"><code>obj2</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+            
+            
+            
+            
+            
+            <td class="description last">Object to copy the properties</td>
+        </tr>
+	
+	
+	</tbody>
+</table>
+    
+    
+    
+<dl class="details">
+    
+        
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="helpers.js.html">core/helpers.js</a>, <a href="helpers.js.html#line114">line 114</a>
+    </li></ul></dd>
+    
+    
+    
+    
+    
+    
+    
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
     
     
 </dd>
@@ -821,7 +772,7 @@
 <br clear="both">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.2.0</a> on Sun Nov 17 2013 21:48:03 GMT-0300 (BRT)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.2.0</a> on Sun Nov 17 2013 21:48:02 GMT-0300 (BRT)
 </footer>
 
 <script> prettyPrint(); </script>

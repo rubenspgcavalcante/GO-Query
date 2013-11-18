@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Namespace: Clause</title>
+    <title>JSDoc: Source: error/CloneError.js</title>
     
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,101 +17,33 @@
 
 <div id="main">
     
-    <h1 class="page-title">Namespace: Clause</h1>
+    <h1 class="page-title">Source: error/CloneError.js</h1>
     
     
 
 
+    
+    <section>
+        <article>
+            <pre class="prettyprint source"><code>/**
+ * Object clonning error
+ * @author Rubens Pinheiro Gonçalves Cavalcante
+ * @since 2013-11-17
+ * @param {Object} [object]
+ * @constructor
+ */
+GO.Error.CloneError = function(object){
+    this.name =  "CloneError";
+    this.message = "Object couldn't be cloned. One or more inner attributes types are not supported";
+    this.data = object || null;
+};
 
-<section>
-    
-<header>
-    <h2>
-        <span class="ancestors"><a href="GO.html">GO</a>.</span>
-    
-    Clause
-    </h2>
-    
-</header>  
+GO.Error.CloneError.prototype = new Error();
+GO.Error.CloneError.constructor = GO.Error.CloneError;
 
-<article>
-    <div class="container-overview">
-    
-    
-    
-        
-            <div class="description">Clause objects namespace</div>
-        
-        
-        
-<dl class="details">
-    
-        
-    
-    
-    
-
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="defines.js.html">defines.js</a>, <a href="defines.js.html#line12">line 12</a>
-    </li></ul></dd>
-    
-    
-    
-    
-    
-    
-    
-</dl>
-
-        
-        
-    
-    </div>
-    
-    
-    
-    
-    
-    
-    
-    
-        <h3 class="subsection-title">Classes</h3>
-        
-        <dl>
-            <dt><a href="GO.Clause.From.html">From</a></dt>
-            <dd></dd>
-        
-            <dt><a href="GO.Clause.Where.html">Where</a></dt>
-            <dd></dd>
-        </dl>
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-</article>
-
-</section>  
+</code></pre>
+        </article>
+    </section>
 
 
 

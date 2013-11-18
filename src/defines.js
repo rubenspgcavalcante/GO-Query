@@ -25,6 +25,12 @@ GO.Core = {};
 GO.Core.Modifier = {};
 
 /**
+ * Helper functions
+ * @namespace
+ */
+GO.Core.Helpers = {};
+
+/**
  * Custom error objects namespace
  * @namespace
  */

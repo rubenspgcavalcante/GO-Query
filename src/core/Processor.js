@@ -139,20 +139,6 @@ GO.Core.Processor = function(query){
     };
 
     /**
-     * Merges two objects
-     * @param {Object} obj1
-     * @param {Object} obj2
-     * @private
-     */
-    var _merge = function(obj1, obj2){
-        for(var i in obj2){
-            if(obj2.hasOwnProperty(i)){
-                obj1[i] = obj2[i];
-            }
-        }
-    };
-
-    /**
      * Applies the selection to the result filtered collection
      * @param values
      * @returns {Object[]}
@@ -168,7 +154,7 @@ GO.Core.Processor = function(query){
         for(var i in values){
             var copy = {};
             for(var j in attributes){
-                _merge(copy, _selectInObject(values[i], attributes[j]));
+                GO.Core.Helpers.objectMerge(copy, _selectInObject(values[i], attributes[j]));
             }
             results.push(copy);
         }
