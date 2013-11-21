@@ -714,7 +714,8 @@ GO.Core.Processor = function(query){
         var index = attr.indexOf(".");
 
         if(attr == GO.query.WILDCARD){
-            copy = JSON.parse(JSON.stringify(obj));
+            //TODO: Make a safe copy of the object
+            copy = obj;
         }
 
         else if(index == -1){
