@@ -1,5 +1,5 @@
 var packJson = require("../../package.json");
-require("../../build/go-query." + packJson.version +".js");
+require("../../build/go-query." + packJson.version + ".js");
 require("../models/User.js");
 
 /** @type {User[]} */
@@ -10,10 +10,10 @@ var testCase = require('nodeunit').testCase;
  * Gets a collection of users
  * @returns {User[]}
  */
-function getUsersCollection(){
+function getUsersCollection() {
     /** @type {User[]} */
     var users = [];
-    for(var i in data){
+    for (var i = 0; i < data.length; i++) {
         users.push(new User(data[i]));
     }
 
@@ -21,13 +21,13 @@ function getUsersCollection(){
 }
 
 module.exports = testCase({
-    CreateQuery: function(test){
+    CreateQuery: function (test) {
         var query = new GO.Query(data);
         test.ok(query instanceof GO.Query, "Instance creation");
         test.done();
     },
 
-    Methods: function(test){
+    Methods: function (test) {
         var query = new GO.Query(data);
         test.ok(query.hasOwnProperty('select'));
         test.ok(query.hasOwnProperty('update'));
@@ -35,7 +35,7 @@ module.exports = testCase({
         test.done();
     },
 
-    GetFrom: function(test){
+    GetFrom: function (test) {
         var query = new GO.Query(data);
         test.ok(query.select() instanceof GO.Clause.From);
         test.ok(query.update() instanceof GO.Clause.From);
@@ -43,7 +43,7 @@ module.exports = testCase({
         test.done();
     },
 
-    ValidateRecord: function(test){
+    ValidateRecord: function (test) {
         var query = new GO.Query(data);
 
         query.select();
@@ -58,17 +58,17 @@ module.exports = testCase({
         test.done();
     },
 
-    TestQuerySelect: function(test){
+    TestQuerySelect: function (test) {
         var users = getUsersCollection();
 
         /** @type {GO.Query} */
         var query = new GO.Query(users);
 
         //SELECT
-        var result = query .select("id", "name", "email")
-                       .from(User)
-                       .where(new GO.Filter("id", GO.op.EQ, 10))
-                       .run();
+        var result = query.select("id", "name", "email")
+            .from(User)
+            .where(new GO.Filter("id", GO.op.EQ, 10))
+            .run();
 
         test.equals(result.length, 1);
         test.strictEqual(result[0].name, "Stokes Knapp");
@@ -78,21 +78,21 @@ module.exports = testCase({
         test.done();
     },
 
-    /*TestQueryUpdate: function(){
+    TestQueryUpdate: function (test) {
         var users = getUsersCollection();
-        *//** @type {GO.Query} *//*
+        /** @type {GO.Query} */
         var query = new GO.Query(users);
         var record = query.update()
-                            .from(User)
-                            .where(
-                                new GO.Filter("name", GO.op.EQ, "Janell Kane")
-                            ).set({name: "test"});
+            .from(User)
+            .where(
+                new GO.Filter("name", GO.op.EQ, "Janell Kane")
+            ).set({name: "test"}).run();
 
         test.equals(users[0].name, 'test');
         test.done();
-    },*/
+    },
 
-    TestQueryAnd: function(test){
+    TestQueryAnd: function (test) {
         var users = getUsersCollection();
 
         /** @type {GO.Query} */
@@ -102,7 +102,7 @@ module.exports = testCase({
             .from(User)
             .where(
                 new GO.Filter("name", GO.op.EQ, "Janell Kane")
-                .and("gender", GO.op.EQ, "female")
+                    .and("gender", GO.op.EQ, "female")
             );
 
         var result = record.run();

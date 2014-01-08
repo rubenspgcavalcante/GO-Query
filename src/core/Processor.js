@@ -4,11 +4,23 @@
  * @author Rubens Pinheiro Gonçalves Cavalcante
  * @since 2013-09-28
  * @param {GO.Query} query
+ * @param {Object.<String, GO.Core.Modifier.PostProcess>} [extraMethods]
  * @constructor
  */
-GO.Core.Processor = function(query){
+GO.Core.Processor = function(query, extraMethods){
+    var that = this;
+    var _query = null;
 
-    var _query = query;
+    var _init = function(){
+        _query = query;
+
+        if(typeof extraMethods != "undefined"){
+            for(var i in extraMethods){
+                extraMethods[i].setProcessorReference(that);
+                that[i] = extraMethods[i].init;
+            }
+        }
+    }();
 
     //==================================================//
     //                    Private methods               //

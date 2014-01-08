@@ -12,17 +12,18 @@ GO.Core.Modifier.OrderBy = function(record){
 
     /** @type {GO.order} */
     var orderType = null;
+    var that = this;
 
     /**
      * Sets the internal data
      * @param {String} attr
      * @param {GO.order} order
-     * @return {GO.Clause.Where}
+     * @return {GO.Core.Processor}
      */
     this.init = function(attr, order){
         targetAttr = attr;
         orderType = order;
-        return this._whereRef;
+        return that._processor
     };
 
     /**

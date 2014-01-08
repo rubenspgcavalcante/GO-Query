@@ -7,9 +7,14 @@
  * @constructor
  */
 GO.Clause.Where = function(query){
-    var that = this;
     var _query = query;
     query._setRecord("where", this);
+
+    /**
+     * @type {Object.<String, GO.Core.Modifier.PostProcess>}
+     * @private
+     */
+    var _modifierMethods = {};
 
     /** @type {GO.Filter} */
     this.filter = null;
@@ -24,13 +29,11 @@ GO.Clause.Where = function(query){
         var record = _query._getRecord();
         switch(record.type){
             case GO.query.type.SELECT:
-                var orderBy = new GO.Core.Modifier.OrderBy(record);
-                that.orderBy = orderBy.init;
+                _modifierMethods.orderBy = new GO.Core.Modifier.OrderBy(record);
                 break;
 
             case GO.query.type.UPDATE:
-                var set = new GO.Core.Modifier.Set(record);
-                that.set = set.init;
+                _modifierMethods.set = new GO.Core.Modifier.Set(record);
                 break;
         }
     };
@@ -44,6 +47,6 @@ GO.Clause.Where = function(query){
         this.filter = filter.root();
         _setAvailableModifiers();
 
-        return new GO.Core.Processor(_query);
+        return new GO.Core.Processor(_query, _modifierMethods);
     };
 };

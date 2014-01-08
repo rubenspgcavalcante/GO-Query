@@ -13,10 +13,10 @@ GO.Core.Modifier.PostProcess = function(modifierName){
     this._collection = [];
 
     /**
-     * @type {GO.Clause.Where}
+     * @type {GO.Core.Processor}
      * @protected
      */
-    this._whereRef = null;
+    this._processor = null;
 
     /** @type {String} */
     this.modifierName = modifierName;
@@ -31,10 +31,10 @@ GO.Core.Modifier.PostProcess = function(modifierName){
 
     /**
      * Sets the back reference to the where object
-     * @param {GO.Clause.Where} ref
+     * @param {GO.Core.Processor} ref
      */
-    this.setWhereReference = function(ref){
-        this._whereRef = ref;
+    this.setProcessorReference = function(ref){
+        this._processor = ref;
     };
 
     /**

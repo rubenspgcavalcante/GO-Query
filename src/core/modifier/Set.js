@@ -1,7 +1,7 @@
 /**
  * Set Clause
  * @constructor
- * @augments GO.Core.Modifier.PostProcess
+ * @augments {GO.Core.Modifier.PostProcess}
  * @param {GO.Core.Record} record
  */
 GO.Core.Modifier.Set = function(record){
@@ -9,15 +9,16 @@ GO.Core.Modifier.Set = function(record){
 
     /** @type {Object} */
     var targets = null;
+    var that = this;
 
     /**
      * Sets the internal data
      * @param {Object} attrAndVals
-     * @return {GO.Clause.Where}
+     * @return {GO.Core.Processor}
      */
     this.init = function(attrAndVals){
         targets = attrAndVals;
-        return this._whereRef;
+        return that._processor;
     };
 
     /**
@@ -25,10 +26,15 @@ GO.Core.Modifier.Set = function(record){
      * sorting it into the given order
      */
     this.modify = function(){
-        //TODO implement set
+        for(var i=0; i < that._collection.length; i++){
+            for(var j in targets){
+                if(that._collection[i].hasOwnProperty(j)){
+                    that._collection[i][j] = targets[j];
+                }
+            }
+        }
     };
 };
 
 GO.Core.Modifier.Set.prototype = new GO.Core.Modifier.PostProcess("Set");
-GO.Core.Modifier.Set.constructor = GO.Core.Modifier.Set;
 

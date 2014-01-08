@@ -412,9 +412,14 @@ GO.Clause.From = function(query){
  * @constructor
  */
 GO.Clause.Where = function(query){
-    var that = this;
     var _query = query;
     query._setRecord("where", this);
+
+    /**
+     * @type {Object.<String, GO.Core.Modifier.PostProcess>}
+     * @private
+     */
+    var _modifierMethods = {};
 
     /** @type {GO.Filter} */
     this.filter = null;
@@ -429,13 +434,11 @@ GO.Clause.Where = function(query){
         var record = _query._getRecord();
         switch(record.type){
             case GO.query.type.SELECT:
-                var orderBy = new GO.Core.Modifier.OrderBy(record);
-                that.orderBy = orderBy.init;
+                _modifierMethods.orderBy = new GO.Core.Modifier.OrderBy(record);
                 break;
 
             case GO.query.type.UPDATE:
-                var set = new GO.Core.Modifier.Set(record);
-                that.set = set.init;
+                _modifierMethods.set = new GO.Core.Modifier.Set(record);
                 break;
         }
     };
@@ -449,7 +452,7 @@ GO.Clause.Where = function(query){
         this.filter = filter.root();
         _setAvailableModifiers();
 
-        return new GO.Core.Processor(_query);
+        return new GO.Core.Processor(_query, _modifierMethods);
     };
 };
 
@@ -468,10 +471,10 @@ GO.Core.Modifier.PostProcess = function(modifierName){
     this._collection = [];
 
     /**
-     * @type {GO.Clause.Where}
+     * @type {GO.Core.Processor}
      * @protected
      */
-    this._whereRef = null;
+    this._processor = null;
 
     /** @type {String} */
     this.modifierName = modifierName;
@@ -486,10 +489,10 @@ GO.Core.Modifier.PostProcess = function(modifierName){
 
     /**
      * Sets the back reference to the where object
-     * @param {GO.Clause.Where} ref
+     * @param {GO.Core.Processor} ref
      */
-    this.setWhereReference = function(ref){
-        this._whereRef = ref;
+    this.setProcessorReference = function(ref){
+        this._processor = ref;
     };
 
     /**
@@ -528,17 +531,18 @@ GO.Core.Modifier.OrderBy = function(record){
 
     /** @type {GO.order} */
     var orderType = null;
+    var that = this;
 
     /**
      * Sets the internal data
      * @param {String} attr
      * @param {GO.order} order
-     * @return {GO.Clause.Where}
+     * @return {GO.Core.Processor}
      */
     this.init = function(attr, order){
         targetAttr = attr;
         orderType = order;
-        return this._whereRef;
+        return that._processor
     };
 
     /**
@@ -556,7 +560,7 @@ GO.Core.Modifier.OrderBy.constructor = GO.Core.Modifier.OrderBy;
 /**
  * Set Clause
  * @constructor
- * @augments GO.Core.Modifier.PostProcess
+ * @augments {GO.Core.Modifier.PostProcess}
  * @param {GO.Core.Record} record
  */
 GO.Core.Modifier.Set = function(record){
@@ -564,15 +568,16 @@ GO.Core.Modifier.Set = function(record){
 
     /** @type {Object} */
     var targets = null;
+    var that = this;
 
     /**
      * Sets the internal data
      * @param {Object} attrAndVals
-     * @return {GO.Clause.Where}
+     * @return {GO.Core.Processor}
      */
     this.init = function(attrAndVals){
         targets = attrAndVals;
-        return this._whereRef;
+        return that._processor;
     };
 
     /**
@@ -580,12 +585,18 @@ GO.Core.Modifier.Set = function(record){
      * sorting it into the given order
      */
     this.modify = function(){
-        //TODO implement set
+        //TODO: Correct 'this' reference
+        for(var i=0; i < that._collection.length; i++){
+            for(var j in targets){
+                if(that._collection[i].hasOwnProperty(j)){
+                    that._collection[i][j] = targets[j];
+                }
+            }
+        }
     };
 };
 
 GO.Core.Modifier.Set.prototype = new GO.Core.Modifier.PostProcess("Set");
-GO.Core.Modifier.Set.constructor = GO.Core.Modifier.Set;
 
 
 /**
@@ -607,11 +618,23 @@ GO.Core.FilterChain = function(logicOperator, filter){
  * @author Rubens Pinheiro Gonçalves Cavalcante
  * @since 2013-09-28
  * @param {GO.Query} query
+ * @param {Object.<String, GO.Core.Modifier.PostProcess>} [extraMethods]
  * @constructor
  */
-GO.Core.Processor = function(query){
+GO.Core.Processor = function(query, extraMethods){
+    var that = this;
+    var _query = null;
 
-    var _query = query;
+    var _init = function(){
+        _query = query;
+
+        if(typeof extraMethods != "undefined"){
+            for(var i in extraMethods){
+                extraMethods[i].setProcessorReference(that);
+                that[i] = extraMethods[i].init;
+            }
+        }
+    }();
 
     //==================================================//
     //                    Private methods               //
