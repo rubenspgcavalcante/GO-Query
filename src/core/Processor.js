@@ -32,11 +32,14 @@ GO.Core.Processor = function(query, extraMethods){
      * @param {Object} obj
      * @param {String} attribute
      * @param {GO.query.type} [operation={GO.query.type.SELECT}]
-     * @param {*} [updateVal] Used if the operation is update
      * @return {?*}
      * @private
      */
-    var _deepAttribute = function(obj, attribute, operation, updateVal){
+    var _deepAttribute = function(obj, attribute, operation){
+        if(attribute == null){
+            return null;
+        }
+
         var index = attribute.indexOf('.');
         var value = null;
         operation = operation || GO.query.type.SELECT;
@@ -58,11 +61,8 @@ GO.Core.Processor = function(query, extraMethods){
         else{
             switch(operation){
                 case GO.query.type.SELECT:
-                    return value;
-
                 case GO.query.type.UPDATE:
-                    obj[attribute] = updateVal;
-                    break;
+                    return value;
 
                 case GO.query.type.DELETE:
                     delete obj[attribute];

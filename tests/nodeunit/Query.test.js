@@ -83,10 +83,10 @@ module.exports = testCase({
         /** @type {GO.Query} */
         var query = new GO.Query(users);
         var record = query.update()
-            .from(User)
-            .where(
-                new GO.Filter("name", GO.op.EQ, "Janell Kane")
-            ).set({name: "test"}).run();
+                          .from(User)
+                          .where(
+                              new GO.Filter("name", GO.op.EQ, "Janell Kane")
+                          ).set({name: "test"}).run();
 
         test.equals(record[0].name, 'test');
         test.done();
@@ -102,13 +102,34 @@ module.exports = testCase({
             .from(User)
             .where(
                 new GO.Filter("name", GO.op.EQ, "Janell Kane")
-                    .and("gender", GO.op.EQ, "female")
+                      .and("gender", GO.op.EQ, "female")
             );
 
         var result = record.run();
 
         test.equals(result.length, 1);
         test.equals(result[0].email, "janellkane@uxmox.com");
+        test.done();
+    },
+
+    TestQueryOrderBy: function(test){
+        var users = getUsersCollection();
+
+        /** @type {GO.Query} */
+        var query = new GO.Query(users);
+
+        var record = query.select('*')
+                          .from(Object)
+                          .where();
+
+        test.doesNotThrow(function(){
+            record =  record.orderBy("age", GO.order.DESC).run();
+
+            test.equals(record.length, users.length);
+            test.equals(record[0].age, 80);
+
+        }, GO.Error.OperatorError, "OperatorError");
+
         test.done();
     }
 

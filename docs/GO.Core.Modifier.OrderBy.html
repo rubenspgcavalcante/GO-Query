@@ -352,7 +352,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="OrderBy.js.html">core/modifier/OrderBy.js</a>, <a href="OrderBy.js.html#line14">line 14</a>
+        <a href="OrderBy.js.html">core/modifier/OrderBy.js</a>, <a href="OrderBy.js.html#line15">line 15</a>
     </li></ul></dd>
     
     
@@ -412,7 +412,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="OrderBy.js.html">core/modifier/OrderBy.js</a>, <a href="OrderBy.js.html#line11">line 11</a>
+        <a href="OrderBy.js.html">core/modifier/OrderBy.js</a>, <a href="OrderBy.js.html#line12">line 12</a>
     </li></ul></dd>
     
     
@@ -436,7 +436,7 @@
         <dl>
             
 <dt>
-    <h4 class="name" id="init"><span class="type-signature"></span>init<span class="signature">(attr, order)</span><span class="type-signature"> &rarr; {<a href="GO.Core.Processor.html">GO.Core.Processor</a>}</span></h4>
+    <h4 class="name" id="init"><span class="type-signature"></span>init<span class="signature">(attr, order, <span class="optional">sorter</span>)</span><span class="type-signature"> &rarr; {<a href="GO.Core.Processor.html">GO.Core.Processor</a>}</span></h4>
     
     
 </dt>
@@ -466,6 +466,8 @@
 		<th>Type</th>
 		
 		
+		<th>Argument</th>
+		
 		
 		
 		
@@ -491,10 +493,18 @@
             </td>
             
             
+                <td class="attributes">
+                
+                    
+                
+                    
+                
+                </td>
             
             
             
-            <td class="description last"></td>
+            
+            <td class="description last">The attribute to use as reference</td>
         </tr>
 	
 	
@@ -514,10 +524,51 @@
             </td>
             
             
+                <td class="attributes">
+                
+                    
+                
+                    
+                
+                </td>
             
             
             
-            <td class="description last"></td>
+            
+            <td class="description last">The chosen order</td>
+        </tr>
+	
+	
+	
+        <tr>
+            
+                <td class="name"><code>sorter</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">GO.Callback.SorterCallback</span>
+
+
+            
+            </td>
+            
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+                    
+                
+                    
+                
+                </td>
+            
+            
+            
+            
+            <td class="description last">A custom sorter function returning (1, 0, -1) like</td>
         </tr>
 	
 	
@@ -548,7 +599,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="OrderBy.js.html">core/modifier/OrderBy.js</a>, <a href="OrderBy.js.html#line23">line 23</a>
+        <a href="OrderBy.js.html">core/modifier/OrderBy.js</a>, <a href="OrderBy.js.html#line26">line 26</a>
     </li></ul></dd>
     
     
@@ -636,7 +687,7 @@ sorting it into the given order
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="OrderBy.js.html">core/modifier/OrderBy.js</a>, <a href="OrderBy.js.html#line33">line 33</a>
+        <a href="OrderBy.js.html">core/modifier/OrderBy.js</a>, <a href="OrderBy.js.html#line38">line 38</a>
     </li></ul></dd>
     
     
@@ -799,13 +850,13 @@ sorting it into the given order
 </div>
 
 <nav>
-    <h2><a href="index.html">Index</a></h2><h3>Classes</h3><ul><li><a href="GO.Clause.From.html">From</a></li><li><a href="GO.Clause.Where.html">Where</a></li><li><a href="GO.Core.FilterChain.html">FilterChain</a></li><li><a href="GO.Core.Modifier.OrderBy.html">OrderBy</a></li><li><a href="GO.Core.Modifier.PostProcess.html">PostProcess</a></li><li><a href="GO.Core.Modifier.Set.html">Set</a></li><li><a href="GO.Core.Processor.html">Processor</a></li><li><a href="GO.Core.Record.html">Record</a></li><li><a href="GO.Core.Validator.html">Validator</a></li><li><a href="GO.Error.CloneError.html">CloneError</a></li><li><a href="GO.Error.NotImplementedError.html">NotImplementedError</a></li><li><a href="GO.Error.OperatorError.html">OperatorError</a></li><li><a href="GO.Error.QueryMethodError.html">QueryMethodError</a></li><li><a href="GO.Filter.html">Filter</a></li><li><a href="GO.Query.html">Query</a></li></ul><h3>Namespaces</h3><ul><li><a href="GO.html">GO</a></li><li><a href="GO.Clause.html">Clause</a></li><li><a href="GO.Core.html">Core</a></li><li><a href="GO.Core.Helpers.html">Helpers</a></li><li><a href="GO.Core.Modifier.html">Modifier</a></li><li><a href="GO.Error.html">Error</a></li><li><a href="GO.query_.html">query</a></li></ul><h3>Global</h3><ul><li>{String}</li></ul>
+    <h2><a href="index.html">Index</a></h2><h3>Classes</h3><ul><li><a href="GO.Clause.From.html">From</a></li><li><a href="GO.Clause.Where.html">Where</a></li><li><a href="GO.Core.FilterChain.html">FilterChain</a></li><li><a href="GO.Core.Modifier.OrderBy.html">OrderBy</a></li><li><a href="GO.Core.Modifier.PostProcess.html">PostProcess</a></li><li><a href="GO.Core.Modifier.Set.html">Set</a></li><li><a href="GO.Core.Processor.html">Processor</a></li><li><a href="GO.Core.Record.html">Record</a></li><li><a href="GO.Core.Validator.html">Validator</a></li><li><a href="GO.Error.CloneError.html">CloneError</a></li><li><a href="GO.Error.NotImplementedError.html">NotImplementedError</a></li><li><a href="GO.Error.OperatorError.html">OperatorError</a></li><li><a href="GO.Error.QueryMethodError.html">QueryMethodError</a></li><li><a href="GO.Filter.html">Filter</a></li><li><a href="GO.Query.html">Query</a></li></ul><h3>Namespaces</h3><ul><li><a href="GO.html">GO</a></li><li><a href="GO.Callback.html">Callback</a></li><li><a href="GO.Clause.html">Clause</a></li><li><a href="GO.Core.html">Core</a></li><li><a href="GO.Core.Helpers.html">Helpers</a></li><li><a href="GO.Core.Modifier.html">Modifier</a></li><li><a href="GO.Error.html">Error</a></li><li><a href="GO.query_.html">query</a></li></ul><h3>Global</h3><ul><li>{String}</li></ul>
 </nav>
 
 <br clear="both">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.2.0</a> on Thu Jan 16 2014 10:09:17 GMT-0300 (BRT)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.2.0</a> on Thu Jan 16 2014 11:52:36 GMT-0300 (BRT)
 </footer>
 
 <script> prettyPrint(); </script>

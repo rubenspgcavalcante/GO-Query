@@ -40,10 +40,12 @@ GO.Clause.Where = function(query){
 
     /**
      * Where function, apply a filter to the query
-     * @param {GO.Filter} filter
+     * @param {GO.Filter} [filter] If not given, use tautological filter
      * @return {GO.Core.Processor}
      */
     this.where = function(filter){
+        filter = filter || new GO.Filter('', GO.op.TAUTOLOGICAL, '');
+
         this.filter = filter.root();
         _setAvailableModifiers();
 

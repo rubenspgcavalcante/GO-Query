@@ -97,6 +97,37 @@ GO.order = {
     ASC: 0,
     DESC: 1
 };
+
+/**
+ * Describes the three values of
+ * a sort function which references the
+ * first value compared with the second value
+ * @enum {Number}
+ */
+GO.comparison = {
+    GREATER: 1,
+    EQUALS: 0,
+    LESSER: -1
+};
+
+/*=========================*/
+/*   Callback definitions  */
+/*=========================*/
+
+/**
+ * Callbacks defines
+ * @name GO.Callback
+ * @namespace
+ */
+
+/**
+ * Sorter callback
+ * @name GO.Callback.SorterCallback
+ * @callback SorterCallback
+ * @param {*} a
+ * @param {*} b
+ * @return {GO.comparison}
+ */
 /**
  * Creates a query object
  * @author Rubens Pinheior Gonçalves Cavalcante
@@ -183,7 +214,7 @@ GO.Filter = function(attrOrFilter, operator, value){
     }
     else{
         this.attribute = attrOrFilter || null;
-        this.operator = operator || null;
+        this.operator = operator || GO.op.TAUTOLOGICAL;
         this.value = value || null;
     }
 
@@ -248,7 +279,6 @@ GO.Filter = function(attrOrFilter, operator, value){
         }
         else{
             return this.attribute == null &&
-                   this.operator == null &&
                    this.value == null;
         }
     };
@@ -446,10 +476,12 @@ GO.Clause.Where = function(query){
 
     /**
      * Where function, apply a filter to the query
-     * @param {GO.Filter} filter
+     * @param {GO.Filter} [filter] If not given, use tautological filter
      * @return {GO.Core.Processor}
      */
     this.where = function(filter){
+        filter = filter || new GO.Filter('', GO.op.TAUTOLOGICAL, '');
+
         this.filter = filter.root();
         _setAvailableModifiers();
 
@@ -512,23 +544,28 @@ GO.Core.Modifier.PostProcess = function(modifierName){
  */
 GO.Core.Modifier.OrderBy = function(record){
     record.modifiers.push(this);
+    var that = this;
 
     /** @type {String} */
     var targetAttr = null;
 
     /** @type {GO.order} */
     var orderType = null;
-    var that = this;
+
+    var customSorter = null;
 
     /**
      * Sets the internal data
-     * @param {String} attr
-     * @param {GO.order} order
+     * @param {String} attr The attribute to use as reference
+     * @param {GO.order} order The chosen order
+     * @param {GO.Callback.SorterCallback} [sorter] A custom sorter function returning (1, 0, -1) like
      * @return {GO.Core.Processor}
      */
-    this.init = function(attr, order){
+    this.init = function(attr, order, sorter){
         targetAttr = attr;
         orderType = order;
+        customSorter = sorter || null;
+
         return that._processor
     };
 
@@ -537,7 +574,21 @@ GO.Core.Modifier.OrderBy = function(record){
      * sorting it into the given order
      */
     this.modify = function(objects){
-        //TODO implement sort
+        if(customSorter == null){
+            objects.sort(function(a, b){
+                if(a.hasOwnProperty(targetAttr) && b.hasOwnProperty(targetAttr)){
+                    return orderType == GO.order.ASC? a-b : b-a;
+                }
+                return 0;
+            });
+
+            if(orderType == GO.order.DESC){
+                objects.reverse();
+            }
+        }
+        else{
+            objects.sort(customSorter);
+        }
     };
 };
 
@@ -635,11 +686,14 @@ GO.Core.Processor = function(query, extraMethods){
      * @param {Object} obj
      * @param {String} attribute
      * @param {GO.query.type} [operation={GO.query.type.SELECT}]
-     * @param {*} [updateVal] Used if the operation is update
      * @return {?*}
      * @private
      */
-    var _deepAttribute = function(obj, attribute, operation, updateVal){
+    var _deepAttribute = function(obj, attribute, operation){
+        if(attribute == null){
+            return null;
+        }
+
         var index = attribute.indexOf('.');
         var value = null;
         operation = operation || GO.query.type.SELECT;
@@ -661,11 +715,8 @@ GO.Core.Processor = function(query, extraMethods){
         else{
             switch(operation){
                 case GO.query.type.SELECT:
-                    return value;
-
                 case GO.query.type.UPDATE:
-                    obj[attribute] = updateVal;
-                    break;
+                    return value;
 
                 case GO.query.type.DELETE:
                     delete obj[attribute];
@@ -957,7 +1008,7 @@ GO.Core.Validator = function(filter, value){
                 return false;
 
             default:
-                throw GO.Error.OperatorError("Operator doesn't exist", this.filter);
+                throw new GO.Error.OperatorError("Operator doesn't exist", this.filter);
         }
     };
 };

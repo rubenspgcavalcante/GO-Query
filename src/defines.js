@@ -97,3 +97,34 @@ GO.order = {
     ASC: 0,
     DESC: 1
 };
+
+/**
+ * Describes the three values of
+ * a sort function which references the
+ * first value compared with the second value
+ * @enum {Number}
+ */
+GO.comparison = {
+    GREATER: 1,
+    EQUALS: 0,
+    LESSER: -1
+};
+
+/*=========================*/
+/*   Callback definitions  */
+/*=========================*/
+
+/**
+ * Callbacks defines
+ * @name GO.Callback
+ * @namespace
+ */
+
+/**
+ * Sorter callback
+ * @name GO.Callback.SorterCallback
+ * @callback SorterCallback
+ * @param {*} a
+ * @param {*} b
+ * @return {GO.comparison}
+ */

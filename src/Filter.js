@@ -17,7 +17,7 @@ GO.Filter = function(attrOrFilter, operator, value){
     }
     else{
         this.attribute = attrOrFilter || null;
-        this.operator = operator || null;
+        this.operator = operator || GO.op.TAUTOLOGICAL;
         this.value = value || null;
     }
 
@@ -82,7 +82,6 @@ GO.Filter = function(attrOrFilter, operator, value){
         }
         else{
             return this.attribute == null &&
-                   this.operator == null &&
                    this.value == null;
         }
     };

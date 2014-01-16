@@ -6,23 +6,38 @@
  */
 GO.Core.Modifier.OrderBy = function(record){
     record.modifiers.push(this);
+    var that = this;
 
     /** @type {String} */
     var targetAttr = null;
 
     /** @type {GO.order} */
     var orderType = null;
-    var that = this;
+
+    var customSorter = null;
+
+    /**
+     * Array with the sorters by type
+     * @type {{number: function}}
+     */
+    var sorter = {
+        "number": function(a, b, order){
+            return order == GO.order.ASC? a-b : b-a;
+        }
+    };
 
     /**
      * Sets the internal data
-     * @param {String} attr
-     * @param {GO.order} order
+     * @param {String} attr The attribute to use as reference
+     * @param {GO.order} order The chosen order
+     * @param {GO.Callback.SorterCallback} [sorter] A custom sorter function returning (1, 0, -1) like
      * @return {GO.Core.Processor}
      */
-    this.init = function(attr, order){
+    this.init = function(attr, order, sorter){
         targetAttr = attr;
         orderType = order;
+        customSorter = sorter || null;
+
         return that._processor
     };
 
@@ -31,7 +46,19 @@ GO.Core.Modifier.OrderBy = function(record){
      * sorting it into the given order
      */
     this.modify = function(objects){
-        //TODO implement sort
+        if(customSorter == null){
+            objects.sort(function(a, b){
+                if(a.hasOwnProperty(targetAttr) && b.hasOwnProperty(targetAttr)){
+                    if(sorter.hasOwnProperty(typeof  a)){
+                        return sorter[typeof  a](a, b, orderType);
+                    }
+                }
+                return 0;
+            });
+        }
+        else{
+            objects.sort(customSorter);
+        }
     };
 };
 

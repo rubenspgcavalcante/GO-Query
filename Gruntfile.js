@@ -65,5 +65,6 @@ module.exports = function(grunt) {
 
     // Default task(s).
     grunt.registerTask('default', ['concat', 'uglify', 'nodeunit', "jsdoc"]);
+    grunt.registerTask('test', ['concat', 'uglify', 'nodeunit']);
 
 };
