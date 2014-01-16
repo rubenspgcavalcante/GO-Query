@@ -207,21 +207,6 @@ GO.Core.Processor = function(query, extraMethods){
     };
 
     /**
-     * Executes a Update operation into the collection
-     * @private
-     */
-    var _execUpdate = function(){
-        _processFilter(function(currentObj){
-            var selections = _query._getRecord().selection;
-            var updateVals = _query._getRecord().updateTo;
-
-            for(var i in selections){
-                _deepAttribute(currentObj, selections[i], GO.query.type.UPDATE, updateVals[i]);
-            }
-        });
-    };
-
-    /**
      * Executes a Delete operation into the collection
      * @private
      */
@@ -243,8 +228,7 @@ GO.Core.Processor = function(query, extraMethods){
     var _applyModifiers = function(result){
         var mods = _query._getRecord().modifiers;
         for(var i = 0; i < mods.length; i++){
-            mods[i].setCollection(result);
-            mods[i].modify();
+            mods[i].modify(result);
         }
 
         return result;
@@ -265,11 +249,8 @@ GO.Core.Processor = function(query, extraMethods){
 
         switch(record.type){
             case GO.query.type.SELECT:
-                result = _execSelect();
-                break;
-
             case GO.query.type.UPDATE:
-                result = _execUpdate();
+                result = _execSelect();
                 break;
 
             case  GO.query.type.DELETE:

@@ -88,7 +88,7 @@ module.exports = testCase({
                 new GO.Filter("name", GO.op.EQ, "Janell Kane")
             ).set({name: "test"}).run();
 
-        test.equals(users[0].name, 'test');
+        test.equals(record[0].name, 'test');
         test.done();
     },
 

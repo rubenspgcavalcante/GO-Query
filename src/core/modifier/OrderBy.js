@@ -30,7 +30,7 @@ GO.Core.Modifier.OrderBy = function(record){
      * Modify the result of a query,
      * sorting it into the given order
      */
-    this.modify = function(){
+    this.modify = function(objects){
         //TODO implement sort
     };
 };

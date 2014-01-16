@@ -150,6 +150,7 @@ GO.Query = function(collection){
      */
     this.update = function(){
         record.type = GO.query.type.UPDATE;
+        record.selection = GO.query.WILDCARD;
         return new GO.Clause.From(this);
     };
 
@@ -463,13 +464,6 @@ GO.Clause.Where = function(query){
  * @constructor
  */
 GO.Core.Modifier.PostProcess = function(modifierName){
-
-    /**
-     * @type {Object[]}
-     * @protected
-     */
-    this._collection = [];
-
     /**
      * @type {GO.Core.Processor}
      * @protected
@@ -478,14 +472,6 @@ GO.Core.Modifier.PostProcess = function(modifierName){
 
     /** @type {String} */
     this.modifierName = modifierName;
-
-    /**
-     * Sets the internal collection
-     * @param {Object[]} collection
-     */
-    this.setCollection = function(collection){
-        this._collection = collection;
-    };
 
     /**
      * Sets the back reference to the where object
@@ -510,9 +496,10 @@ GO.Core.Modifier.PostProcess = function(modifierName){
      * The query result modifier method
      * After implement, create a alias to turn available to use
      * @abstract
+     * @param {Object[]} objects The set of objects to modify
      * @throws {GO.Error.NotImplementedError}
      */
-    this.modify = function(){
+    this.modify = function(objects){
         throw new GO.Error.NotImplementedError("modify", this.constructor);
     };
 };
@@ -549,7 +536,7 @@ GO.Core.Modifier.OrderBy = function(record){
      * Modify the result of a query,
      * sorting it into the given order
      */
-    this.modify = function(){
+    this.modify = function(objects){
         //TODO implement sort
     };
 };
@@ -572,7 +559,9 @@ GO.Core.Modifier.Set = function(record){
 
     /**
      * Sets the internal data
-     * @param {Object} attrAndVals
+     * @param {Object} attrAndVals The set of attributes and
+     * values to update
+     *
      * @return {GO.Core.Processor}
      */
     this.init = function(attrAndVals){
@@ -583,13 +572,13 @@ GO.Core.Modifier.Set = function(record){
     /**
      * Modify the result of a query,
      * sorting it into the given order
+     * @param {Object[]} objects
      */
-    this.modify = function(){
-        //TODO: Correct 'this' reference
-        for(var i=0; i < that._collection.length; i++){
+    this.modify = function(objects){
+        for(var i=0; i < objects.length; i++){
             for(var j in targets){
-                if(that._collection[i].hasOwnProperty(j)){
-                    that._collection[i][j] = targets[j];
+                if(objects[i].hasOwnProperty(j)){
+                    objects[i][j] = targets[j];
                 }
             }
         }
@@ -821,21 +810,6 @@ GO.Core.Processor = function(query, extraMethods){
     };
 
     /**
-     * Executes a Update operation into the collection
-     * @private
-     */
-    var _execUpdate = function(){
-        _processFilter(function(currentObj){
-            var selections = _query._getRecord().selection;
-            var updateVals = _query._getRecord().updateTo;
-
-            for(var i in selections){
-                _deepAttribute(currentObj, selections[i], GO.query.type.UPDATE, updateVals[i]);
-            }
-        });
-    };
-
-    /**
      * Executes a Delete operation into the collection
      * @private
      */
@@ -857,8 +831,7 @@ GO.Core.Processor = function(query, extraMethods){
     var _applyModifiers = function(result){
         var mods = _query._getRecord().modifiers;
         for(var i = 0; i < mods.length; i++){
-            mods[i].setCollection(result);
-            mods[i].modify();
+            mods[i].modify(result);
         }
 
         return result;
@@ -879,11 +852,8 @@ GO.Core.Processor = function(query, extraMethods){
 
         switch(record.type){
             case GO.query.type.SELECT:
-                result = _execSelect();
-                break;
-
             case GO.query.type.UPDATE:
-                result = _execUpdate();
+                result = _execSelect();
                 break;
 
             case  GO.query.type.DELETE:

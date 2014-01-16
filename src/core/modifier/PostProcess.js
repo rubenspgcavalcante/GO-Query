@@ -5,13 +5,6 @@
  * @constructor
  */
 GO.Core.Modifier.PostProcess = function(modifierName){
-
-    /**
-     * @type {Object[]}
-     * @protected
-     */
-    this._collection = [];
-
     /**
      * @type {GO.Core.Processor}
      * @protected
@@ -20,14 +13,6 @@ GO.Core.Modifier.PostProcess = function(modifierName){
 
     /** @type {String} */
     this.modifierName = modifierName;
-
-    /**
-     * Sets the internal collection
-     * @param {Object[]} collection
-     */
-    this.setCollection = function(collection){
-        this._collection = collection;
-    };
 
     /**
      * Sets the back reference to the where object
@@ -52,9 +37,10 @@ GO.Core.Modifier.PostProcess = function(modifierName){
      * The query result modifier method
      * After implement, create a alias to turn available to use
      * @abstract
+     * @param {Object[]} objects The set of objects to modify
      * @throws {GO.Error.NotImplementedError}
      */
-    this.modify = function(){
+    this.modify = function(objects){
         throw new GO.Error.NotImplementedError("modify", this.constructor);
     };
 };

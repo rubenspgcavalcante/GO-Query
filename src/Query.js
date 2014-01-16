@@ -51,6 +51,7 @@ GO.Query = function(collection){
      */
     this.update = function(){
         record.type = GO.query.type.UPDATE;
+        record.selection = GO.query.WILDCARD;
         return new GO.Clause.From(this);
     };
 

@@ -13,7 +13,9 @@ GO.Core.Modifier.Set = function(record){
 
     /**
      * Sets the internal data
-     * @param {Object} attrAndVals
+     * @param {Object} attrAndVals The set of attributes and
+     * values to update
+     *
      * @return {GO.Core.Processor}
      */
     this.init = function(attrAndVals){
@@ -24,12 +26,13 @@ GO.Core.Modifier.Set = function(record){
     /**
      * Modify the result of a query,
      * sorting it into the given order
+     * @param {Object[]} objects
      */
-    this.modify = function(){
-        for(var i=0; i < that._collection.length; i++){
+    this.modify = function(objects){
+        for(var i=0; i < objects.length; i++){
             for(var j in targets){
-                if(that._collection[i].hasOwnProperty(j)){
-                    that._collection[i][j] = targets[j];
+                if(objects[i].hasOwnProperty(j)){
+                    objects[i][j] = targets[j];
                 }
             }
         }
