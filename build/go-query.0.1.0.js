@@ -555,6 +555,31 @@ GO.Core.Modifier.OrderBy = function(record){
     var customSorter = null;
 
     /**
+     * Array with the sorters by type
+     * @type {{number: function}}
+     */
+    var sorter = {
+        "number": function(a, b, order){
+            return order == GO.order.ASC? a-b : b-a;
+        },
+
+        "string": function(a, b, order){
+            var comp = null;
+            if(a > b){
+                comp = 1;
+            }
+            else if(a < b){
+                comp = -1
+            }
+            else{
+                comp = 0;
+            }
+
+            return order == GO.order.ASC? comp : !comp;
+        }
+    };
+
+    /**
      * Sets the internal data
      * @param {String} attr The attribute to use as reference
      * @param {GO.order} order The chosen order
@@ -577,14 +602,15 @@ GO.Core.Modifier.OrderBy = function(record){
         if(customSorter == null){
             objects.sort(function(a, b){
                 if(a.hasOwnProperty(targetAttr) && b.hasOwnProperty(targetAttr)){
-                    return orderType == GO.order.ASC? a-b : b-a;
+                    var targetA = a[targetAttr];
+                    var targetB = b[targetAttr];
+
+                    if(sorter.hasOwnProperty(typeof  a[targetAttr])){
+                        return sorter[typeof  targetA](targetA, targetB, orderType);
+                    }
                 }
                 return 0;
             });
-
-            if(orderType == GO.order.DESC){
-                objects.reverse();
-            }
         }
         else{
             objects.sort(customSorter);

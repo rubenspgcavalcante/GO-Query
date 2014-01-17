@@ -123,10 +123,15 @@ module.exports = testCase({
                           .where();
 
         test.doesNotThrow(function(){
-            record =  record.orderBy("age", GO.order.DESC).run();
+            var results = null;
 
-            test.equals(record.length, users.length);
-            test.equals(record[0].age, 80);
+            results = record.orderBy("age", GO.order.ASC).run();
+            test.equals(results.length, users.length);
+            test.equals(results[0].age, 14);
+
+            results =  record.orderBy("age", GO.order.DESC).run();
+            test.equals(results.length, users.length);
+            test.equals(results[0].age, 80);
 
         }, GO.Error.OperatorError, "OperatorError");
 
