@@ -4,7 +4,7 @@
  * @since 2013-09-30
  * @param {String} msg
  * @param {*} [data]
- * @constructor
+ * @augments Error
  */
 GO.Error.OperatorError = function(msg, data){
     this.name =  "OperatorError";
@@ -13,4 +13,3 @@ GO.Error.OperatorError = function(msg, data){
 };
 
 GO.Error.OperatorError.prototype = new Error();
-GO.Error.OperatorError.constructor = GO.Error.OperatorError;

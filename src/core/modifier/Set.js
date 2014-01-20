@@ -25,15 +25,13 @@ GO.Core.Modifier.Set = function(record){
 
     /**
      * Modify the result of a query,
-     * sorting it into the given order
+     * setting it the registered values
      * @param {Object[]} objects
      */
     this.modify = function(objects){
         for(var i=0; i < objects.length; i++){
-            for(var j in targets){
-                if(objects[i].hasOwnProperty(j)){
-                    objects[i][j] = targets[j];
-                }
+            for(var key in targets){
+                GO.Utils.ObjectUtils.deepSet(key, objects[i], targets[key]);
             }
         }
     };

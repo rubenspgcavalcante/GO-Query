@@ -1,5 +1,6 @@
 /**
  * GO Query global namespace
+ * @author Rubens Pinheiro Gonçalves Cavalcante
  * @global
  * @namespace
  */
@@ -35,6 +36,12 @@ GO.Core.Helpers = {};
  * @namespace
  */
 GO.Error = {};
+
+/**
+ * Utils libraries
+ * @namespace
+ */
+GO.Utils = {};
 
 /**
  * Query env namespace
@@ -348,7 +355,7 @@ GO.Filter = function(attrOrFilter, operator, value){
  * @author Rubens Pinheiro Gonçalves Cavalcante
  * @since 2013-11-17
  * @param {Object} [object]
- * @constructor
+ * @augments Error
  */
 GO.Error.CloneError = function(object){
     this.name =  "CloneError";
@@ -357,7 +364,6 @@ GO.Error.CloneError = function(object){
 };
 
 GO.Error.CloneError.prototype = new Error();
-GO.Error.CloneError.constructor = GO.Error.CloneError;
 
 
 /**
@@ -366,7 +372,7 @@ GO.Error.CloneError.constructor = GO.Error.CloneError;
  * @since 2013-11-16
  * @param {String} methodName
  * @param {Function} [constructor]
- * @constructor
+ * @augments Error
  */
 GO.Error.NotImplementedError = function(methodName, constructor){
     this.name =  "NotImplementedError";
@@ -375,7 +381,6 @@ GO.Error.NotImplementedError = function(methodName, constructor){
 };
 
 GO.Error.NotImplementedError.prototype = new Error();
-GO.Error.NotImplementedError.constructor = GO.Error.NotImplementedError;
 
 /**
  * Operator error
@@ -383,7 +388,7 @@ GO.Error.NotImplementedError.constructor = GO.Error.NotImplementedError;
  * @since 2013-09-30
  * @param {String} msg
  * @param {*} [data]
- * @constructor
+ * @augments Error
  */
 GO.Error.OperatorError = function(msg, data){
     this.name =  "OperatorError";
@@ -392,14 +397,27 @@ GO.Error.OperatorError = function(msg, data){
 };
 
 GO.Error.OperatorError.prototype = new Error();
-GO.Error.OperatorError.constructor = GO.Error.OperatorError;
+/**
+ * Object property is not defined
+ * @author Rubens Pinheiro Gonçalves Cavalcante
+ * @since 2014-01-20
+ * @param property
+ * @param object
+ * @augments Error
+ */
+GO.Error.PropertyNotDefinedError = function(property, object){
+    this.msg = "Property " + property + " is not defined";
+    this.data = object;
+};
+
+GO.Error.PropertyNotDefinedError.prototype = new Error();
 /**
  * Query method error
  * @author Rubens Pinheiro Gonçalves Cavalcante
  * @since 2013-10-17
  * @param {String} msg
  * @param {*} [data]
- * @constructor
+ * @augments Error
  */
 GO.Error.QueryMethodError = function(msg, data){
     this.name =  "QueryMethodError";
@@ -408,8 +426,140 @@ GO.Error.QueryMethodError = function(msg, data){
 };
 
 GO.Error.QueryMethodError.prototype = new Error();
-GO.Error.QueryMethodError.constructor = GO.Error.QueryMethodError;
 
+/**
+ * Object utils functions
+ * @author Rubens Pinheiro Gonçalves Cavalcante
+ * @since 20-01-2014
+ * @module
+ */
+GO.Utils.ObjectUtils = {
+    /**
+     * Gets the attribute of a object using
+     * the given attribute as referenced (chained by dots)
+     * @param {String} attribute Attribute to search
+     * @param {Object} obj The object to search into
+     * @param {Boolean} [remove=false] Select or remove the attribute
+     * @param {*} [valToSet] If given, sets the value to the property
+     * @return {*}
+     * @throws {GO.Error.PropertyNotDefinedError}
+     * @example
+     * //Remove the 'name' key from the object brand
+     * GO.Utils.ObjectUtils._deepSearch("creditcard.brand.name", customer, true);
+     * @private
+     */
+    _deepSearch: function(attribute, obj, remove, valToSet){
+        if(attribute == null){
+            return null;
+        }
+
+        var index = attribute.indexOf('.');
+        var value = null;
+
+        if(index != -1){
+            var upperKey = attribute.slice(0, index);
+            attribute = attribute.slice(index + 1);
+            if(obj.hasOwnProperty(upperKey)){
+                value = obj[upperKey] || null;
+            }
+            else{
+                throw new GO.Error.PropertyNotDefinedError(upperKey, obj);
+            }
+
+        }
+        else if(obj.hasOwnProperty(attribute)){
+            value = obj[attribute];
+        }
+        else{
+            throw new GO.Error.PropertyNotDefinedError(attribute, obj);
+        }
+
+        //Exists other points? e.g. customer.creditcard.brand
+        if(attribute.indexOf('.') != -1 && value != null){
+            return this._deepSearch(value, attribute, remove);
+        }
+
+        else if(remove){
+            delete obj[attribute];
+            return null;
+        }
+        else if(typeof valToSet != "undefined"){
+            obj[attribute] = valToSet;
+            return null;
+        }
+        else{
+            return value;
+        }
+    },
+
+    /**
+     * Deep select a attribute from a object, if the property does not
+     * exist, throw a error
+     * @param {String} key Attribute name chained by dots
+     * @param {Object} obj The object to search into
+     * @return {*}
+     * @throws {GO.Error.PropertyNotDefinedError}
+     */
+    unsafeDeepSelect: function(key, obj){
+        return this._deepSearch(key, obj);
+    },
+
+    /**
+     * Deep select a attribute from a object
+     * @param {String} key Attribute name chained by dots
+     * @param {Object} obj The object to search into
+     * @return {*}
+     */
+    deepSelect: function(key, obj){
+        try{
+            return this._deepSearch(key, obj);
+        }
+        catch (e){
+            if(e instanceof GO.Error.PropertyNotDefinedError){
+                return null;
+            }
+        }
+
+    },
+
+    /**
+     * Deep sets a value to a attribute from a object
+     * @param {String} key Attribute name chained by dots
+     * @param {Object} obj The object to search into
+     * @param {*} value The value to set
+     * @return {Boolean}
+     */
+    deepSet: function(key, obj, value){
+        try{
+            this._deepSearch(key, obj, false, value);
+        }
+        catch (e){
+            if(e instanceof GO.Error.PropertyNotDefinedError){
+                return false;
+            }
+        }
+
+        return true;
+    },
+
+    /**
+     * Deep delete a attribute from a object
+     * @param {String} key Attribute name chained by dots
+     * @param {Object} obj The object to delete the key
+     * @return Boolean
+     */
+    deepDelete: function(key, obj){
+        try{
+            this._deepSearch(key, obj, true);
+        }
+        catch (e){
+            if(e instanceof GO.Error.PropertyNotDefinedError){
+                return false;
+            }
+        }
+        return true;
+    }
+};
 /**
  * Do a 'from' into the query collection
  * @author Rubens Pinheiro Gonçalves Cavalcante
@@ -601,14 +751,18 @@ GO.Core.Modifier.OrderBy = function(record){
     this.modify = function(objects){
         if(customSorter == null){
             objects.sort(function(a, b){
-                if(a.hasOwnProperty(targetAttr) && b.hasOwnProperty(targetAttr)){
-                    var targetA = a[targetAttr];
-                    var targetB = b[targetAttr];
+                try{
+                    var targetA = GO.Utils.ObjectUtils.unsafeDeepSelect(targetAttr, a);
+                    var targetB = GO.Utils.ObjectUtils.unsafeDeepSelect(targetAttr, b);
 
-                    if(sorter.hasOwnProperty(typeof  a[targetAttr])){
+                    if(sorter.hasOwnProperty(typeof  targetA)){
                         return sorter[typeof  targetA](targetA, targetB, orderType);
                     }
                 }
+                catch (e){
+                    //TODO: Some log here
+                }
+
                 return 0;
             });
         }
@@ -648,15 +802,13 @@ GO.Core.Modifier.Set = function(record){
 
     /**
      * Modify the result of a query,
-     * sorting it into the given order
+     * setting it the registered values
      * @param {Object[]} objects
      */
     this.modify = function(objects){
         for(var i=0; i < objects.length; i++){
-            for(var j in targets){
-                if(objects[i].hasOwnProperty(j)){
-                    objects[i][j] = targets[j];
-                }
+            for(var key in targets){
+                GO.Utils.ObjectUtils.deepSet(key, objects[i], targets[key]);
             }
         }
     };
@@ -707,52 +859,6 @@ GO.Core.Processor = function(query, extraMethods){
     //==================================================//
 
     /**
-     * Search the attribute value in inner objects
-     * and return/set the value
-     * @param {Object} obj
-     * @param {String} attribute
-     * @param {GO.query.type} [operation={GO.query.type.SELECT}]
-     * @return {?*}
-     * @private
-     */
-    var _deepAttribute = function(obj, attribute, operation){
-        if(attribute == null){
-            return null;
-        }
-
-        var index = attribute.indexOf('.');
-        var value = null;
-        operation = operation || GO.query.type.SELECT;
-
-        if(index != -1){
-            var upperKey = attribute.slice(0, index);
-            attribute = attribute.slice(index + 1);
-            value = obj[upperKey] || null;
-        }
-        else{
-            value = obj[attribute] || null;
-        }
-
-        //Exists other points? e.g. customer.creditcard.brand
-        if(attribute.indexOf('.') != -1 && value != null){
-            return _deepSearchAttribute(value, attribute);
-        }
-
-        else{
-            switch(operation){
-                case GO.query.type.SELECT:
-                case GO.query.type.UPDATE:
-                    return value;
-
-                case GO.query.type.DELETE:
-                    delete obj[attribute];
-                    break;
-            }
-        }
-        return null;
-    };
-
-    /**
      * Applies the given filter, and verify if the value
      * has passed on the filter
      * @param {Object} obj
@@ -767,7 +873,7 @@ GO.Core.Processor = function(query, extraMethods){
             approved = _applyFilter(obj, filter.associate);
         }
         else{
-            var value = _deepAttribute(obj, filter.attribute);
+            value = GO.Utils.ObjectUtils.deepSelect(filter.attribute, obj);
             approved = new GO.Core.Validator(filter, value).test();
         }
 
@@ -894,7 +1000,7 @@ GO.Core.Processor = function(query, extraMethods){
         _processFilter(function(currentObj){
             var selections = _query._getRecord().selection;
             for(var i in selections){
-                _deepAttribute(currentObj, selections[i], GO.query.type.DELETE);
+                GO.Utils.ObjectUtils.deepDelete(selections[i], currentObj);
             }
         });
     };

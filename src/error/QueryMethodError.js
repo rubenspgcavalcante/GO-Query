@@ -4,7 +4,7 @@
  * @since 2013-10-17
  * @param {String} msg
  * @param {*} [data]
- * @constructor
+ * @augments Error
  */
 GO.Error.QueryMethodError = function(msg, data){
     this.name =  "QueryMethodError";
@@ -13,4 +13,3 @@ GO.Error.QueryMethodError = function(msg, data){
 };
 
 GO.Error.QueryMethodError.prototype = new Error();
-GO.Error.QueryMethodError.constructor = GO.Error.QueryMethodError;

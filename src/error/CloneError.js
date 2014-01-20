@@ -3,7 +3,7 @@
  * @author Rubens Pinheiro Gonçalves Cavalcante
  * @since 2013-11-17
  * @param {Object} [object]
- * @constructor
+ * @augments Error
  */
 GO.Error.CloneError = function(object){
     this.name =  "CloneError";
@@ -12,5 +12,4 @@ GO.Error.CloneError = function(object){
 };
 
 GO.Error.CloneError.prototype = new Error();
-GO.Error.CloneError.constructor = GO.Error.CloneError;
 

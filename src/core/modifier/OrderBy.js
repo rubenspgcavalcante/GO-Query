@@ -63,14 +63,18 @@ GO.Core.Modifier.OrderBy = function(record){
     this.modify = function(objects){
         if(customSorter == null){
             objects.sort(function(a, b){
-                if(a.hasOwnProperty(targetAttr) && b.hasOwnProperty(targetAttr)){
-                    var targetA = a[targetAttr];
-                    var targetB = b[targetAttr];
+                try{
+                    var targetA = GO.Utils.ObjectUtils.unsafeDeepSelect(targetAttr, a);
+                    var targetB = GO.Utils.ObjectUtils.unsafeDeepSelect(targetAttr, b);
 
-                    if(sorter.hasOwnProperty(typeof  a[targetAttr])){
+                    if(sorter.hasOwnProperty(typeof  targetA)){
                         return sorter[typeof  targetA](targetA, targetB, orderType);
                     }
                 }
+                catch (e){
+                    //TODO: Some log here
+                }
+
                 return 0;
             });
         }

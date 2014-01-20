@@ -1,5 +1,6 @@
 /**
  * GO Query global namespace
+ * @author Rubens Pinheiro Gonçalves Cavalcante
  * @global
  * @namespace
  */
@@ -35,6 +36,12 @@ GO.Core.Helpers = {};
  * @namespace
  */
 GO.Error = {};
+
+/**
+ * Utils libraries
+ * @namespace
+ */
+GO.Utils = {};
 
 /**
  * Query env namespace

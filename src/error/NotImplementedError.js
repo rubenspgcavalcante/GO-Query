@@ -4,7 +4,7 @@
  * @since 2013-11-16
  * @param {String} methodName
  * @param {Function} [constructor]
- * @constructor
+ * @augments Error
  */
 GO.Error.NotImplementedError = function(methodName, constructor){
     this.name =  "NotImplementedError";
@@ -13,4 +13,3 @@ GO.Error.NotImplementedError = function(methodName, constructor){
 };
 
 GO.Error.NotImplementedError.prototype = new Error();
-GO.Error.NotImplementedError.constructor = GO.Error.NotImplementedError;

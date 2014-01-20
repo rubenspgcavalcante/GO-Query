@@ -27,52 +27,6 @@ GO.Core.Processor = function(query, extraMethods){
     //==================================================//
 
     /**
-     * Search the attribute value in inner objects
-     * and return/set the value
-     * @param {Object} obj
-     * @param {String} attribute
-     * @param {GO.query.type} [operation={GO.query.type.SELECT}]
-     * @return {?*}
-     * @private
-     */
-    var _deepAttribute = function(obj, attribute, operation){
-        if(attribute == null){
-            return null;
-        }
-
-        var index = attribute.indexOf('.');
-        var value = null;
-        operation = operation || GO.query.type.SELECT;
-
-        if(index != -1){
-            var upperKey = attribute.slice(0, index);
-            attribute = attribute.slice(index + 1);
-            value = obj[upperKey] || null;
-        }
-        else{
-            value = obj[attribute] || null;
-        }
-
-        //Exists other points? e.g. customer.creditcard.brand
-        if(attribute.indexOf('.') != -1 && value != null){
-            return _deepSearchAttribute(value, attribute);
-        }
-
-        else{
-            switch(operation){
-                case GO.query.type.SELECT:
-                case GO.query.type.UPDATE:
-                    return value;
-
-                case GO.query.type.DELETE:
-                    delete obj[attribute];
-                    break;
-            }
-        }
-        return null;
-    };
-
-    /**
      * Applies the given filter, and verify if the value
      * has passed on the filter
      * @param {Object} obj
@@ -87,7 +41,7 @@ GO.Core.Processor = function(query, extraMethods){
             approved = _applyFilter(obj, filter.associate);
         }
         else{
-            var value = _deepAttribute(obj, filter.attribute);
+            value = GO.Utils.ObjectUtils.deepSelect(filter.attribute, obj);
             approved = new GO.Core.Validator(filter, value).test();
         }
 
@@ -214,7 +168,7 @@ GO.Core.Processor = function(query, extraMethods){
         _processFilter(function(currentObj){
             var selections = _query._getRecord().selection;
             for(var i in selections){
-                _deepAttribute(currentObj, selections[i], GO.query.type.DELETE);
+                GO.Utils.ObjectUtils.deepDelete(selections[i], currentObj);
             }
         });
     };
