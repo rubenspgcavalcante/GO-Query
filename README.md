@@ -7,10 +7,10 @@ GO Query!
 
 ##Download
 Development version 1.0:
-[source file](https://github.com/rubenspgcavalcante/GO-Query/raw/master/build/go-query.1.0.js)
+[source file](https://github.com/rubenspgcavalcante/GO-Query/raw/master/build/go-query.1.0.0.js)
 
 Production version 1.0:
-[minified](https://github.com/rubenspgcavalcante/GO-Query/raw/master/build/go-query.1.0.min.js)
+[minified](https://github.com/rubenspgcavalcante/GO-Query/raw/master/build/go-query.1.0.0.min.js)
 
 ###Why use it?
 Sometimes, you just want to search into a array of objects in a simple way, but with more complex filters,

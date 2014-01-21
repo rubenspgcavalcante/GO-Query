@@ -1,4 +1,5 @@
 *~
+*.log
 .project
 .settings/*
 .idea/*
