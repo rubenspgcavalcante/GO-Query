@@ -6,9 +6,11 @@ GO Query!
 **REMOVE** into your array based on the objects and filters.
 
 ##Download
-[source file](https://github.com/rubenspgcavalcante/GO-Query/raw/master/build/go-query.0.1.0.js)
+Development version 1.0:
+[source file](https://github.com/rubenspgcavalcante/GO-Query/raw/master/build/go-query.1.0.js)
 
-[minified](https://github.com/rubenspgcavalcante/GO-Query/raw/master/build/go-query.0.1.0.min.js)
+Production version 1.0:
+[minified](https://github.com/rubenspgcavalcante/GO-Query/raw/master/build/go-query.1.0.min.js)
 
 ###Why use it?
 Sometimes, you just want to search into a array of objects in a simple way, but with more complex filters,
@@ -23,13 +25,18 @@ Nope!
 
 ###How can I use?
 Well, let's suppose we have a array of 'users' and need to find
-all who are older than 20 years or have the first name John
+all who are older than 20 years or have the first name John and
+works on company ACME
 
 ````javascript
 var query = new GO.Query(objArray);
 query = query.select("*")
              .from(Object)
-             .where(new GO.Filter("age", GO.op.GTE, 21).or("name", GO.op.LIKE, /^John/));
+             .where(
+                 new GO.Filter("age", GO.op.GTE, 21)
+                       .or("name", GO.op.LIKE, /^John/)
+                       .and("company.name", GO.op.EQ, "ACME")
+             );
 
 var result = query.run();
 ````

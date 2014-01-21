@@ -64,16 +64,30 @@ module.exports = testCase({
         /** @type {GO.Query} */
         var query = new GO.Query(users);
 
-        //SELECT
         var result = query.select("id", "name", "email")
-            .from(User)
-            .where(new GO.Filter("id", GO.op.EQ, 10))
-            .run();
+                          .from(User)
+                          .where(new GO.Filter("id", GO.op.EQ, 10)).run();
 
         test.equals(result.length, 1);
         test.strictEqual(result[0].name, "Stokes Knapp");
         test.strictEqual(result[0].email, "stokesknapp@xanide.com");
         test.ok(!result[0].hasOwnProperty("age"));
+
+        test.done();
+    },
+
+    TestQueryInnerSelect: function(test){
+        var users = getUsersCollection();
+        /** @type {GO.Query} */
+        var query = new GO.Query(users);
+
+        var result = query.select("name", "company.name")
+                          .from(User)
+                          .where(new GO.Filter("company.name", GO.op.EQ, "Suremax")).run();
+
+        test.equals(result[0].name, "Lucas Morin");
+        test.ok(result[0].hasOwnProperty("company"));
+        test.ok(result[0].company.hasOwnProperty("name"));
 
         test.done();
     },
@@ -109,6 +123,25 @@ module.exports = testCase({
 
         test.equals(result.length, 1);
         test.equals(result[0].email, "janellkane@uxmox.com");
+        test.done();
+    },
+
+    TestQueryOr: function(test){
+        var users = getUsersCollection();
+
+        /** @type {GO.Query} */
+        var query = new GO.Query(users);
+
+        var record = query.select("id", "name", "email")
+            .from(User)
+            .where(
+                new GO.Filter("name", GO.op.EQ, "Lucas Morin")
+                      .or("name", GO.op.EQ, "Susie Acevedo")
+            );
+
+        var result = record.run();
+
+        test.equals(result.length, 2);
         test.done();
     },
 

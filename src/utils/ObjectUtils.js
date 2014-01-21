@@ -33,16 +33,13 @@ GO.Utils.ObjectUtils = {
             if(obj.hasOwnProperty(upperKey)){
                 value = obj[upperKey] || null;
             }
+
             else{
                 throw new GO.Error.PropertyNotDefinedError(upperKey, obj);
             }
-
-        }
-        else if(obj.hasOwnProperty(attribute)){
-            value = obj[attribute];
         }
         else{
-            throw new GO.Error.PropertyNotDefinedError(attribute, obj);
+            value = obj;
         }
 
         //Exists other points? e.g. customer.creditcard.brand
@@ -51,15 +48,15 @@ GO.Utils.ObjectUtils = {
         }
 
         else if(remove){
-            delete obj[attribute];
+            delete value[attribute];
             return null;
         }
         else if(typeof valToSet != "undefined"){
-            obj[attribute] = valToSet;
+            value[attribute] = valToSet;
             return null;
         }
         else{
-            return value;
+            return value[attribute];
         }
     },
 
