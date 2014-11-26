@@ -65,3 +65,7 @@ email: [rubenspgcavalcante@gmail.com](mailto:rubenspgcavalcante@gmail.com)
 
 Using GNU GENERAL PUBLIC LICENSE *Version 3, 29 June 2007*
 [gnu.org](http://www.gnu.org/copyleft/gpl.html)  
+
+
+[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/rubenspgcavalcante/go-query/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
+
