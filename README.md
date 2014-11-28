@@ -46,8 +46,18 @@ var result = query.run();
 ````
 
 ###Using with Node.js?
+first intall via npm
+````shell
+npm install goquery
+````
+... and import the module
 ````node
-var GO = require("goquery").GO;
+//import
+var GO = require("goquery");
+
+//use
+var q = new GO.Query(data);
+//...
 ````
 
 ###More details?
