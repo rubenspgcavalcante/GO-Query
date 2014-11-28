@@ -1,5 +1,5 @@
 var packJson = require("../../package.json");
-var GO = require("../../dist/goquery.js").GO;
+var GO = require("../../index");
 
 require("../models/User.js");
 

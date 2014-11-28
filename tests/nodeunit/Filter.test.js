@@ -1,5 +1,5 @@
 var packJson = require("../../package.json");
-var GO = require("goquery").GO;
+var GO = require("../../index");
 
 var testCase = require('nodeunit').testCase;
 
