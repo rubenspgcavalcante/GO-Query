@@ -1,5 +1,6 @@
 var packJson = require("../../package.json");
-require("../../build/go-query." + packJson.version + ".js");
+var GO = require("../../dist/goquery.js").GO;
+
 require("../models/User.js");
 
 /** @type {User[]} */

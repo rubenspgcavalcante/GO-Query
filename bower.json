@@ -1,0 +1,23 @@
+{
+  "name": "goquery",
+  "version": "1.0.0",
+  "main": "src/defines.js",
+  "license": "GPLv3",
+  "ignore": [
+    "docs",
+    "tests",
+    "node_modules",
+    "examples",
+    "Gruntfile.js",
+    "package.json"
+  ],
+  "keywords": [
+    "query",
+    "data",
+    "processing",
+    "search",
+    "select",
+    "update",
+    "delete"
+  ]
+}

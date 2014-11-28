@@ -10,6 +10,8 @@ module.exports = function(grunt) {
             },
             dist:{
                 src: [
+                    'src/intro.wrp', //Start of wrapping the files into umd
+
                     'src/defines.js',
                     'src/Query.js',
                     'src/Filter.js',
@@ -19,10 +21,12 @@ module.exports = function(grunt) {
                     'src/core/modifier/PostProcess.js',
                     'src/core/modifier/OrderBy.js',
                     'src/core/modifier/Set.js',
-                    'src/core/*.js'
+                    'src/core/*.js',
+
+                    'src/outro.wrp' //End of wrapping the files into umd
 
                 ],
-                dest: "build/<%=pkg.name %>.<%= pkg.version %>.js"
+                dest: "dist/<%=pkg.name %>.js"
             }
         },
 
@@ -39,8 +43,8 @@ module.exports = function(grunt) {
                     '*/\n'
             },
             dist:{
-                src: "build/<%= pkg.name %>.<%= pkg.version %>.js",
-                dest: "build/<%= pkg.name %>.<%= pkg.version %>.min.js"
+                src: "dist/<%= pkg.name %>.js",
+                dest: "dist/<%= pkg.name %>.min.js"
             }
         },
 
@@ -50,7 +54,7 @@ module.exports = function(grunt) {
 
         jsdoc : {
             dist : {
-                src: ['src/**/*.js'],
+                src:  'src/**/*.js',
                 options: {
                     destination: 'docs'
                 }

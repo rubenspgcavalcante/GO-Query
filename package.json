@@ -1,11 +1,35 @@
 {
-  "name": "go-query",
-  "author": "Rubens Pinheiro Gonçalves Cavalcante",
+  "name": "goquery",
+  "title": "GO-Query",
   "version": "1.0.0",
-  "license": "GPLv3",
+  "author": {
+    "name": "Rubens Pinheiro Gonçalves Cavalcante",
+    "email": "rubenspgcavalcante@gmail.com",
+    "homepage": "http://github.com/rubenspgcavalcante"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:rubenspgcavalcante/GO-Query.git"
+  },
+  "keywords": [
+    "query",
+    "data",
+    "processing",
+    "search",
+    "select",
+    "update",
+    "delete"
+  ],
+  "licenses": [
+    {
+      "type": "GPLv3",
+      "url": "https://www.gnu.org/copyleft/gpl.html"
+    }
+  ],
   "scripts": {
     "build": "grunt"
   },
+  "dependencies": {},
   "devDependencies": {
     "nodeunit": "~0.8.1",
     "grunt": "~0.4.1",
