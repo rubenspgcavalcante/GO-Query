@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Source: error/QueryMethodError.js</title>
+    <title>JSDoc: Source: error/PropertyNotDefinedError.js</title>
     
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
     
-    <h1 class="page-title">Source: error/QueryMethodError.js</h1>
+    <h1 class="page-title">Source: error/PropertyNotDefinedError.js</h1>
     
     
 
@@ -27,20 +27,19 @@
         <article>
             <pre class="prettyprint source"><code>(function (GO) {
     /**
-     * Query method error
+     * Object property is not defined
      * @author Rubens Pinheiro Gonçalves Cavalcante
-     * @since 2013-10-17
-     * @param {String} msg
-     * @param {*} [data]
+     * @since 2014-01-20
+     * @param property
+     * @param object
      * @augments Error
      */
-    GO.Error.QueryMethodError = function (msg, data) {
-        this.name = "QueryMethodError";
-        this.message = msg;
-        this.data = data || null;
+    GO.Error.PropertyNotDefinedError = function (property, object) {
+        this.msg = "Property " + property + " is not defined";
+        this.data = object;
     };
 
-    GO.Error.QueryMethodError.prototype = new Error();
+    GO.Error.PropertyNotDefinedError.prototype = new Error();
 }(GO));
 </code></pre>
         </article>

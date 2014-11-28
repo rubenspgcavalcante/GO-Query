@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: utils/ObjectUtils.js</title>
+    
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+    
+    <h1 class="page-title">Source: utils/ObjectUtils.js</h1>
+    
+    
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source"><code>(function (GO) {
+    /**
+     * Object utils functions
+     * @author Rubens Pinheiro Gonçalves Cavalcante
+     * @since 20-01-2014
+     * @module
+     */
+    GO.Utils.ObjectUtils = {
+        /**
+         * Gets the attribute of a object using
+         * the given attribute as referenced (chained by dots)
+         * @param {String} attribute Attribute to search
+         * @param {Object} obj The object to search into
+         * @param {Boolean} [remove=false] Select or remove the attribute
+         * @param {*} [valToSet] If given, sets the value to the property
+         * @return {*}
+         * @throws {GO.Error.PropertyNotDefinedError}
+         * @example
+         * //Remove the 'name' key from the object brand
+         * GO.Utils.ObjectUtils._deepSearch("creditcard.brand.name", customer, true);
+         * @private
+         */
+        _deepSearch: function (attribute, obj, remove, valToSet) {
+            if (attribute == null) {
+                return null;
+            }
+
+            var index = attribute.indexOf('.');
+            var value = null;
+
+            if (index != -1) {
+                var upperKey = attribute.slice(0, index);
+                attribute = attribute.slice(index + 1);
+                if (obj.hasOwnProperty(upperKey)) {
+                    value = obj[upperKey] || null;
+                }
+
+                else {
+                    throw new GO.Error.PropertyNotDefinedError(upperKey, obj);
+                }
+            }
+            else {
+                value = obj;
+            }
+
+            //Exists other points? e.g. customer.creditcard.brand
+            if (attribute.indexOf('.') != -1 && value != null) {
+                return this._deepSearch(value, attribute, remove);
+            }
+
+            else if (remove) {
+                delete value[attribute];
+                return null;
+            }
+            else if (typeof valToSet != "undefined") {
+                value[attribute] = valToSet;
+                return null;
+            }
+            else {
+                return value[attribute];
+            }
+        },
+
+        /**
+         * Deep select a attribute from a object, if the property does not
+         * exist, throw a error
+         * @param {String} key Attribute name chained by dots
+         * @param {Object} obj The object to search into
+         * @return {*}
+         * @throws {GO.Error.PropertyNotDefinedError}
+         */
+        unsafeDeepSelect: function (key, obj) {
+            return this._deepSearch(key, obj);
+        },
+
+        /**
+         * Deep select a attribute from a object
+         * @param {String} key Attribute name chained by dots
+         * @param {Object} obj The object to search into
+         * @return {*}
+         */
+        deepSelect: function (key, obj) {
+            try {
+                return this._deepSearch(key, obj);
+            }
+            catch (e) {
+                if (e instanceof GO.Error.PropertyNotDefinedError) {
+                    return null;
+                }
+            }
+
+        },
+
+        /**
+         * Deep sets a value to a attribute from a object
+         * @param {String} key Attribute name chained by dots
+         * @param {Object} obj The object to search into
+         * @param {*} value The value to set
+         * @return {Boolean}
+         */
+        deepSet: function (key, obj, value) {
+            try {
+                this._deepSearch(key, obj, false, value);
+            }
+            catch (e) {
+                if (e instanceof GO.Error.PropertyNotDefinedError) {
+                    return false;
+                }
+            }
+
+            return true;
+        },
+
+        /**
+         * Deep delete a attribute from a object
+         * @param {String} key Attribute name chained by dots
+         * @param {Object} obj The object to delete the key
+         * @return Boolean
+         */
+        deepDelete: function (key, obj) {
+            try {
+                this._deepSearch(key, obj, true);
+            }
+            catch (e) {
+                if (e instanceof GO.Error.PropertyNotDefinedError) {
+                    return false;
+                }
+            }
+            return true;
+        }
+    };
+}(GO));
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Index</a></h2><h3>Modules</h3><ul><li><a href="ObjectUtils.html">utils/ObjectUtils</a></li></ul><h3>Classes</h3><ul><li><a href="GO.Clause.From.html">From</a></li><li><a href="GO.Clause.Where.html">Where</a></li><li><a href="GO.Core.FilterChain.html">FilterChain</a></li><li><a href="GO.Core.Modifier.OrderBy.html">OrderBy</a></li><li><a href="GO.Core.Modifier.PostProcess.html">PostProcess</a></li><li><a href="GO.Core.Modifier.Set.html">Set</a></li><li><a href="GO.Core.Processor.html">Processor</a></li><li><a href="GO.Core.Record.html">Record</a></li><li><a href="GO.Core.Validator.html">Validator</a></li><li><a href="GO.Filter.html">Filter</a></li><li><a href="GO.Query.html">Query</a></li></ul><h3>Namespaces</h3><ul><li><a href="GO.html">GO</a></li><li><a href="GO.Callback.html">Callback</a></li><li><a href="GO.Clause.html">Clause</a></li><li><a href="GO.Core.html">Core</a></li><li><a href="GO.Core.Helpers.html">Helpers</a></li><li><a href="GO.Core.Modifier.html">Modifier</a></li><li><a href="GO.Error.html">Error</a></li><li><a href="GO.query_.html">query</a></li><li><a href="GO.Utils.html">Utils</a></li></ul><h3>Global</h3><ul><li>{String}</li></ul>
+</nav>
+
+<br clear="both">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.2.2</a> on Fri Nov 28 2014 14:52:58 GMT-0300 (GFT)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>
