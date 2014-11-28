@@ -1,12 +1,8 @@
 {
   "name": "goquery",
   "title": "GO-Query",
-  "version": "1.0.0",
-  "author": {
-    "name": "Rubens Pinheiro Gonçalves Cavalcante",
-    "email": "rubenspgcavalcante@gmail.com",
-    "homepage": "http://github.com/rubenspgcavalcante"
-  },
+  "version": "1.0.1",
+  "author": "Rubens Pinheiro Gonçalves Cavalcante <rubenspgcavalcante@gmail.com>",
   "repository": {
     "type": "git",
     "url": "git@github.com:rubenspgcavalcante/GO-Query.git"
@@ -38,5 +34,24 @@
     "grunt-contrib-uglify": "~0.2.2",
     "grunt-contrib-concat": "~0.3.0",
     "grunt-jsdoc": "~0.4.1"
-  }
+  },
+  "description": "GO Query! is a javascript library to execute queries into array of objects. You can perorm a SELECT, UPDATE or REMOVE into your array based on the objects and filters",
+  "bugs": {
+    "url": "https://github.com/rubenspgcavalcante/GO-Query/issues"
+  },
+  "homepage": "https://github.com/rubenspgcavalcante/GO-Query",
+  "main": "index.js",
+  "engines": {
+    "node": ">= 0.10.0"
+  },
+  "files":[
+    "README.md",
+    "index.js",
+    "dist/goquery.js"
+  ],
+  "directories": {
+    "doc": "docs",
+    "test": "tests"
+  },
+  "license": "GPLv3"
 }

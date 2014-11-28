@@ -1,6 +1,10 @@
 GO Query!
 ===========
-[![Build Status](https://travis-ci.org/rubenspgcavalcante/GO-Query.png?branch=master)](https://travis-ci.org/rubenspgcavalcante/GO-Query)
+[![Build Status](https://travis-ci.org/rubenspgcavalcante/GO-Query.png?branch=master)] (https://travis-ci.org/rubenspgcavalcante/GO-Query)
+[![Bower Module](https://badge.fury.io/bo/goquery.svg)] (https://badge.fury.io/hooks/github)
+[![npm version](https://badge.fury.io/js/goquery.svg)](http://badge.fury.io/js/goquery)
+[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/rubenspgcavalcante/go-query/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
+
 ##About
 *GO Query!* is a javascript library to execute queries into array of objects. You can perorm a **SELECT**, **UPDATE** or
 **REMOVE** into your array based on the objects and filters.
@@ -41,6 +45,11 @@ query = query.select("*")
 var result = query.run();
 ````
 
+###Using with Node.js?
+````node
+var GO = require("goquery").GO;
+````
+
 ###More details?
 See the [API](https://github.com/rubenspgcavalcante/GO-Query/wiki/GO-Query!-API)
 
@@ -64,8 +73,5 @@ email: [rubenspgcavalcante@gmail.com](mailto:rubenspgcavalcante@gmail.com)
 ##License & Rights
 
 Using GNU GENERAL PUBLIC LICENSE *Version 3, 29 June 2007*
-[gnu.org](http://www.gnu.org/copyleft/gpl.html)  
-
-
-[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/rubenspgcavalcante/go-query/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
+[gnu.org](http://www.gnu.org/copyleft/gpl.html)
 
