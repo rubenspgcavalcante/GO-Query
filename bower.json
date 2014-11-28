@@ -1,7 +1,7 @@
 {
   "name": "goquery",
   "version": "1.0.1",
-  "main": "src/defines.js",
+  "main": "dist/goquery.js",
   "license": "GPLv3",
   "ignore": [
     "docs",
