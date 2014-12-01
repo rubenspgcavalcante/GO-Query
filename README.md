@@ -10,11 +10,11 @@ GO Query!
 **REMOVE** into your array based on the objects and filters.
 
 ##Download
-Development version 1.0:
-[source file](https://github.com/rubenspgcavalcante/GO-Query/raw/master/build/go-query.1.0.0.js)
+Latest development version:
+[source file](https://github.com/rubenspgcavalcante/GO-Query/raw/master/dist/goquery.js)
 
-Production version 1.0:
-[minified](https://github.com/rubenspgcavalcante/GO-Query/raw/master/build/go-query.1.0.0.min.js)
+Latest production version 1.0.2:
+[minified](https://github.com/rubenspgcavalcante/GO-Query/raw/master/build/goquery.min.js)
 
 ###Why use it?
 Sometimes, you just want to search into a array of objects in a simple way, but with more complex filters,
@@ -47,7 +47,7 @@ var result = query.run();
 
 ###Using with Node.js?
 first intall via npm
-````shell
+````script
 npm install goquery
 ````
 ... and import the module
@@ -66,13 +66,13 @@ See the [API](https://github.com/rubenspgcavalcante/GO-Query/wiki/GO-Query!-API)
 #Building
 If you want to build the sources, you will need first install all dependences and after intall the grunt client
 globally:
-```shellscript
+```script
 npm install
 sudo install -g grunt-cli
 ```
 
 To run the tasks:
-```shellscript
+```script
 grunt
 ```
 
