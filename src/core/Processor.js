@@ -10,18 +10,18 @@
      */
     GO.Core.Processor = function (query, extraMethods) {
         var that = this;
-        var _query = null;
+        var _query = query;
 
-        var _init = function () {
-            _query = query;
-
+        (function init() {
             if (typeof extraMethods != "undefined") {
                 for (var i in extraMethods) {
-                    extraMethods[i].setProcessorReference(that);
-                    that[i] = extraMethods[i].init;
+                    if (extraMethods.hasOwnProperty(i)) {
+                        extraMethods[i].setProcessorReference(that);
+                        that[i] = extraMethods[i].init;
+                    }
                 }
             }
-        }();
+        }());
 
         //==================================================//
         //                    Private methods               //
@@ -119,9 +119,9 @@
                 attributes = [GO.query.WILDCARD];
             }
 
-            for (var i in values) {
+            for (var i=0, l=values.length; i < l; i++) {
                 var copy = {};
-                for (var j in attributes) {
+                for (var j=0, len=attributes.length; j < len; j++) {
                     GO.Core.Helpers.objectMerge(copy, _selectInObject(values[i], attributes[j]));
                 }
                 results.push(copy);
@@ -131,14 +131,14 @@
         };
 
         /**
-         * Verify if the collection values pass in the filter
-         * and if does, execute a callback passing the value
+         * Verify if the collection values pass in the filter test,
+         * and if it does, execute a callback passing the value
          * @param {Function} callback
          * @private
          */
         var _processFilter = function (callback) {
-            for (var i in _query.collection) {
-                var currentObj = _query.collection[i];
+            for (var i = 0, l = _query.length; i < l; i++) {
+                var currentObj = _query[i];
                 if (currentObj instanceof _query._getRecord().from) {
                     if (_applyFilter(currentObj, _query._getRecord().where.filter)) {
                         callback(currentObj);

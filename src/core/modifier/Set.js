@@ -1,9 +1,9 @@
 (function (GO) {
     /**
      * Set Clause
-     * @constructor
-     * @augments {GO.Core.Modifier.PostProcess}
      * @param {GO.Core.Record} record
+     * @extends {GO.Core.Modifier.PostProcess}
+     * @constructor
      */
     GO.Core.Modifier.Set = function (record) {
         record.modifiers.push(this);
@@ -32,7 +32,9 @@
         this.modify = function (objects) {
             for (var i = 0; i < objects.length; i++) {
                 for (var key in targets) {
-                    GO.Utils.ObjectUtils.deepSet(key, objects[i], targets[key]);
+                    if(targets.hasOwnProperty(key)){
+                        GO.Utils.ObjectUtils.deepSet(key, objects[i], targets[key]);
+                    }
                 }
             }
         };

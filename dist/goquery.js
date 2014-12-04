@@ -174,10 +174,10 @@
      * @author Rubens Pinheior Gonçalves Cavalcante
      * @since 2013-09-28
      * @param {Object[]} collection A array of objects of any type
+     * @extends {Array}
      * @constructor
      */
-    GO.Query = function (collection) {
-        this.collection = collection;
+    GO.Query = function Query(collection) {
 
         /** @type {GO.Core.Record} */
         var record = new GO.Core.Record();
@@ -235,7 +235,50 @@
             record.selection = arguments;
             return new GO.Clause.From(this);
         };
+
+        /**
+         * Clear the internal data
+         * @returns {GO.Query}
+         */
+        this.clear = function(){
+            this.splice(0, this.length);
+            return this;
+        };
+
+        /**
+         * Sets a array of data to the query
+         * @param {Array} data
+         * @returns {GO.Query}
+         */
+        this.setData = function(data){
+            data = data || [];
+            this.clear();
+            for(var i= 0, l=data.length; i < l; i++){
+                this.push(data[i]);
+            }
+            return this;
+        };
+
+        /**
+         * Clear the internal active record
+         * @returns {GO.Query}
+         */
+        this.clearRecord = function(){
+            record = new GO.Query.Record();
+            return this;
+        };
+
+
+        /*
+         * Constructs the object Query
+         */
+        (function init(itself, data){
+            itself.setData(data);
+
+        }(this, collection));
     };
+
+    GO.Query.prototype = [];
 }(GO));
 (function (GO) {
     /**
@@ -836,9 +879,9 @@
 (function (GO) {
     /**
      * Set Clause
-     * @constructor
-     * @augments {GO.Core.Modifier.PostProcess}
      * @param {GO.Core.Record} record
+     * @extends {GO.Core.Modifier.PostProcess}
+     * @constructor
      */
     GO.Core.Modifier.Set = function (record) {
         record.modifiers.push(this);
@@ -867,7 +910,9 @@
         this.modify = function (objects) {
             for (var i = 0; i < objects.length; i++) {
                 for (var key in targets) {
-                    GO.Utils.ObjectUtils.deepSet(key, objects[i], targets[key]);
+                    if(targets.hasOwnProperty(key)){
+                        GO.Utils.ObjectUtils.deepSet(key, objects[i], targets[key]);
+                    }
                 }
             }
         };
@@ -904,18 +949,18 @@
      */
     GO.Core.Processor = function (query, extraMethods) {
         var that = this;
-        var _query = null;
+        var _query = query;
 
-        var _init = function () {
-            _query = query;
-
+        (function init() {
             if (typeof extraMethods != "undefined") {
                 for (var i in extraMethods) {
-                    extraMethods[i].setProcessorReference(that);
-                    that[i] = extraMethods[i].init;
+                    if (extraMethods.hasOwnProperty(i)) {
+                        extraMethods[i].setProcessorReference(that);
+                        that[i] = extraMethods[i].init;
+                    }
                 }
             }
-        }();
+        }());
 
         //==================================================//
         //                    Private methods               //
@@ -1013,9 +1058,9 @@
                 attributes = [GO.query.WILDCARD];
             }
 
-            for (var i in values) {
+            for (var i=0, l=values.length; i < l; i++) {
                 var copy = {};
-                for (var j in attributes) {
+                for (var j=0, len=attributes.length; j < len; j++) {
                     GO.Core.Helpers.objectMerge(copy, _selectInObject(values[i], attributes[j]));
                 }
                 results.push(copy);
@@ -1025,14 +1070,14 @@
         };
 
         /**
-         * Verify if the collection values pass in the filter
-         * and if does, execute a callback passing the value
+         * Verify if the collection values pass in the filter test,
+         * and if it does, execute a callback passing the value
          * @param {Function} callback
          * @private
          */
         var _processFilter = function (callback) {
-            for (var i in _query.collection) {
-                var currentObj = _query.collection[i];
+            for (var i = 0, l = _query.length; i < l; i++) {
+                var currentObj = _query[i];
                 if (currentObj instanceof _query._getRecord().from) {
                     if (_applyFilter(currentObj, _query._getRecord().where.filter)) {
                         callback(currentObj);

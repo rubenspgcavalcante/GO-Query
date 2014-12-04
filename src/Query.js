@@ -4,10 +4,10 @@
      * @author Rubens Pinheior Gonçalves Cavalcante
      * @since 2013-09-28
      * @param {Object[]} collection A array of objects of any type
+     * @extends {Array}
      * @constructor
      */
-    GO.Query = function (collection) {
-        this.collection = collection;
+    GO.Query = function Query(collection) {
 
         /** @type {GO.Core.Record} */
         var record = new GO.Core.Record();
@@ -65,5 +65,48 @@
             record.selection = arguments;
             return new GO.Clause.From(this);
         };
+
+        /**
+         * Clear the internal data
+         * @returns {GO.Query}
+         */
+        this.clear = function(){
+            this.splice(0, this.length);
+            return this;
+        };
+
+        /**
+         * Sets a array of data to the query
+         * @param {Array} data
+         * @returns {GO.Query}
+         */
+        this.setData = function(data){
+            data = data || [];
+            this.clear();
+            for(var i= 0, l=data.length; i < l; i++){
+                this.push(data[i]);
+            }
+            return this;
+        };
+
+        /**
+         * Clear the internal active record
+         * @returns {GO.Query}
+         */
+        this.clearRecord = function(){
+            record = new GO.Query.Record();
+            return this;
+        };
+
+
+        /*
+         * Constructs the object Query
+         */
+        (function init(itself, data){
+            itself.setData(data);
+
+        }(this, collection));
     };
+
+    GO.Query.prototype = [];
 }(GO));
