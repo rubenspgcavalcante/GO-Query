@@ -45,6 +45,15 @@ module.exports = testCase({
         test.done();
     },
 
+    FunctionOperator: function(test){
+        var filter = new GO.Filter("name", function(fvalue, value){
+            return fvalue == value;
+        }, "John");
+
+        test.ok(filter.operator('John', 'John'));
+        test.done();
+    },
+
     Empty: function(test){
         var filter1 = new GO.Filter("id", GO.op.EQ, 0);
         var filter2 = new GO.Filter(new GO.Filter("id", GO.op.EQ, 0));

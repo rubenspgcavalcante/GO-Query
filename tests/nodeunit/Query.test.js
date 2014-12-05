@@ -79,6 +79,22 @@ module.exports = testCase({
         test.done();
     },
 
+    TestQueryCustomOperator: function(test){
+        var users = getUsersCollection();
+
+        /** @type {GO.Query} */
+        var query = new GO.Query(users);
+
+        query.select("id", "name", "email")
+            .from(User)
+            .where(new GO.Filter('name', function(fValue, value){
+                return fValue === value;
+            }, 'Lucas Morin')).run();
+
+        test.strictEqual(query[0].name, 'Lucas Morin');
+        test.done();
+    },
+
     TestQueryInnerSelect: function (test) {
         var users = getUsersCollection();
         /** @type {GO.Query} */
@@ -155,13 +171,11 @@ module.exports = testCase({
             .where();
 
         test.doesNotThrow(function () {
-            var results = null;
-
             record.orderBy("age", GO.order.ASC).run();
             test.equals(query.length, users.length);
             test.equals(query[0].age, 14);
 
-            results = record.orderBy("age", GO.order.DESC).run();
+            record.orderBy("age", GO.order.DESC).run();
             test.equals(query.length, users.length);
             test.equals(query[0].age, 80);
 

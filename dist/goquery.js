@@ -171,7 +171,7 @@
 (function(GO) {
     /**
      * Creates a query object
-     * @author Rubens Pinheior Gonçalves Cavalcante
+     * @author Rubens Pinheiro Gonçalves Cavalcante
      * @since 2013-09-28
      * @param {Object[]} collection A array of objects of any type
      * @extends {Array}
@@ -306,11 +306,20 @@
 }(GO));
 (function (GO) {
     /**
+     * @name GO.Filter~FilterFunction
+     * @function
+     * @param {*} filterValue The value used in the filter
+     * @param {*} currentValue The value used to compare with the filter
+     * @returns boolean
+     */
+    // ===================================================================================== //
+
+    /**
      * Creates a filter to apply into the query
      * @author Rubens Pinheiro Gonçalves Cavalcante
      * @since 2013-09-28
      * @param {String|GO.Filter} [attrOrFilter] The object attribute name or a associative filter
-     * @param {GO.op} [operator] The logic operator to use
+     * @param {GO.op|GO.Filter~FilterFunction} [operator] The logic operator to use
      * @param {*} [value] The value to compare
      * @example
      * new GO.Filter("locale.lang", Go.op.EQ, "pt-br")
@@ -413,7 +422,7 @@
         /**
          * Chains a "and" filter
          * @param {String|GO.Filter} attrOrFilter
-         * @param {GO.op} operator
+         * @param {GO.op | GO.Filter~FilterFunction} operator
          * @param {*} value
          * @returns {GO.Filter}
          */
@@ -427,7 +436,7 @@
         /**
          * Chains a or filter
          * @param {String|GO.Filter} attrOrFilter
-         * @param {GO.op} operator (Use the {@link{GO.Query.op}} enum
+         * @param {GO.op | GO.Filter~FilterFunction} operator
          * @param {?*} value
          * @returns {GO.Filter}
          */
@@ -441,7 +450,7 @@
         /**
          * Chains a or filter
          * @param {String|GO.Filter} attrOrFilter
-         * @param {GO.op} operator (Use the {@link{GO.Query.op}} enum
+         * @param {GO.op | GO.Filter~FilterFunction} operator
          * @param {?*} value
          * @returns {GO.Filter}
          */
@@ -1239,7 +1248,7 @@
         };
 
         /**
-         * Test the filter/value and verify the validity
+         * Test the filter/value and verify the validity.
          * @throws {GO.Error.OperatorError}
          * @returns {Boolean}
          */
@@ -1276,8 +1285,12 @@
                     return false;
 
                 default:
-                    throw new GO.Error.OperatorError("Operator doesn't exist", this.filter);
+                    if(this.filter.operator instanceof Function){
+                        return this.filter.operator(this.filter.value, this.value);
+                    }
             }
+
+            throw new GO.Error.OperatorError("Operator doesn't exist", this.filter);
         };
     };
 }(GO));

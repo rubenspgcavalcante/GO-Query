@@ -29,7 +29,7 @@
         };
 
         /**
-         * Test the filter/value and verify the validity
+         * Test the filter/value and verify the validity.
          * @throws {GO.Error.OperatorError}
          * @returns {Boolean}
          */
@@ -66,8 +66,12 @@
                     return false;
 
                 default:
-                    throw new GO.Error.OperatorError("Operator doesn't exist", this.filter);
+                    if(this.filter.operator instanceof Function){
+                        return this.filter.operator(this.filter.value, this.value);
+                    }
             }
+
+            throw new GO.Error.OperatorError("Operator doesn't exist", this.filter);
         };
     };
 }(GO));

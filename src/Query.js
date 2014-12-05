@@ -1,7 +1,7 @@
 (function(GO) {
     /**
      * Creates a query object
-     * @author Rubens Pinheior Gonçalves Cavalcante
+     * @author Rubens Pinheiro Gonçalves Cavalcante
      * @since 2013-09-28
      * @param {Object[]} collection A array of objects of any type
      * @extends {Array}
