@@ -178,6 +178,12 @@
      * @constructor
      */
     GO.Query = function Query(collection) {
+        /**
+         * Stores states of the query data
+         * Used to revert operations
+         * @type {Array}
+         */
+        var statesStack = [];
 
         /** @type {GO.Core.Record} */
         var record = new GO.Core.Record();
@@ -268,6 +274,24 @@
             return this;
         };
 
+        /**
+         * Saves the data of the internal array
+         * @returns {GO.Query}
+         */
+        this.saveState = function(){
+            statesStack.push(this.slice(0, this.length));
+            return this;
+        };
+
+        /**
+         * Restores a previous state of the internal
+         * data array
+         * @returns {GO.Query}
+         */
+        this.undo = function(){
+            this.setData(statesStack.pop() || []);
+            return this;
+        };
 
         /*
          * Constructs the object Query
@@ -1017,8 +1041,7 @@
             var index = attr.indexOf(".");
 
             if (attr == GO.query.WILDCARD) {
-                //TODO: Make a safe copy of the object
-                copy = obj;
+                copy = JSON.parse(JSON.stringify(obj));
             }
 
             else if (index == -1) {
@@ -1135,7 +1158,7 @@
          * Executes the query
          * returning the processed array
          * @throws {GO.Error.QueryMethodError}
-         * @return {*}
+         * @return {GO.Query}
          */
         this.run = function () {
             var result = null;
@@ -1155,7 +1178,8 @@
                     throw new GO.Error.QueryMethodError("Query method not found", _query._getRecord());
             }
 
-            return _applyModifiers(result);
+            result = _applyModifiers(result);
+            return _query.setData(result);
         };
     };
 }(GO));

@@ -1,4 +1,7 @@
+'use strict';
+
 var packJson = require("../../package.json");
+
 var GO = require("../../index");
 
 require("../models/User.js");
@@ -17,7 +20,6 @@ function getUsersCollection() {
     for (var i = 0; i < data.length; i++) {
         users.push(new User(data[i]));
     }
-
     return users;
 }
 
@@ -65,30 +67,30 @@ module.exports = testCase({
         /** @type {GO.Query} */
         var query = new GO.Query(users);
 
-        var result = query.select("id", "name", "email")
-                          .from(User)
-                          .where(new GO.Filter("id", GO.op.EQ, 10)).run();
+        query.select("id", "name", "email")
+            .from(User)
+            .where(new GO.Filter("id", GO.op.EQ, 10)).run();
 
-        test.equals(result.length, 1);
-        test.strictEqual(result[0].name, "Stokes Knapp");
-        test.strictEqual(result[0].email, "stokesknapp@xanide.com");
-        test.ok(!result[0].hasOwnProperty("age"));
+        test.equals(query.length, 1);
+        test.strictEqual(query[0].name, "Stokes Knapp");
+        test.strictEqual(query[0].email, "stokesknapp@xanide.com");
+        test.ok(!query[0].hasOwnProperty("age"));
 
         test.done();
     },
 
-    TestQueryInnerSelect: function(test){
+    TestQueryInnerSelect: function (test) {
         var users = getUsersCollection();
         /** @type {GO.Query} */
         var query = new GO.Query(users);
 
-        var result = query.select("name", "company.name")
-                          .from(User)
-                          .where(new GO.Filter("company.name", GO.op.EQ, "Suremax")).run();
+        query.select("name", "company.name")
+            .from(User)
+            .where(new GO.Filter("company.name", GO.op.EQ, "Suremax")).run();
 
-        test.equals(result[0].name, "Lucas Morin");
-        test.ok(result[0].hasOwnProperty("company"));
-        test.ok(result[0].company.hasOwnProperty("name"));
+        test.equals(query[0].name, "Lucas Morin");
+        test.ok(query[0].hasOwnProperty("company"));
+        test.ok(query[0].company.hasOwnProperty("name"));
 
         test.done();
     },
@@ -97,13 +99,13 @@ module.exports = testCase({
         var users = getUsersCollection();
         /** @type {GO.Query} */
         var query = new GO.Query(users);
-        var record = query.update()
-                          .from(User)
-                          .where(
-                              new GO.Filter("name", GO.op.EQ, "Janell Kane")
-                          ).set({name: "test"}).run();
+        query.update()
+            .from(User)
+            .where(
+            new GO.Filter("name", GO.op.EQ, "Janell Kane")
+        ).set({name: "test"}).run();
 
-        test.equals(record[0].name, 'test');
+        test.equals(query[0].name, 'test');
         test.done();
     },
 
@@ -116,60 +118,82 @@ module.exports = testCase({
         var record = query.select("id", "name", "email")
             .from(User)
             .where(
-                new GO.Filter("name", GO.op.EQ, "Janell Kane")
-                      .and("gender", GO.op.EQ, "female")
-            );
+            new GO.Filter("name", GO.op.EQ, "Janell Kane")
+                .and("gender", GO.op.EQ, "female")
+        ).run();
 
-        var result = record.run();
-
-        test.equals(result.length, 1);
-        test.equals(result[0].email, "janellkane@uxmox.com");
+        test.equals(query.length, 1);
+        test.equals(query[0].email, "janellkane@uxmox.com");
         test.done();
     },
 
-    TestQueryOr: function(test){
+    TestQueryOr: function (test) {
         var users = getUsersCollection();
 
         /** @type {GO.Query} */
         var query = new GO.Query(users);
 
-        var record = query.select("id", "name", "email")
+        query.select("id", "name", "email")
             .from(User)
             .where(
-                new GO.Filter("name", GO.op.EQ, "Lucas Morin")
-                      .or("name", GO.op.EQ, "Susie Acevedo")
-            );
+            new GO.Filter("name", GO.op.EQ, "Lucas Morin")
+                .or("name", GO.op.EQ, "Susie Acevedo")
+        ).run();
 
-        var result = record.run();
-
-        test.equals(result.length, 2);
+        test.equals(query.length, 2);
         test.done();
     },
 
-    TestQueryOrderBy: function(test){
+    TestQueryOrderBy: function (test) {
         var users = getUsersCollection();
 
         /** @type {GO.Query} */
         var query = new GO.Query(users);
 
         var record = query.select('*')
-                          .from(Object)
-                          .where();
+            .from(Object)
+            .where();
 
-        test.doesNotThrow(function(){
+        test.doesNotThrow(function () {
             var results = null;
 
-            results = record.orderBy("age", GO.order.ASC).run();
-            test.equals(results.length, users.length);
-            test.equals(results[0].age, 14);
+            record.orderBy("age", GO.order.ASC).run();
+            test.equals(query.length, users.length);
+            test.equals(query[0].age, 14);
 
-            results =  record.orderBy("age", GO.order.DESC).run();
-            test.equals(results.length, users.length);
-            test.equals(results[0].age, 80);
+            results = record.orderBy("age", GO.order.DESC).run();
+            test.equals(query.length, users.length);
+            test.equals(query[0].age, 80);
 
         }, GO.Error.OperatorError, "OperatorError");
 
         test.done();
-    }
+    },
 
+    TestQueryStates: function (test) {
+        var users = getUsersCollection();
+        var randomData = [];
+        var randomLen = Math.floor((Math.random() * 1000) + 1);
+
+        for (var i = 0; i < randomLen; i++) {
+            randomData.push(Math.random());
+        }
+
+        var query = new GO.Query(users);
+        query.saveState();
+
+        query.setData(randomData);
+        query.saveState();
+
+        query.setData([]);
+        test.equals(query.length, 0);
+
+        query.undo();
+        test.equals(query.length, randomLen);
+
+        query.undo();
+        test.equals(query.length, users.length);
+
+        test.done();
+    }
 });

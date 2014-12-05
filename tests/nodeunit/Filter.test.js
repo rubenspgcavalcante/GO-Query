@@ -1,3 +1,5 @@
+'use strict';
+
 var packJson = require("../../package.json");
 var GO = require("../../index");
 

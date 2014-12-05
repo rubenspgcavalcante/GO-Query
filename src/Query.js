@@ -8,6 +8,12 @@
      * @constructor
      */
     GO.Query = function Query(collection) {
+        /**
+         * Stores states of the query data
+         * Used to revert operations
+         * @type {Array}
+         */
+        var statesStack = [];
 
         /** @type {GO.Core.Record} */
         var record = new GO.Core.Record();
@@ -98,6 +104,24 @@
             return this;
         };
 
+        /**
+         * Saves the data of the internal array
+         * @returns {GO.Query}
+         */
+        this.saveState = function(){
+            statesStack.push(this.slice(0, this.length));
+            return this;
+        };
+
+        /**
+         * Restores a previous state of the internal
+         * data array
+         * @returns {GO.Query}
+         */
+        this.undo = function(){
+            this.setData(statesStack.pop() || []);
+            return this;
+        };
 
         /*
          * Constructs the object Query
