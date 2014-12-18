@@ -11,10 +11,10 @@ GO Query!
 
 ##Download
 Latest development version:
-[source file](https://github.com/rubenspgcavalcante/GO-Query/raw/master/dist/goquery.js)
+[source file](https://raw.githubusercontent.com/rubenspgcavalcante/GO-Query/master/dist/goquery.js)
 
-Latest production version 1.0.2:
-[minified](https://github.com/rubenspgcavalcante/GO-Query/raw/master/build/goquery.min.js)
+Latest production version:
+[minified](https://raw.githubusercontent.com/rubenspgcavalcante/GO-Query/master/dist/goquery.min.js)
 
 ###Why use it?
 Sometimes, you just want to search into a array of objects in a simple way, but with more complex filters,
